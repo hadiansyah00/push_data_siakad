@@ -1,0 +1,189 @@
+<?php
+
+class Auth extends CI_Controller
+{
+
+	public function index()
+	{
+		$this->load->view('auth_login-st');
+		// $this->load->view('login_baak');
+		//    $this->ModelSecurity->getCsrf();
+		$this->load->library('form_validation');
+	}
+
+	public function getLogin()
+{
+    // Validate CSRF token
+    if ($this->input->post($this->security->get_csrf_token_name()) !== $this->security->get_csrf_hash()) {
+        // CSRF token tidak valid, handle sesuai kebutuhan
+        echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+        return;
+    }
+
+    $this->form_validation->set_rules('username', 'Username', 'required', ['required' => 'Username wajib diisi']);
+    $this->form_validation->set_rules('password', 'Password', 'required', ['required' => 'Password wajib diisi']);
+
+    if ($this->form_validation->run() == FALSE) {
+        $this->load->view('auth_login-st');
+    } else {
+        $username = $this->input->post('username', TRUE);
+        $password = $this->input->post('password', TRUE);
+        $pass = md5($password);
+
+        $response = [];
+
+        // Proceed with login
+        $cek_mhs = $this->UserModel->loginMhs($username, $pass);
+
+        if ($cek_mhs) {
+            $this->session->set_userdata('level', 'mahasiswa');
+            $this->session->set_userdata('username', $cek_mhs->nim);
+            $this->session->set_userdata('sess_nama', $cek_mhs->nama_mhs);
+
+            // Include CSRF token in the response
+            $response = ['status' => 'success', 'redirect' => 'mhs/home', 'csrf_token' => $this->security->get_csrf_hash()];
+        } else {
+            $response = ['status' => 'error', 'message' => 'Invalid username or password.'];
+        }
+
+        echo json_encode($response);
+    }
+}
+
+
+	// else{
+	//       $this->session->set_flashdata(
+	//         'pesan',
+	//         'Username Atau Password Anda Salah!'
+	//       );
+	//       redirect('auth');
+	//     }
+
+	public function admin()
+	{
+		$this->load->view('login_baak');
+	}
+	public function bauk()
+	{
+		$this->load->view('login_bauk');
+	}
+
+
+	// LOGIN Baak ADMIN
+	public function baak()
+	{
+
+		$this->form_validation->set_rules('username', 'Username', 'required', ['required' => 'Username wajib diisi']);
+		$this->form_validation->set_rules('password', 'Password', 'required', ['required' => 'Password wajib diisi']);
+		if ($this->form_validation->run() == FALSE) {
+			$this->load->view('login');
+		} else {
+			$level = $this->input->post('level', TRUE);
+			$username = $this->input->post('username', TRUE);
+			$password = $this->input->post('password', TRUE);
+
+			//$level_admin = $this->db->get('users')->row_array();
+
+			$pass = md5($password);
+
+			if ($level == 'admin_akademik') {
+				$cek_user = $this->UserModel->loginSuper($username, $pass);
+				if ($cek_user) {
+					//jika data cocok dgn database
+					$this->session->set_userdata('username', $cek_user->username);
+					//$this->session->set_userdata('username', $cek_user->email);
+
+					//login
+					return redirect('admin/dashboard');
+				} else {
+					//jika gagal
+					$this->session->set_flashdata(
+						'pesan',
+						'<div class="alert alert-block alert-danger">
+				<button type="button" class="close" data-dismiss="alert">
+					<i class="ace-icon fa fa-times"></i>
+				</button>
+
+				<i class="ace-icon fa fa-xmark red"></i>
+
+				
+				<strong class="red">
+					Username Atau Password Salah !!
+				</strong>
+			</div>'
+					);
+					return redirect('auth/admin');
+				}
+			}
+		}
+	}
+	// LOGIN Baak ADMIN
+	public function bauk_login()
+	{
+	$this->form_validation->set_rules('username', 'Username', 'required', ['required' => 'Username wajib diisi']);
+		$this->form_validation->set_rules('password', 'Password', 'required', ['required' => 'Password wajib diisi']);
+		if ($this->form_validation->run() == FALSE) {
+			$this->load->view('login');
+		} else {
+			$level = $this->input->post('level', TRUE);
+			$username = $this->input->post('username', TRUE);
+			$password = $this->input->post('password', TRUE);
+
+			//$level_admin = $this->db->get('users')->row_array();
+
+			$pass = md5($password);
+
+			if ($level == 'admin_keu') {
+				$cek_user = $this->UserModel->loginBauk($username, $pass);
+				if ($cek_user) {
+					//jika data cocok dgn database
+				 	$this->session->set_userdata('id_users', $cek_user->id);
+					$this->session->set_userdata('username', $cek_user->username);
+					//$this->session->set_userdata('username', $cek_user->email);
+
+					//login
+					return redirect('bauk/db988b75ef9e581094b3793d4e5da08db6f8df2a');
+				} else {
+					//jika gagal
+					$this->session->set_flashdata(
+						'pesan',
+						'<div class="alert alert-block alert-danger">
+					<button type="button" class="close" data-dismiss="alert">
+						<i class="ace-icon fa fa-times"></i>
+					</button>
+	
+					<i class="ace-icon fa fa-xmark red"></i>
+	
+					
+					<strong class="red">
+						Username Atau Password Salah !!
+					</strong>
+				</div>'
+					);
+					return redirect('auth/bauk');
+				}
+			}
+		}
+	}
+
+	public function logout()
+	{
+		$this->session->sess_destroy();
+		redirect('auth');
+		$this->session->set_flashdata(
+			'pesan',
+			'<div class="alert alert-block alert-success">
+	<button type="button" class="close" data-dismiss="alert">
+		<i class="ace-icon fa fa-times"></i>
+	</button>
+
+	<i class="ace-icon fa fa-check red"></i>
+
+	
+	<strong class="red">
+		Anda Berhasil Logout
+	</strong>
+</div>'
+		);
+	}
+}

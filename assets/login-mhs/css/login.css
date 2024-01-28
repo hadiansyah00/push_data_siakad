@@ -1,0 +1,141 @@
+
+.content-wrapper,
+footer {
+    flex-shrink: 0
+}
+
+.content-wrapper {
+    flex-grow: 1
+}
+
+
+.g-0,
+.gx-0 {
+    --bs-gutter-x: 0
+}
+ 
+.heigth100 {
+    height: 100%;
+}
+
+
+.image-wrapper {
+    background: no-repeat center center;
+    background-size: cover;
+    position: relative;
+    z-index: 0
+}
+
+    .image-wrapper:not(.mobile) {
+        background-attachment: fixed !important
+    }
+
+    .image-wrapper.bg-cover {
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: scroll !important
+    }
+
+    .image-wrapper.card:before {
+        border-radius: .4rem !important
+    }
+
+
+    .image-wrapper.bg-auto {
+        background-size: auto;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: scroll !important
+    }
+
+    .image-wrapper.bg-full {
+        background-size: 100%;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: scroll !important
+    }
+
+    .image-wrapper.bg-cover {
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: scroll !important
+    } 
+    .image-wrapper.card:before {
+        border-radius: .4rem !important
+    }
+
+@media (max-width:991.98px) {
+    .image-wrapper.bg-full {
+        background-size: cover !important
+    }
+}
+
+
+.login-left {
+    position: absolute;
+    width: 75%;
+    background-image: url(img/bg-login.png);
+}
+
+.login-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    height: auto;
+    background: #ffffff;
+}
+
+.login-left div {
+    border-radius: 5px;
+    width: fit-content;
+    padding: 5px;
+}
+
+.login-form {
+    margin: 10px 20px;
+    padding-left:50px;
+}
+
+.bg-login {
+    position: absolute;
+    height: 100%;
+    width: 100%
+}
+
+@media (max-width:480px) {
+    .bg-login {
+        position: initial;
+        height: 100%;
+        width: 100%
+    }
+
+    .image-wrapper{
+        display:none !important;
+    }
+
+    .login-form {
+        background: #fff;
+        border-radius: 14px;
+        padding: 40px !important;
+    }
+
+    .login-right{
+        background-image:url(assets/login-mhs/img/bg-login-mobile.png); 
+    } 
+}
+
+@media (max-width:320px){
+    .login-form { 
+        padding: 25px !important;
+    }
+}
+
+@media (max-width:768px){
+    .login-form { 
+        padding-left: 0px;
+    }
+}
+
