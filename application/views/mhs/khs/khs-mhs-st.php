@@ -26,7 +26,8 @@ $this->load->view('mhs/dist/header');
 
                             <div class="card-header-form">
 
-                                <a href="#" target="_blank" class="btn btn-sm btn-primary"><i class="fa fa-print"></i>
+                                <a href="<?php echo base_url('mhs/Transkrip/printKHS/' . $mhs['id_mahasiswa']); ?>"
+                                    target="_blank" class="btn btn-sm btn-primary"><i class="fa fa-print"></i>
                                     Cetak
                                     KHS</a>
                             </div>

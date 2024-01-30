@@ -9,6 +9,9 @@ class Auth extends CI_Controller
 		// $this->load->view('login_baak');
 		//    $this->ModelSecurity->getCsrf();
 		$this->load->library('form_validation');
+	
+		
+
 	}
 
 	public function getLogin()
@@ -20,7 +23,7 @@ class Auth extends CI_Controller
         return;
     }
 
-    $this->form_validation->set_rules('username', 'Username', 'required', ['required' => 'Username wajib diisi']);
+    $this->form_validation->set_rules('username', 'Username', 'required', ['required' => 'NIM wajib diisi']);
     $this->form_validation->set_rules('password', 'Password', 'required', ['required' => 'Password wajib diisi']);
 
     if ($this->form_validation->run() == FALSE) {
@@ -49,15 +52,7 @@ class Auth extends CI_Controller
         echo json_encode($response);
     }
 }
-
-
-	// else{
-	//       $this->session->set_flashdata(
-	//         'pesan',
-	//         'Username Atau Password Anda Salah!'
-	//       );
-	//       redirect('auth');
-	//     }
+	
 
 	public function admin()
 	{

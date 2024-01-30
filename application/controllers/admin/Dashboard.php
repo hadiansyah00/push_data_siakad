@@ -9,10 +9,14 @@ class Dashboard extends CI_Controller
 		parent::__construct();
 		//url security
 		$this->ModelSecurity->getSecurity();
+		
+		
+
 	}
 
 	public function index()
 	{
+
 
 		$data['title'] = 'Dashboard Admin SBH';
 		$data['judul'] = 'Dashboard';
@@ -67,9 +71,9 @@ class Dashboard extends CI_Controller
 		$data['gizi'] = $this->MahasiswaModel->gizi();
 		$data['farmasi'] = $this->MahasiswaModel->farmasi();
 		
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/dashboard');
-		$this->load->view('admin/template/footer');
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/dashboard-st');
+		// $this->load->view('admin/template/footer');
 	}
 }

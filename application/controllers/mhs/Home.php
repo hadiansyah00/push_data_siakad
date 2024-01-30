@@ -9,11 +9,29 @@ class Home extends CI_Controller
 		parent::__construct();
 		//url security
 		$this->ModelSecurity->getSecurity();
-		$this->ModelSecurity->getCsrf();
+		
+			// Contoh setelah proses login berhasil
+			// $user_data = array(
+			// 	'nim' => $user_id,
+			// 	'username' => $username,
+			// 	'logged_in' => TRUE
+			// );
+
+		
+
 	}
 
 	public function index()
 	{
+	
+		$cookie_data = array(
+			'name'   => 'user_data',
+			'value'  => json_encode($user_data), // Gantilah dengan data pengguna yang sesuai
+			'expire' => 60 * 60 * 24 * 365, // Cookie berlaku selama 1 tahun (sesuaikan sesuai kebutuhan)
+		);
+
+		$this->input->set_cookie($cookie_data);
+
 		$data['title'] = 'Dasboard Mahasiswa SBH ';
 		$data['judul'] = 'Dasboard Mahasiswa SBH ';
 		//get data from session

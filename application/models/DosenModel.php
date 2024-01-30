@@ -11,7 +11,10 @@ class DosenModel extends CI_Model
 		$query = $this->db->get();
 		return $query;
 	}
-
+public function get_all_dosen() {
+        $query = $this->db->get('dosen'); // Sesuaikan dengan nama tabel Anda
+        return $query->result();
+    }
 
 	// 	public function getData($table)
 	// 	{

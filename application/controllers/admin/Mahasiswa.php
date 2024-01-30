@@ -17,10 +17,10 @@ class Mahasiswa extends CI_Controller
 		$data['judul'] = 'Master';
 		$data['subJudul'] = 'Mahasiswa';
 		$data['mahasiswa'] = $this->MahasiswaModel->getData()->result();
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/mahasiswa/mahasiswa', $data);
-		$this->load->view('admin/template/footer');
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/mahasiswa/mahasiswa-st', $data);
+		// $this->load->view('admin/template/footer');
 	}
 
 	public function insert()

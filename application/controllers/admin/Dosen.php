@@ -19,12 +19,15 @@ class Dosen extends CI_Controller
 		$data['judul'] = 'Master';
 		$data['subJudul'] = 'Dosen';
 		$data['dosen'] = $this->DosenModel->getData('dosen')->result();
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/dosen/dosen', $data);
-		$this->load->view('admin/template/footer');
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/dosen/dosen-st', $data);
+		// $this->load->view('admin/template/footer');
 	}
-
+	public function get_data() {
+        $data['dosen2'] = $this->DosenModel->get_all_dosen(); // Sesuaikan dengan metode yang ada di model Anda
+        echo json_encode($data);
+    }
 	public function insertDosen()
 	{
 
