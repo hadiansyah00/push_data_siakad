@@ -20,10 +20,10 @@ class Evaluasi extends CI_Controller
 		$data['subJudul'] = 'EDOM-SBH';
 		$data['list_kus'] = $this->EdomModel->getData('evaluasi')->result();
 		$data['tahun'] = $this->TaModel->getAktif()->result();
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/evaluasi/tambah-eval', $data);
-		$this->load->view('admin/template/footer');
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/evaluasi/tambah-eval-st', $data);
+		// $this->load->view('admin/template/footer');
 	}
 	
     public function insert()
@@ -79,4 +79,3 @@ class Evaluasi extends CI_Controller
 	}
 
 }
-

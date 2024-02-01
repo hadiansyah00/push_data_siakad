@@ -17,10 +17,10 @@ class Jurusan extends CI_Controller
 		$data['judul'] = 'Master';
 		$data['subJudul'] = 'Jurusan';
 		$data['jurusan'] = $this->JurusanModel->getData('jurusan')->result();
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/jurusan/jurusan', $data);
-		$this->load->view('admin/template/footer');
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/jurusan/jurusan-st', $data);
+		// $this->load->view('admin/template/footer');
 	}
 
 	public function tambahJurusan()

@@ -7,6 +7,15 @@ class MahasiswaModel extends CI_Model
         $this->db->where('id_mahasiswa', $id_mahasiswa);
         $this->db->update('mahasiswa', $data);
     }
+	  public function deleteData($table, $where)
+    {
+        // Delete data from the specified table based on the given conditions
+        $this->db->where($where);
+        $this->db->delete($table);
+
+        // Check if the delete operation was successful
+        return ($this->db->affected_rows() > 0);
+    }
 
 	public function getData()
 	{
@@ -15,7 +24,7 @@ class MahasiswaModel extends CI_Model
 		$this->db->from('mahasiswa');
 		$this->db->join('jurusan', 'jurusan.kd_jurusan = mahasiswa.kd_jurusan', 'left');
 		$this->db->join('dosen', 'dosen.id_dosen = mahasiswa.id_dosen', 'left');
-		$this->db->order_by('mahasiswa.nim', 'ASC');
+		$this->db->order_by('mahasiswa.id_mahasiswa', 'DESC');
 		$query = $this->db->get();
 		return $query;
 	}
@@ -33,6 +42,12 @@ class MahasiswaModel extends CI_Model
 		return $query;
 	}
 
+    public function getMahasiswaById($idMahasiswa) {
+        return $this->db->get_where('mahasiswa', array('id_mahasiswa' => $idMahasiswa))->row();
+    }
+
+
+
 
 
 	public function getMhsId($where)
@@ -45,6 +60,14 @@ class MahasiswaModel extends CI_Model
 		$query = $this->db->get();
 		return $query;
 	}
+	public function updateData($table, $data, $where)
+    {
+        $this->db->where($where);
+        $result = $this->db->update($table, $data);
+
+        return $result;
+    }
+
 
 	public function mhsId($id_mhs)
 	{

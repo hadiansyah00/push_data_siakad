@@ -22,10 +22,10 @@ class Kurikulum extends CI_Controller
 		$data['subJudul'] = 'Matakuliah ';
 		$data['tahun'] = $this->TaModel->getAktif()->result();
 		$data['jurusan'] = $this->JurusanModel->getData('jurusan')->result();
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/kurikulum/kurikulum', $data);
-		$this->load->view('admin/template/footer');
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/kurikulum/kurikulum-st', $data);
+		// $this->load->view('admin/template/footer');
 	}
 	
 	public function index_kurikulum($id)
@@ -48,10 +48,10 @@ class Kurikulum extends CI_Controller
 		$data['dosen_1']			= $this->DosenModel->getPerdos1('peran_dosen')->result();
 		$data['dosen_2']			= $this->DosenModel->getPerdos2('perdos')->result();
 	
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/kurikulum/master_kurikulum', $data);
-		$this->load->view('admin/template/footer');
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/kurikulum/master_kurikulum-st', $data);
+		// $this->load->view('admin/template/footer');
 	}
 
 	//id_peran = dosen 2

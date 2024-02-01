@@ -11,6 +11,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?php echo base_url(); ?>assets-new-look/js/stisla.js"></script>
 
 <!-- JS Libraies -->
+
+
+
 <?php
 if ($this->uri->segment(2) == "" || $this->uri->segment(2) == "index") { ?>
 <script src="<?php echo base_url(); ?>assets-new-look/modules/jquery.sparkline.min.js"></script>

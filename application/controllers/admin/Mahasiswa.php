@@ -9,6 +9,7 @@ class Mahasiswa extends CI_Controller
 		parent::__construct();
 		//url security
 		$this->ModelSecurity->getSecurity();
+		
 	}
 
 	public function index()
@@ -17,6 +18,53 @@ class Mahasiswa extends CI_Controller
 		$data['judul'] = 'Master';
 		$data['subJudul'] = 'Mahasiswa';
 		$data['mahasiswa'] = $this->MahasiswaModel->getData()->result();
+		// Fetch data for the Jurusan combo box
+		$jurusanList = $this->MahasiswaModel->getData('jurusan')->result();
+
+		// Get the selected Jurusan from your database or wherever it's stored
+		$selectedJurusan = $mahasiswa->kd_jurusan; // Adjust this based on your actual data structure
+
+		// Pass the data to your view
+		$data['jurusanList'] = $jurusanList;
+		$data['selectedJurusan'] = $selectedJurusan;
+
+		// Fetch data for the Dosen combo box
+		$dosenList = $this->MahasiswaModel->getData('dosen')->result();
+
+		// Get the selected Dosen from your database or wherever it's stored
+		$selectedDosen = $mahasiswa->id_dosen; // Adjust this based on your actual data structure
+
+		// Pass the data to your view
+		$data['dosenList'] = $dosenList;
+		$data['selectedDosen'] = $selectedDosen;
+
+
+		
+		$statusList = array(
+			'aktif' => 'Aktif',
+			'tidak' => 'Non Aktif',
+			'lulus' => 'Lulus',
+			'cuti' => 'Cuti'
+		);
+
+		// Get the selected value from your database or wherever it's stored
+		$selectedStatus = $mahasiswa->status_mhs; // Adjust this based on your actual data structure
+
+		// Pass the data to your view
+		$data['statusList'] = $statusList;
+		$data['selectedStatus'] = $selectedStatus;
+		
+		$kelasList = array(
+			'0' => 'Pagi',
+			'1' => 'Karyawan'
+		);
+
+		// Get the selected value from your database or wherever it's stored
+		$selectedKelas = $mahasiswa->kelas_mhs; // Adjust this based on your actual data structure
+
+		// Pass the data to your view
+		$data['kelasList'] = $kelasList;
+		$data['selectedKelas'] = $selectedKelas;
 		// $this->load->view('admin/template/header', $data);
 		// $this->load->view('admin/template/sidebar', $data);
 		$this->load->view('admin-st/mahasiswa/mahasiswa-st', $data);
@@ -24,40 +72,114 @@ class Mahasiswa extends CI_Controller
 	}
 
 	public function insert()
-	{
-		$data = array(
-			'nim'				=> htmlspecialchars($this->input->post('nim')),
-			'nama_mhs'			=> htmlspecialchars($this->input->post('nama_mhs')),
-// 			'nama_kepanjangan'	=> htmlspecialchars($this->input->post('nama_kepanjangan')),
-			'kelas'		=> htmlspecialchars($this->input->post('kelas')),
-			'tahun_masuk'		=> htmlspecialchars($this->input->post('tahun_masuk')),
-			'kd_jurusan'		=> htmlspecialchars($this->input->post('jurusan')),
-			'id_dosen	'		=> htmlspecialchars($this->input->post('nama_dosen')),
-			'password'			=> md5($this->input->post('password', TRUE)),
-			'tgl_insert'		=> date('y-m-d')
-		);
+{
+    // Periksa apakah metode yang digunakan adalah POST
+    if ($this->input->server('REQUEST_METHOD') === 'POST') {
+        // Periksa apakah CSRF token valid
+        if ($this->input->post($this->security->get_csrf_token_name()) !== $this->security->get_csrf_hash()) {
+            // CSRF token tidak valid, handle sesuai kebutuhan
+            echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+            return;
+        }
 
-		$this->MahasiswaModel->insertData('mahasiswa', $data);
+        // Set aturan validasi sesuai kebutuhan
+        $this->form_validation->set_rules('nim', 'NIM', 'required|numeric');
+        $this->form_validation->set_rules('nama_mhs', 'Nama Lengkap', 'required');
+        // Tambahkan aturan validasi lainnya sesuai kebutuhan
 
-		$this->session->set_flashdata(
-			'pesan',
-			'<div class="alert alert-block alert-success">
-				<button type="button" class="close" data-dismiss="alert">
-					<i class="ace-icon fa fa-times"></i>
-				</button>
+        // Jalankan validasi
+        if ($this->form_validation->run() == FALSE) {
+            // Validasi gagal, kirim respon error
+            echo json_encode(['status' => 'error', 'message' => validation_errors()]);
+            return;
+        }
 
-				<i class="ace-icon fa fa-check green"></i>
+        // Formulir valid, lakukan penyimpanan data
+        $data = [
+            'nim'         => $this->input->post('nim'),
+            'nama_mhs'    => $this->input->post('nama_mhs'),
+            'tahun_masuk' => $this->input->post('tahun_masuk'),
+            'password'    => md5($this->input->post('password')),
+            'kelas_mhs'   => $this->input->post('kelas_mhs'),
+			'status_mhs'   => $this->input->post('status_mhs'),
+            'kd_jurusan'  => $this->input->post('jurusan'),
+            'id_dosen'    => $this->input->post('nama_dosen'),
+            'tgl_insert'  => date('y-m-d'),
+        ];
 
-				Data
-				<strong class="green">
-					Mahasiswa
-				</strong>Berhasi di input!
-			</div>'
-		);
-		redirect('admin/Mahasiswa');
-	}
+        // Simpan data ke database
+        $this->MahasiswaModel->insertData('mahasiswa', $data);
 
-	//lihat detil mahasiswa..//belum data detil tidak tampil!
+        // Kirim respon sukses
+        echo json_encode(['status' => 'success', 'message' => 'Data Mahasiswa berhasil disimpan']);
+    } else {
+        // Jika metode bukan POST, kirim respon error
+        echo json_encode(['status' => 'error', 'message' => 'Invalid Request Method']);
+    }
+}
+
+
+
+
+public function getMahasiswaById() {
+    // Periksa apakah ada akses AJAX
+    if ($this->input->is_ajax_request()) {
+        $idMahasiswa = $this->input->get('id_mahasiswa');
+        $mahasiswa = $this->MahasiswaModel->getMahasiswaById($idMahasiswa);
+
+        // Kembalikan data dalam format JSON
+        echo json_encode($mahasiswa);
+    } else {
+        // Jika bukan akses AJAX, lemparkan error atau redirect sesuai kebutuhan
+        show_error('Invalid request!', 403);
+    }
+}
+
+
+
+public function updateMahasiswa()
+{
+    if (!$this->input->is_ajax_request()) {
+        show_404();
+    }
+
+    $idMahasiswa = $this->input->post('id_mahasiswa');
+    $nim = $this->input->post('nim');
+    $namaMhs = $this->input->post('nama_mhs');
+    $tahunMasuk = $this->input->post('tahun_masuk');
+    $password = $this->input->post('password');
+
+    // Validation if needed
+
+    // Check if the password is empty, set a default password
+    $password = empty($password) ? 'default_password' : md5($password);
+
+    // Update data mahasiswa
+    $data = array(
+        'nim' => $nim,
+        'nama_mhs' => $namaMhs,
+        'tahun_masuk' => $tahunMasuk,
+        'password' => $password,
+        // Add other fields as needed
+    );
+
+    // Validate CSRF token
+    if ($this->input->post($this->security->get_csrf_token_name()) !== $this->security->get_csrf_hash()) {
+        echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+        return;
+    }
+
+    // Update the data in the database
+    $result = $this->MahasiswaModel->updateData('mahasiswa', $data, ['id_mahasiswa' => $idMahasiswa]);
+
+    if ($result) {
+        echo json_encode(['status' => 'success', 'message' => 'Data Mahasiswa updated successfully']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Failed to update data Mahasiswa']);
+    }
+}
+
+
 	public function view_mhs($id_mhs)
 	{
 
@@ -306,26 +428,18 @@ class Mahasiswa extends CI_Controller
 
 
 	//Delete data
-	public function delete($id)
-	{
-		$data = array('id_mahasiswa' => $id);
-		$this->db->delete('mahasiswa', $data);
+	public function deleteMahasiswa()
+{
+    $idMahasiswa = $this->input->post('id_mahasiswa');
+    
+    // Perform the delete operation and check for success
+    // Adjust the following code based on your implementation
+    $result = $this->MahasiswaModel->deleteData('mahasiswa', array('id_mahasiswa' => $idMahasiswa));
+    if ($result) {
+        echo json_encode(array('status' => 'success'));
+    } else {
+        echo json_encode(array('status' => 'error'));
+    }
+}
 
-		$this->session->set_flashdata(
-			'pesan',
-			'<div class="alert alert-block alert-danger">
-				<button type="button" class="close" data-dismiss="alert">
-					<i class="ace-icon fa fa-times"></i>
-				</button>
-
-				<i class="ace-icon fa fa-check red"></i>
-
-				Data Mahasiswa Berhasi di 
-				<strong class="red">
-					Hapus!
-				</strong>
-			</div>'
-		);
-		redirect('admin/Mahasiswa');
-	}
 }

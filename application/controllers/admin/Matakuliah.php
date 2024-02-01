@@ -17,10 +17,10 @@ class Matakuliah extends CI_Controller
 		$data['judul'] = 'Master';
 		$data['subJudul'] = 'Matakuliah';
 		$data['jurusan'] = $this->JurusanModel->getData('jurusan')->result();
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/matakuliah/tambah-matkul', $data);
-		$this->load->view('admin/template/footer');
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/matakuliah/tambah-matkul-st', $data);
+		// $this->load->view('admin/template/footer');
 	}
 
 	public function detil($id)
@@ -33,10 +33,10 @@ class Matakuliah extends CI_Controller
 		$data['detil'] = $this->JurusanModel->detilData('jurusan', $where)->result();
 		$data['matkul'] = $this->MatkulModel->getData($id);
 		//$data['matkul'] = $this->db->get_where('matakuliah',$where)->result();
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/matakuliah/view_matkul', $data);
-		$this->load->view('admin/template/footer');
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/matakuliah/view_matkul-st', $data);
+		// $this->load->view('admin/template/footer');
 	}
 
 	public function insertMatkul($kd_jurusan)
