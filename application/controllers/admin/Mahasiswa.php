@@ -99,7 +99,7 @@ class Mahasiswa extends CI_Controller
             'nim'         => $this->input->post('nim'),
             'nama_mhs'    => $this->input->post('nama_mhs'),
             'tahun_masuk' => $this->input->post('tahun_masuk'),
-            'password'    => md5($this->input->post('password')),
+            'password'    => password_hash($this->input->post('password')),
             'kelas_mhs'   => $this->input->post('kelas_mhs'),
 			'status_mhs'   => $this->input->post('status_mhs'),
             'kd_jurusan'  => $this->input->post('jurusan'),
@@ -134,7 +134,7 @@ public function updateMahasiswa()
 	$status_mhs   = $this->input->post('status_mhs');
 	$kd_jurusan  = $this->input->post('jurusan');
     $id_dosen    = $this->input->post('nama_dosen');
-	$password = md5($this->input->post('password'), PASSWORD_DEFAULT);
+	$password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
     // Validation if needed
 
     // Check if the password is empty, set a default password

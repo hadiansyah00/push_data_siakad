@@ -98,8 +98,8 @@ class Dosen extends CI_Controller
 			'hp_ds'				=> htmlspecialchars($this->input->post('hp_ds')),
 			'status_ds'			=> htmlspecialchars($this->input->post('status_ds')),
 			'kd_jurusan'		=> htmlspecialchars($this->input->post('jurusan')),
-			'email_ds'			=> htmlspecialchars($this->input->post('email_ds')),
-			'password_ds'		=> md5($this->input->post('password_ds', TRUE)),
+			'email_ds'			=> htmlspecialchars($this->input->post('email_ds')),		
+			  'password'        => password_hash($this->input->post('password')),
 			'tgl_insert'		=> date('y-m-d')
 		);
 
@@ -133,12 +133,12 @@ public function updateDataDosen()
 	$kdjs = $this->input->post('jurusan');
 	$emds = $this->input->post('email_ds');
     $aldos = $this->input->post('alamat_dosen');
-    $password = $this->input->post('password_ds');
+    $password = password_hash($this->input->post('password_ds'), PASSWORD_DEFAULT);
 
     // Validation if needed
 
     // Check if the password is empty, set a default password
-    $password = empty($password) ? 'default_password' : md5($password);
+    
 
     // Update data mahasiswa
     $data = array(

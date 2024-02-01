@@ -261,7 +261,7 @@ public function updatePhoto()
         $id = $this->input->post('id_mahasiswa');
 
         $data = array(
-            'password' => md5($this->input->post('password')),
+            'password' => password_hash($this->input->post('password')),
             'tgl_update' => date('Y-m-d') // Fixed date format
         );
 
