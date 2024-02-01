@@ -2,6 +2,12 @@
 
 class DosenModel extends CI_Model
 {
+	public function updateUserProfile($id_dosen, $data) {
+        // Update user profile based on the provided data
+        $this->db->where('id_dosen', $id_dosen);
+        $this->db->update('dosen', $data);
+    }
+	
 	public function getData()
 	{
 
@@ -11,6 +17,16 @@ class DosenModel extends CI_Model
 		$query = $this->db->get();
 		return $query;
 	}
+ public function deleteData($table, $where)
+    {
+        // Delete data from the specified table based on the given conditions
+        $this->db->where($where);
+        $this->db->delete($table);
+
+        // Check if the delete operation was successful
+        return ($this->db->affected_rows() > 0);
+    }
+
 public function get_all_dosen() {
         $query = $this->db->get('dosen'); // Sesuaikan dengan nama tabel Anda
         return $query->result();

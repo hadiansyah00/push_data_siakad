@@ -10,7 +10,7 @@ $this->load->view('admin-st/dist/header');
 
 
 <!-- Include SweetAlert library -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11"> -->
 <div class="main-content">
     <section class="section">
         <div class="section-header">
@@ -338,9 +338,9 @@ $this->load->view('admin-st/dist/header');
 
 
 <!-- Pastikan Anda sudah menyertakan SweetAlert library -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="<?php echo base_url(); ?>assets-new-look/modules/sweetalert/sweetalert.min.js"></script>
 
-
+<script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-sweetalert.js"></script>
 <script>
 $(document).ready(function() {
     // Form submit event
@@ -407,7 +407,7 @@ $(document).ready(function() {
 <script>
 $(document).ready(function() {
     // Fungsi untuk menampilkan nilai pada form modal saat tombol Edit diklik
-    $('.btn-edit').click(function() {
+    $(document).on('click', '.btn-edit', function() {
         var idMahasiswa = $(this).data('id-mahasiswa');
         var nim = $(this).data('nim');
         var namaMhs = $(this).data('nama-mhs');
@@ -429,6 +429,7 @@ $(document).ready(function() {
 
         // $('#editPassword').val(password);
     });
+
     $('#editMahasiswaForm').submit(function(e) {
         e.preventDefault();
 
@@ -470,64 +471,63 @@ $(document).ready(function() {
             }
         });
     });
-
 });
 </script>
 <script>
-$(document).ready(function() {
-    // Delete button click event
-    $('.btn-delete').click(function() {
-        var idMahasiswa = $(this).data('id');
-        // Include CSRF token in the data
-        var formData = {
-            id_mahasiswa: idMahasiswa,
-            <?php echo $this->security->get_csrf_token_name(); ?>: '<?php echo $this->security->get_csrf_hash(); ?>'
-        };
-        // Use SweetAlert for confirmation
-        Swal.fire({
-            title: 'Apakah anda yakin untuk menghapus data',
-            text: 'Data telah dihapus tidak bisa di kembalikan!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // User confirmed, send AJAX request to delete
-                $.ajax({
-                    type: 'POST',
-                    url: '<?php echo base_url('admin/mahasiswa/deleteMahasiswa'); ?>',
-                    data: {
-                        id_mahasiswa: idMahasiswa
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            // Successfully deleted, show success message
-                            Swal.fire(
-                                'Deleted!',
-                                'Data telah dihapus.',
-                                'success'
-                            ).then(() => {
-                                // Optionally reload the page or update the UI
-                                location.reload();
-                            });
-                        } else {
-                            // Failed to delete, show error message
-                            Swal.fire(
-                                'Error!',
-                                'Gagal hapus data.',
-                                'error'
-                            );
-                        }
-                    },
-                    error: function(error) {
-                        console.log('AJAX Error:', error);
+// Fungsi untuk menampilkan nilai pada form modal saat tombol Delete diklik
+$(document).on('click', '.btn-delete', function() {
+    var idMahasiswa = $(this).data('id');
+
+    // Include CSRF token dalam data
+    var formData = {
+        id_mahasiswa: idMahasiswa,
+        '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+    };
+
+    // Gunakan SweetAlert untuk konfirmasi
+    Swal.fire({
+        title: 'Apakah Anda yakin untuk menghapus data?',
+        text: 'Data yang dihapus tidak dapat dikembalikan!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Ya, hapus!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Pengguna mengonfirmasi, kirim permintaan AJAX untuk menghapus
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo base_url('admin/mahasiswa/deleteMahasiswa'); ?>',
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        // Berhasil dihapus, tampilkan pesan sukses
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: response.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                        }).then(function() {
+                            // Secara opsional reload halaman atau perbarui UI
+                            location.reload();
+                        });
+                    } else {
+                        // Gagal dihapus, tampilkan pesan kesalahan
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: response.message
+                        });
                     }
-                });
-            }
-        });
+                },
+                error: function(error) {
+                    console.log('AJAX Error:', error);
+                }
+            });
+        }
     });
 });
 </script>

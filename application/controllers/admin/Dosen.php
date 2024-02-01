@@ -19,6 +19,41 @@ class Dosen extends CI_Controller
 		$data['judul'] = 'Master';
 		$data['subJudul'] = 'Dosen';
 		$data['dosen'] = $this->DosenModel->getData('dosen')->result();
+			// Fetch data for the Jurusan combo box
+		$jurusanList = $this->DosenModel->getData('dosen')->result();
+
+		// Get the selected Jurusan from your database or wherever it's stored
+		$selectedJurusan = $dosen->kd_jurusan; // Adjust this based on your actual data structure
+
+		// Pass the data to your view
+		$data['jurusanList'] = $jurusanList;
+		$data['selectedJurusan'] = $selectedJurusan;
+
+		//Select Status Dosen
+		$statusListDosen = array(
+			'Dosen Tetap' => 'Dosen Tetap',
+			'Tidak Tetap' => 'Tidak Tetap'
+		);
+
+		// Get the selected value from your database or wherever it's stored
+		$selectedStatus = $dosen->status_ds; // Adjust this based on your actual data structure
+
+		// Pass the data to your view
+		$data['statusListDosen'] = $statusListDosen;
+		$data['selectedStatus'] = $selectedStatus;
+		
+		///Select Jenis Kelamin
+		$jenisKelamin = array(
+			'L' => 'Laki-Laki',
+			'P' => 'Perempuan'
+		);
+
+		// Get the selected value from your database or wherever it's stored
+		$selectJenis = $dosen->jenis_kelamin; // Adjust this based on your actual data structure
+
+		// Pass the data to your view
+		$data['jenisKelamin'] = $jenisKelamin;
+		$data['selectedJenis'] = $selectedJenis;
 		// $this->load->view('admin/template/header', $data);
 		// $this->load->view('admin/template/sidebar', $data);
 		$this->load->view('admin-st/dosen/dosen-st', $data);
@@ -28,76 +63,129 @@ class Dosen extends CI_Controller
         $data['dosen2'] = $this->DosenModel->get_all_dosen(); // Sesuaikan dengan metode yang ada di model Anda
         echo json_encode($data);
     }
-	public function insertDosen()
-	{
+	public function insert()
+{
+    // Periksa apakah metode yang digunakan adalah POST
+    if ($this->input->server('REQUEST_METHOD') === 'POST') {
+        // Periksa apakah CSRF token valid
+        if ($this->input->post($this->security->get_csrf_token_name()) !== $this->security->get_csrf_hash()) {
+            // CSRF token tidak valid, handle sesuai kebutuhan
+            echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+            return;
+        }
 
-		// $data['jurusan'] = $this->DosenModel->getJurusan()->result();
-		$data = array(
+        // Set aturan validasi sesuai kebutuhan
+        $this->form_validation->set_rules('kd_dosen', 'Kode Dosen', 'required');
+        $this->form_validation->set_rules('nama_dosen', 'Nama Lengkap', 'required');
+        // Tambahkan aturan validasi lainnya sesuai kebutuhan
+
+        // Jalankan validasi
+        if ($this->form_validation->run() == FALSE) {
+            // Validasi gagal, kirim respon error
+            echo json_encode(['status' => 'error', 'message' => validation_errors()]);
+            return;
+        }
+
+        // Formulir valid, lakukan penyimpanan data
+        $data = array(
 			'nidn'				=> htmlspecialchars($this->input->post('nidn')),
 			'nama_dosen'		=> htmlspecialchars($this->input->post('nama_dosen')),
 			'kd_dosen'			=> htmlspecialchars($this->input->post('kd_dosen')),
 			'jenis_kelamin'		=> htmlspecialchars($this->input->post('jenis_kelamin')),
-			'tempat'		=> htmlspecialchars($this->input->post('tempat')),
-			'tgl'			=> htmlspecialchars($this->input->post('tgl')),
-			'alamat_dosen'			=> htmlspecialchars($this->input->post('alamat_dosen')),
+			'tempat'			=> htmlspecialchars($this->input->post('tempat')),
+			'tgl'				=> htmlspecialchars($this->input->post('tgl')),
+			'alamat_dosen'		=> htmlspecialchars($this->input->post('alamat_dosen')),
 			'hp_ds'				=> htmlspecialchars($this->input->post('hp_ds')),
 			'status_ds'			=> htmlspecialchars($this->input->post('status_ds')),
 			'kd_jurusan'		=> htmlspecialchars($this->input->post('jurusan')),
-			'email_ds'				=> htmlspecialchars($this->input->post('email_ds')),
-			'password_ds'			=> md5($this->input->post('password_ds', TRUE)),
+			'email_ds'			=> htmlspecialchars($this->input->post('email_ds')),
+			'password_ds'		=> md5($this->input->post('password_ds', TRUE)),
 			'tgl_insert'		=> date('y-m-d')
 		);
 
-		//var_dump($data);
-		$this->DosenModel->insertData('dosen', $data);
-		$this->session->set_flashdata(
-			'pesan',
-			'<div class="alert alert-block alert-success">
-				<button type="button" class="close" data-dismiss="alert">
-					<i class="ace-icon fa fa-times"></i>
-				</button>
+        // Simpan data ke database
+        $this->MahasiswaModel->insertData('dosen', $data);
 
-				<i class="ace-icon fa fa-check green"></i>
+        // Kirim respon sukses
+        echo json_encode(['status' => 'success', 'message' => 'Data Dosen berhasil disimpan']);
+    } else {
+        // Jika metode bukan POST, kirim respon error
+        echo json_encode(['status' => 'error', 'message' => 'Invalid Request Method']);
+    }
+}
 
-				Data
-				<strong class="green">
-					Dosen
-				</strong>Berhasi di input!
-			</div>'
-		);
-		redirect('admin/Dosen');
-	}
 
-	// public function tambahMatkul()
-	// {
-	// 	$data['judul'] = 'Akademik';
-	// 	$data['subJudul'] = 'Tambah Matakuliah';
-	// 	$data['jurusan'] = $this->MatkulModel->getJurusan()->result();
-	// 	$this->load->view('admin/template/header');
-	// 	$this->load->view('admin/template/sidebar', $data);
-	// 	$this->load->view('admin/matakuliah/tambah-matkul', $data);
-	// 	$this->load->view('admin/template/footer');
-	// }
+public function updateDataDosen()
+{
+    if (!$this->input->is_ajax_request()) {
+        show_404();
+    }
 
-	// public function simpan()
-	// {
-	// 	$key['kd_mk']	= $this->input->post('kd_mk');
-	// 	$data['kd_mk']	= $this->input->post('kd_mk');
-	// 	$data['kd_jurusan']	= $this->input->post('jurusan');
-	// 	$data['matakuliah']	= $this->input->post('matakuliah');
-	// 	$data['sks']	= $this->input->post('sks');
-	// 	$data['smt']	= $this->input->post('smt');
-	// 	$data['aktif']	= $this->input->post('aktif');
+    $idDosen = $this->input->post('id_dosen');
+    $nidn = $this->input->post('nidn');
+	$kdDosen = $this->input->post('kd_dosen');
+	$namdos = $this->input->post('nama_dosen');
+	$tgl = $this->input->post('tgl');
+	$tmpt = $this->input->post('tempat');
+	$jk = $this->input->post('jenis_kelamin');
+	$hpds = $this->input->post('hp_ds');
+	$stds = $this->input->post('status_ds');
+	$kdjs = $this->input->post('jurusan');
+	$emds = $this->input->post('email_ds');
+    $aldos = $this->input->post('alamat_dosen');
+    $password = $this->input->post('password_ds');
 
-	// 	$query = $this->db->get_where('matakuliah',$key);
-	// 	if($query->num_rows()>0){
-	// 		$this->db->update('matakuliah',$key,$data);
-	// 		echo "Data berhasil diupdate";
-	// 	}else{
-	// 		$this->db->insert('matakuliah',$data);
-	// 		echo "Data berhasil di masukan";
-	// 	}
-	// }
+    // Validation if needed
+
+    // Check if the password is empty, set a default password
+    $password = empty($password) ? 'default_password' : md5($password);
+
+    // Update data mahasiswa
+    $data = array(
+    'nidn' => $nidn,
+    'kd_dosen' => $kdDosen, // Assuming 'kd_dosen' is a field in your database
+    'nama_dosen' => $namdos,
+    'tgl' => $tgl,
+    'tempat' => $tmpt,
+    'jenis_kelamin' => $jk,
+    'hp_ds' => $hpds,
+    'status_ds' => $stds,
+    'kd_jurusan' => $kdjs,
+    'email_ds' => $emds,
+    'alamat_dosen' => $aldos,
+    'password_ds' => $password,
+);
+
+    // Validate CSRF token
+    if ($this->input->post($this->security->get_csrf_token_name()) !== $this->security->get_csrf_hash()) {
+        echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+        return;
+    }
+
+    // Update the data in the database
+    $result = $this->MahasiswaModel->updateData('dosen', $data, ['id_dosen' => $idDosen]);
+
+    if ($result) {
+        echo json_encode(['status' => 'success', 'message' => 'Data Dosen updated successfully']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Failed to update data Dosen']);
+    }
+}
+//Delete data
+	public function deteletDosen()
+{
+    $idDosen = $this->input->post('id_dosen');
+    
+    // Perform the delete operation and check for success
+    // Adjust the following code based on your implementation
+    $result = $this->DosenModel->deleteData('dosen', array('id_dosen' => $idDosen));
+    if ($result) {
+        echo json_encode(array('status' => 'success'));
+    } else {
+        echo json_encode(array('status' => 'error'));
+    }
+}
+	
 	public function view_dosen($id)
 	{
 		$data['title'] = 'Detil Data Dosen';

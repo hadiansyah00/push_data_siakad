@@ -119,24 +119,6 @@ class Mahasiswa extends CI_Controller
 }
 
 
-
-
-public function getMahasiswaById() {
-    // Periksa apakah ada akses AJAX
-    if ($this->input->is_ajax_request()) {
-        $idMahasiswa = $this->input->get('id_mahasiswa');
-        $mahasiswa = $this->MahasiswaModel->getMahasiswaById($idMahasiswa);
-
-        // Kembalikan data dalam format JSON
-        echo json_encode($mahasiswa);
-    } else {
-        // Jika bukan akses AJAX, lemparkan error atau redirect sesuai kebutuhan
-        show_error('Invalid request!', 403);
-    }
-}
-
-
-
 public function updateMahasiswa()
 {
     if (!$this->input->is_ajax_request()) {
@@ -148,19 +130,26 @@ public function updateMahasiswa()
     $namaMhs = $this->input->post('nama_mhs');
     $tahunMasuk = $this->input->post('tahun_masuk');
     $password = $this->input->post('password');
-
+	$kelas_mhs   = $this->input->post('kelas_mhs');
+	$status_mhs   = $this->input->post('status_mhs');
+	$kd_jurusan  = $this->input->post('jurusan');
+    $id_dosen    = $this->input->post('nama_dosen');
+	$password = md5($this->input->post('password'), PASSWORD_DEFAULT);
     // Validation if needed
 
     // Check if the password is empty, set a default password
-    $password = empty($password) ? 'default_password' : md5($password);
-
+   
     // Update data mahasiswa
     $data = array(
-        'nim' => $nim,
-        'nama_mhs' => $namaMhs,
-        'tahun_masuk' => $tahunMasuk,
-        'password' => $password,
-        // Add other fields as needed
+        'nim' 			=> $nim,
+        'nama_mhs' 		=> $namaMhs,
+        'tahun_masuk'	=> $tahunMasuk,
+        'password' 		=> $password,
+		'kelas_mhs'   	=> $kelas_mhs,
+		'status_mhs'  	=> $status_mhs,
+        'kd_jurusan'  	=> $kd_jurusan,
+        'id_dosen'    	=> $id_dosen,
+		'password'    	=> $password
     );
 
     // Validate CSRF token
