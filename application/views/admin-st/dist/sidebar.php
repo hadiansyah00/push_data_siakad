@@ -30,7 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </li> -->
             <li class="menu-header">Data Master</li>
             <li
-                class="dropdown <?php echo $this->uri->segment(2) == 'mahasiswa' || $this->uri->segment(2) == 'dosen' || $this->uri->segment(2) == 'Jadwalprauap' || $this->uri->segment(2) == 'Jadwaluap' || $this->uri->segment(2) == 'Jadwaluap' || $this->uri->segment(2) == 'jadwaluas' ? 'active' : ''; ?>">
+                class="dropdown <?php echo $this->uri->segment(2) == 'mahasiswa' || $this->uri->segment(2) == 'dosen' || $this->uri->segment(2) == 'jurusan' || $this->uri->segment(2) == 'matakuliah' || $this->uri->segment(2) == 'Jadwaluap' || $this->uri->segment(2) == 'jadwaluas' ? 'active' : ''; ?>">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
                     <span>Data Master</span></a>
                 <ul class="dropdown-menu">
@@ -40,11 +40,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <li class="<?php echo $this->uri->segment(2) == 'dosen' ? 'active' : ''; ?>"><a class="nav-link"
                             href="<?php echo base_url(); ?>admin/dosen">Data Dosen</a>
                     </li>
-                    <li class="<?php echo $this->uri->segment(2) == 'jadwal' ? 'active' : ''; ?>"><a class="nav-link"
+                    <li class="<?php echo $this->uri->segment(2) == 'jurusan' ? 'active' : ''; ?>"><a class="nav-link"
                             href="<?php echo base_url(); ?>admin/jurusan">Data Prog. Studi</a>
                     </li>
-                    <li class="<?php echo $this->uri->segment(2) == 'jadwal' ? 'active' : ''; ?>"><a class="nav-link"
-                            href="<?php echo base_url(); ?>admin/matakuliah">Data Kurikulum</a>
+                    <li class="<?php echo $this->uri->segment(2) == 'matakuliah' ? 'active' : ''; ?>"><a
+                            class="nav-link" href="<?php echo base_url(); ?>admin/matakuliah">Data Kurikulum</a>
                     </li>
                     <li class="<?php echo $this->uri->segment(2) == 'jadwal' ? 'active' : ''; ?>"><a class="nav-link"
                             href="<?php echo base_url(); ?>admin/kurikulum">Data Matakuliah</a>

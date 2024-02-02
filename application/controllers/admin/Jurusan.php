@@ -17,152 +17,118 @@ class Jurusan extends CI_Controller
 		$data['judul'] = 'Master';
 		$data['subJudul'] = 'Jurusan';
 		$data['jurusan'] = $this->JurusanModel->getData('jurusan')->result();
+
+				
+		$jenjangList = array(
+			'D3' => 'Diploma	',
+			'S1' => 'Sarjana'
+		);
+		
+		$selectedJenjang = $jurusan->jenjang; // Adjust this based on your actual data structure
+
+		// Pass the data to your view
+		$data['jenjangList'] = $jenjangList;
+		$data['selectedJenjang'] = $selectedJenjang;
+
 		// $this->load->view('admin/template/header', $data);
 		// $this->load->view('admin/template/sidebar', $data);
 		$this->load->view('admin-st/jurusan/jurusan-st', $data);
 		// $this->load->view('admin/template/footer');
 	}
 
-	public function tambahJurusan()
-	{
+	
+	
+	public function insert()
+{
+    // Periksa apakah metode yang digunakan adalah POST
+    if ($this->input->server('REQUEST_METHOD') === 'POST') {
+        // Periksa apakah CSRF token valid
+        if ($this->input->post($this->security->get_csrf_token_name()) !== $this->security->get_csrf_hash()) {
+            // CSRF token tidak valid, handle sesuai kebutuhan
+            echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+            return;
+        }
 
-		$photo	= $_FILES['ttd']['name'];
-		if ($photo) {
-			$config['upload_path']		= './assets/images/uploads/ttd';
-			$config['allowed_types']	= 'jpeg|jpg|png|gif|tiff';
+        // Set aturan validasi sesuai kebutuhan
+        $this->form_validation->set_rules('nim', 'NIM', 'required|numeric');
+        $this->form_validation->set_rules('nama_mhs', 'Nama Lengkap', 'required');
+        // Tambahkan aturan validasi lainnya sesuai kebutuhan
 
-			$this->load->library('upload', $config);
+        // Jalankan validasi
+        if ($this->form_validation->run() == FALSE) {
+            // Validasi gagal, kirim respon error
+            echo json_encode(['status' => 'error', 'message' => validation_errors()]);
+            return;
+        }
 
-			if ($this->upload->do_upload('ttd')) {
-
-				$photo = $this->upload->data('file_name');
-				$this->db->set('ttd', $photo);
-			} else {
-				echo "Gagal upload";
-			}
-		}
-
-		$data = array(
-			'kd_jurusan'	=> htmlspecialchars($this->input->post('kd_jurusan')),
-			'jurusan'		=> htmlspecialchars($this->input->post('jurusan')),
-			'singkat'		=> htmlspecialchars($this->input->post('singkat')),
-			'jenjang'		=> htmlspecialchars($this->input->post('jenjang')),
-			'ttd'       	=> $photo,
+        // Formulir valid, lakukan penyimpanan data
+        $data = [
+          	'kd_jurusan'	=> $this->input->post('kd_jurusan'),
+			'jurusan'		=> $this->input->post('jurusan'),
+			// 'singkat'		=> $this->input->post('singkat'),
+			'jenjang'		=> $this->input->post('jenjang'),
+			'id_dosen'    => $this->input->post('nama_dosen'),
 			'tgl_insert'	=> date('y-m-d')
-		);
+        ];
 
-		//var_dump($data);
-		$this->JurusanModel->insertData('jurusan', $data);
-		$this->session->set_flashdata(
-			'pesan',
-			'<div class="alert alert-block alert-success">
-				<button type="button" class="close" data-dismiss="alert">
-					<i class="ace-icon fa fa-times"></i>
-				</button>
+        // Simpan data ke database
+        $this->MahasiswaModel->insertData('jurusan', $data);
 
-				<i class="ace-icon fa fa-check green"></i>
-
-				Data
-				<strong class="green">
-					Jurusan
-				</strong>Berhasi di input!
-			</div>'
-		);
-		redirect('admin/Jurusan');
-	}
+        // Kirim respon sukses
+        echo json_encode(['status' => 'success', 'message' => 'Data Mahasiswa berhasil disimpan']);
+    } else {
+        // Jika metode bukan POST, kirim respon error
+        echo json_encode(['status' => 'error', 'message' => 'Invalid Request Method']);
+    }
+}
 
 
-	public function updateJurusan($id)
-	{
-		$data['title'] = 'Update Data Jurusan SBH';
-		$data['judul'] = 'Master';
-		$data['subJudul'] = 'Update jurusan';
+public function updateJurusan()
+{
+    if (!$this->input->is_ajax_request()) {
+        show_404();
+    }
 
-		$where = array('kd_jurusan' => $id);
-		$data['jurusan'] = $this->JurusanModel->getWhere('jurusan', $where)->result();
+    $kdJurusan = $this->input->post('kd_jurusan');
+    $jurusan = $this->input->post('jurusan');
+    $jenjang = $this->input->post('jenjang');
+    $id_dosen    = $this->input->post('nama_dosen');
+    // Check if the password is empty, set a default password
+   
+    // Update data mahasiswa
+    $data = array(
+        'kd_jurusan' 	=> $kdJurusan,
+        'jurusan' 		=> $jurusan,
+        'jenjang'		=> $jenjang,
+        'id_dosen' 		=> $id_dosen,
+    );
 
-		$this->load->view('admin/template/header');
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/jurusan/update-jurusan', $data);
-		$this->load->view('admin/template/footer');
-	}
+    // Validate CSRF token
+    if ($this->input->post($this->security->get_csrf_token_name()) !== $this->security->get_csrf_hash()) {
+        echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+        return;
+    }
 
-	public function updateAksi()
-	{
-		$ttd	= $_FILES['ttd']['name'];
-		if ($ttd) {
-			$config['upload_path']		= './assets/images/uploads';
-			$config['allowed_types']	= 'jpeg|jpg|png|gif|tiff';
+    // Update the data in the database
+    $result = $this->MahasiswaModel->updateData('jurusan', $data, ['kd_jurusan' => $kdJurusan]);
 
-			$this->load->library('upload', $config);
+    if ($result) {
+        echo json_encode(['status' => 'success', 'message' => 'Data Program Studi updated successfully']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Failed to update data Program Studi']);
+    }
+}
 
-			if ($this->upload->do_upload('ttd')) {
 
-				$ttd = $this->upload->data('file_name');
-				$this->db->set('ttd', $ttd);
-			} else {
-				echo "Gagal upload";
-			}
-		}
-		$id = $this->input->post('kd_jurusan');
-		$data = array(
-			'kd_jurusan'		=> htmlspecialchars($this->input->post('kd_jurusan')),
-			'jurusan'		=> htmlspecialchars($this->input->post('jurusan')),
-			'singkat'		=> htmlspecialchars($this->input->post('singkat')),
-			'jenjang'		=> htmlspecialchars($this->input->post('jenjang')),
-			'ttd'       	=> $ttd,
-			'tgl_insert'	=> date('y-m-d')
-
-		);
-
-		$where = array('kd_jurusan' => $id);
-		//var_dump($data);
-		$this->db->update('jurusan', $data, $where);
-
-		//timpah data 
-		$item = $this->db->get_where('jurusan', $where)->row();
-		if ($item->$ttd != null) {
-			$target_file = './assets/images/uploads/ttd' . $item->$ttd;
-			unlink($target_file);
-		}
-
-		$this->session->set_flashdata(
-			'pesan',
-			'<div class="alert alert-block alert-success">
-				<button type="button" class="close" data-dismiss="alert">
-					<i class="ace-icon fa fa-times"></i>
-				</button>
-
-				<i class="ace-icon fa fa-check green"></i>
-
-				Data Jurusan Berhasi di 
-				<strong class="green">
-					Update!
-				</strong>
-			</div>'
-		);
-		redirect('admin/Jurusan');
-	}
-
-	public function deleteJurusan($id)
-	{
-		$where = array('kd_jurusan' => $id);
-		$this->db->delete('jurusan', $where);
-		$this->session->set_flashdata(
-			'pesan',
-			'<div class="alert alert-block alert-danger">
-				<button type="button" class="close" data-dismiss="alert">
-					<i class="ace-icon fa fa-times"></i>
-				</button>
-
-				<i class="ace-icon fa fa-check red"></i>
-
-				Data jurusan Berhasi di 
-				<strong class="red">
-					Hapus!
-				</strong>
-			</div>'
-		);
-		redirect('admin/Jurusan');
-	}
+	public function deletJurusan()
+{
+    $kdJurusan = $this->input->post('kd_jurusan');
+ 
+    $result = $this->MahasiswaModel->deleteData('jurusan', array('kd_jurusan' => $kdJurusan));
+    if ($result) {
+        echo json_encode(array('status' => 'success'));
+    } else {
+        echo json_encode(array('status' => 'error'));
+    }
+}
 }

@@ -49,7 +49,7 @@ $this->load->view('admin-st/dist/header');
                                         <?php $i = 1;
 									foreach ($mahasiswa as $row) { ?>
 
-                                        <tr>
+                                        <tr class="text-center">
                                             <td><?php echo $i++; ?></td>
                                             <td><?php echo $row->nim; ?></td>
                                             <td><?php echo $row->nama_mhs; ?></td>
@@ -295,7 +295,7 @@ $this->load->view('admin-st/dist/header');
                         </select>
                     </div>
                     <!-- For Jurusan -->
-                    <div class="form-group">
+                    <div class="form-group">1
                         <label for="editJurusan">Prog. Studi</label>
                         <select id="editJurusan" name="jurusan" class="form-control" required>
                             <option value="">-- Jurusan --</option>
