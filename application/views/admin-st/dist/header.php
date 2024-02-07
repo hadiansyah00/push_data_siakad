@@ -14,6 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets-new-look/modules/fontawesome/css/all.min.css">
 
     <!-- CSS Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <?php
 if ($this->uri->segment(2) == "" || $this->uri->segment(2) == "index") { ?>
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets-new-look/modules/jqvmap/dist/jqvmap.min.css">

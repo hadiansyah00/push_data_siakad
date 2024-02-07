@@ -33,9 +33,7 @@
                     </table>
                 </div>
             </div>
-
             <?php echo $this->session->flashdata('pesan'); ?>
-
             <div class="row">
                 <div class="col-lg-12">
                     <div class="sparkline8-list shadow-reset">
@@ -88,15 +86,11 @@
                                         <?php if ($row->status == $tahun['status']) { ?>
                                         <tr>
                                             <td><?php echo $i++; ?></td>
-
                                             <td><?php echo $row->ta; ?></td>
                                             <td><?php echo $row->kd_mk; ?></td>
                                             <td><?php echo $row->matakuliah; ?></td>
                                             <td><?php echo $row->smt; ?></td>
                                             <td><?php echo $row->id_kurikulum; ?></td>
-
-
-
                                             <td>
                                                 <?php
                      								   // Di sini kita dapat menambahkan kode untuk mengambil nama dosen berdasarkan $row->id_dosen
@@ -140,14 +134,6 @@
         </div>
     </div>
     <!-- Data table area End-->
-
-
-
-
-
-
-
-
 
 
     <div id="PrimaryModalhdbgcl"

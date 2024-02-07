@@ -474,6 +474,20 @@ $config['csrf_exclude_uris'] = array(
 	'admin/dosen/insert',
 	'admin/dosen/deteletDosen',
 	'admin/dosen/updateDataDosen',
+
+	'admin/matakuliah/insert',
+	'admin/matakuliah/detil/insert',
+	'admin/matakuliah/delete',
+	'admin/matakuliah/update',
+	
+	'admin/kurikulum/insert',
+	'admin/kurikulum/delete',
+	'admin/kurikulum/update',
+
+	'admin/evaluasi/insert',
+	'admin/evaluasi/delete',
+	
+
 	// 'mhs/Home',
 	'mhs/krs/simpan_krs',
 	'mhs/Evaluasi_mhs/simpan',

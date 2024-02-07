@@ -3,6 +3,23 @@
 class KurikulumModel extends CI_Model
 {
 
+public function getKdJurusanByKdMk($kd_mk)
+{
+    // Lakukan kueri ke tabel matakuliah untuk mendapatkan kd_jurusan berdasarkan kd_mk
+    $this->db->select('kd_jurusan');
+    $this->db->where('kd_mk', $kd_mk);
+    $query = $this->db->get('matakuliah');
+
+    // Periksa apakah kueri berhasil
+    if ($query->num_rows() > 0) {
+        // Ambil hasil kueri dan kembalikan nilai kd_jurusan
+        $row = $query->row();
+        return $row->kd_jurusan;
+    } else {
+        // Jika kd_jurusan tidak ditemukan, kembalikan nilai kosong atau NULL
+        return null;
+    }
+}
 
 	public function listDosen($id, $id_ta)
 	{

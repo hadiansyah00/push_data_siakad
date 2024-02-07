@@ -21,28 +21,7 @@ $this->load->view('admin-st/dist/header');
          <div class="section-body">
 
              <div class="box-body col-md-5">
-                 <table class="table">
-                     <tbody>
-                         <?php foreach ($detil as $row) : ?>
-                         <tr>
-                             <th>Kode Jurusan</th>
-                             <td> : </td>
-                             <td><?php echo $row->kd_jurusan; ?> - <?php echo $row->singkat; ?></td>
-                         </tr>
-                         <tr>
-                             <th>Jurusan</th>
-                             <td> : </td>
-                             <td><?php echo $row->jenjang; ?> - <?php echo $row->jurusan; ?></td>
-                         </tr>
-                         <?php endforeach; ?>
-                         <tr>
-                             <th>Tahun Akademik</th>
-                             <td> : </td>
-                             <td><?php echo $tahun['ta']; ?> / <?php echo $tahun['semester']; ?></td>
-                         </tr>
-                     </tbody>
 
-                 </table>
              </div>
              <div class="row">
                  <div class="col-12">
@@ -57,65 +36,67 @@ $this->load->view('admin-st/dist/header');
                                  <table class="table table-striped" id="table-1">
                                      <thead>
                                          <tr>
-                                             <th data-field="no">No</th>
-                                             <th data-field="tahun akademik">Tahun Akademik</th>
-                                             <th data-field="kd_mk">Kode MK</th>
-                                             <th data-field="matakuliah">Matakuliah</th>
-                                             <th data-field="semester">Semester</th>
-                                             <th data-field="sks">SKS</th>
-                                             <th data-field="">Dosen Pengampuh</th>
+                                             <th>No</th>
+                                             <th>Kode</th>
+                                             <th>Matakuliah</th>
+                                             <th>Semester</th>
+                                             <th>SKS</th>
+                                             <th>Nama Pengajar</th>
 
-                                             <?php $btn = $this->db->get('set_krs')->row_array();
-										if ($btn['hide_btn_del'] == 0) {
-										} else { ?>
-                                             <th>Aksi</th>
-                                             <?php } ?>
                                          </tr>
                                      </thead>
                                      <tbody>
                                          <?php $i = 1;
-									foreach ($kurikulum as $row) { ?>
+									foreach ($krs_get as $row) : ?>
                                          <?php if ($row->semester == $tahun['semester']) { ?>
                                          <?php if ($row->status == $tahun['status']) { ?>
                                          <tr>
                                              <td><?php echo $i++; ?></td>
-                                             <td><?php echo $row->ta; ?></td>
                                              <td><?php echo $row->kd_mk; ?></td>
-                                             <td><?php echo $row->matakuliah; ?></td>
-                                             <td><?php echo $row->smt; ?></td>
-                                             <td><?php echo $row->sks; ?></td>
+                                             <td><?php echo $row->max_matakuliah; ?></td>
+                                             <td><?php echo $row->max_smt; ?></td>
+                                             <td><?php echo $row->max_sks; ?></td>
+
+                                             <?php
+												$pengajar_1 = $this->KurikulumModel->getIdDosenById($row->max_peran);
+												$pengajar_2 = $this->KurikulumModel->getIdDosenById_peran($row->max_perdos);
+
+											
+                                        
+												$link_kuesioner = site_url('admin/KusionerEdom/lihat/' . $row->kd_mk . '/' . $pengajar_2);
+												$link_kuesioner_2 = site_url('admin/KusionerEdom/lihat/' . $row->kd_mk . '/' . $pengajar_1);
+												$link_cetak_1 =site_url('admin/kusioneredom/cetak/' . $row->kd_mk . '/' . $pengajar_2);
+												$link_cetak_2 =site_url('admin/kusioneredom/cetak/' . $row->kd_mk . '/' . $pengajar_1);
+												
+                                        ?>
                                              <td>
                                                  <?php
-                     								   // Di sini kita dapat menambahkan kode untuk mengambil nama dosen berdasarkan $row->id_dosen
-														$dosen = $this->KurikulumModel->getDosenNameById_peran($row->id_perdos);
-														echo $dosen;
-														?>
+										 // Di sini kita dapat menambahkan kode untuk mengambil nama dosen berdasarkan $row->id_perdos
+											$dosen = $this->KurikulumModel->getDosenNameById_peran($row->max_perdos);
+											echo $dosen;
+											?>
                                                  <br>
+                                                 <a title="Detil" class="btn btn-sm btn-primary "
+                                                     href="<?php echo $link_kuesioner; ?>"><i class="fa fa-eye"></i></a>
+                                                 <a title="Cetak" class="btn btn-sm btn-primary "
+                                                     href="<?php echo $link_cetak_1; ?>"><i class="fa fa-print"></i></a>
                                                  <hr>
-                                                 <?php
-                     								   // Di sini kita dapat menambahkan kode untuk mengambil nama dosen berdasarkan $row->id_dosen
-														$dosen = $this->KurikulumModel->getDosenNameById($row->id_peran);
-														echo $dosen;
-														?>
-
+                                                 <?php 
+											// Di sini kita dapat menambahkan kode untuk mengambil nama dosen berdasarkan $row->id_peran
+											$dosen1 = $this->KurikulumModel->getDosenNameById($row->max_peran);
+											echo $dosen1;
+											?>
+                                                 <br>
+                                                 <a title="Detil" class="btn btn-sm btn-primary"
+                                                     href="<?php echo $link_kuesioner_2; ?>"><i class="fa fa-eye"></i>
+                                                 </a>
+                                                 <a title="Cetak" class="btn btn-sm btn-primary "
+                                                     href="<?php echo $link_cetak_2; ?>"><i class="fa fa-print"></i></a>
                                              </td>
-
-                                             <?php $btn = $this->db->get('set_krs')->row_array();
-												if ($btn['hide_btn_del'] == 0) {
-												} else { ?>
-                                             <td>
-                                                 <button type="button" class="btn btn-danger btn-sm btn-delete"
-                                                     data-id="<?php echo $row->id_kurikulum; ?>">
-                                                     Delete
-                                                 </button>
-                                             </td>
-                                             <?php } ?>
                                          </tr>
                                          <?php } ?>
                                          <?php } ?>
-
-
-                                         <?php } ?>
+                                         <?php endforeach; ?>`
                                      </tbody>
                                  </table>
                              </div>
@@ -249,64 +230,6 @@ $(document).ready(function() {
                 });
             }
         });
-    });
-});
- </script>
- <script>
-// Fungsi untuk menampilkan nilai pada form modal saat tombol Delete diklik
-$(document).on('click', '.btn-delete', function() {
-    var id_kurikulum = $(this).data('id');
-
-    // Include CSRF token dalam data
-    var formData = {
-        id_kurikulum: id_kurikulum,
-        '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
-    };
-
-    // Gunakan SweetAlert untuk konfirmasi
-    Swal.fire({
-        title: 'Apakah Anda yakin untuk menghapus data?',
-        text: 'Data yang dihapus tidak dapat dikembalikan!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Ya, hapus!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Pengguna mengonfirmasi, kirim permintaan AJAX untuk menghapus
-            $.ajax({
-                type: 'POST',
-                url: '<?php echo base_url('admin/kurikulum/delete'); ?>',
-                data: formData,
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status === 'success') {
-                        // Berhasil dihapus, tampilkan pesan sukses
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success!',
-                            text: response.message,
-                            showConfirmButton: false,
-                            timer: 2000
-                        }).then(function() {
-                            // Secara opsional reload halaman atau perbarui UI
-                            location.reload();
-                        });
-                    } else {
-                        // Gagal dihapus, tampilkan pesan kesalahan
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error!',
-                            text: response.message
-                        });
-                    }
-                },
-                error: function(error) {
-                    console.log('AJAX Error:', error);
-                }
-            });
-        }
     });
 });
  </script>

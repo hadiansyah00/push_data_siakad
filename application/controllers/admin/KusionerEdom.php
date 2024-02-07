@@ -23,10 +23,10 @@ class KusionerEdom extends CI_Controller
 
 		$data['tahun'] = $this->TaModel->getAktif()->result();
 		$data['jurusan'] = $this->JurusanModel->getData('jurusan')->result();
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/evaluasi/evaluasi', $data);
-		$this->load->view('admin/template/footer');
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/evaluasi/evaluasi-st', $data);
+		// $this->load->view('admin/template/footer');
 	}
 
 	public function getEdom($id)
@@ -46,10 +46,10 @@ class KusionerEdom extends CI_Controller
 		$data['matkul'] = $this->KurikulumModel->getMatkul($id)->result();
 		$data['krs_get'] = $this->KurikulumModel->getKRSByMatakuliah($id);
 		
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/evaluasi/view_list_edom', $data);
-		$this->load->view('admin/template/footer');
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/evaluasi/view_list_edom-st', $data);
+		// $this->load->view('admin/template/footer');
 	}
 	
 	public function listDosen ($id) {
@@ -93,10 +93,10 @@ class KusionerEdom extends CI_Controller
 		  $data['list_mhs'] = $listMahasiswa;
         $data['jumlah_mahasiswa'] = $jumlahMahasiswa;
 		// Tampilkan tampilan hasil kuesioner EDOM
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/evaluasi/hasil_kuesioner_edom_2', $data);
-		$this->load->view('admin/template/footer');
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/evaluasi/hasil_kuesioner_edom-st', $data);
+		// $this->load->view('admin/template/footer');
 	}
 
 	
@@ -360,4 +360,3 @@ $pdf->Cell(0, 7, 'Kriteria Penilaian:', 0, 1);
 
 	}
 }
-

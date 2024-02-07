@@ -20,8 +20,6 @@ $this->load->view('admin-st/dist/header');
         </div>
 
         <div class="section-body">
-
-
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -37,7 +35,6 @@ $this->load->view('admin-st/dist/header');
                                         <tr>
                                             <th>No</th>
                                             <th>Kode Matkul</th>
-
                                             <th>Matakuliah</th>
                                             <th>SKS</th>
                                             <th>Semester</th>
@@ -51,7 +48,6 @@ $this->load->view('admin-st/dist/header');
                                         <tr>
                                             <td><?php echo $i++; ?></td>
                                             <td><?php echo $row->kd_mk; ?></td>
-
                                             <td><?php echo $row->matakuliah; ?></td>
                                             <td><?php echo $row->sks; ?></td>
                                             <td><?php echo $row->semester; ?></td>
@@ -74,16 +70,15 @@ $this->load->view('admin-st/dist/header');
                                                 <!-- Tambahkan data-nilai pada tombol Edit -->
                                                 <button type="button" class="btn btn-primary btn-sm btn-edit"
                                                     data-kd-mk="<?php echo $row->kd_mk; ?>"
-                                                    data-jurusan="<?php echo $row->jurusan; ?>"
                                                     data-matakuliah="<?php echo $row->matakuliah; ?>"
                                                     data-sks="<?php echo $row->sks; ?>"
-                                                    data-smt="<?php echo $row->semester; ?>"
+                                                    data-smt="<?php echo $row->smt; ?>"
                                                     data-mkpilihan="<?php echo $row->mk_pilihan; ?>" data-toggle="modal"
                                                     data-target="#editMatakuliahModal">
                                                     Edit
                                                 </button>
                                                 <button type="button" class="btn btn-danger btn-sm btn-delete"
-                                                    data-id="<?php echo $row->kd_jurusan; ?>">
+                                                    data-id="<?php echo $row->kd_mk; ?>">
                                                     Delete
                                                 </button>
                             </div>
@@ -121,8 +116,7 @@ $this->load->view('admin-st/dist/header');
                                     </ul>
                                 </div>
                             </div>
-                            </td>
-                            </tr>
+
                             <?php endforeach; ?>
                             </tbody>
                             </table>
@@ -147,6 +141,7 @@ $this->load->view('admin-st/dist/header');
 
 <script src="<?php echo base_url(); ?>assets-new-look/modules/jquery-ui/jquery-ui.min.js"></script>
 <script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-datatables.js"></script>
+<?php $kd_jurusan = $this->uri->segment(4); ?>
 <div class="modal fade" tabindex="-1" role="dialog" id="tambahMatakuliah">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -156,71 +151,72 @@ $this->load->view('admin-st/dist/header');
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="formTambahDosen" class="needs-validation" novalidate>
+            <form id="formTambahMatakuliah" class="needs-validation" novalidate>
                 <div class="modal-body">
                     <div class="modal-body">
                         <div class="form-row">
-                            <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
+                            <input type="text" name="<?= $this->security->get_csrf_token_name(); ?>"
                                 value="<?= $this->security->get_csrf_hash(); ?>">
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label>Kode Matakuliah</label>
-                                    <input type="text" class="form-control" placeholder="Kode Matakuliah" name="kd_mk">
-                                    <div class="invalid-feedback">
-                                        Please provide a valid Kode Matakuliah.
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>Nama Matakuliah</label>
-                                    <input type="text" class="form-control" placeholder="Input Nama Matakuliah"
-                                        name="matakuliah" required>
-                                    <div class="invalid-feedback">
-                                        Please provide a valid Program Studi.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="sks">SKS</label>
-                                <input type="text" class="form-control" name="sks" placeholder="Sks" required>
-                                <div class="invalid-feedback">
-                                    Please provide a valid name SKS
-                                </div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="semester">Semester</label>
-                                <select id="semester" name="semester" class="form-control" required>
-                                    <option> --Pilih Semester-- </option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
+                            <input type="text" name="kd_jurusan" value="<?php echo $kd_jurusan; ?>">
 
-                                </select>
+                            <div class="form-group col-md-6">
+                                <label>Kode Matakuliah</label>
+                                <input type="text" class="form-control" placeholder="Kode Matakuliah" name="kd_mk">
+                                <div class="invalid-feedback">
+                                    Please provide a valid Kode Matakuliah.
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Nama Matakuliah</label>
+                                <input type="text" class="form-control" placeholder="Input Nama Matakuliah"
+                                    name="matakuliah" required>
+                                <div class="invalid-feedback">
+                                    Please provide a valid Program Studi.
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="mk_pilihan">Matakuliah</label>
-                            <select id="mk_pilihan" name="mk_pilihan" class="form-control" required>
-                                <option value="0">Tidak</option>
-                                <option value="1">Ya</option>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="sks">SKS</label>
+                            <input type="text" class="form-control" name="sks" placeholder="Sks" required>
+                            <div class="invalid-feedback">
+                                Please provide a valid name SKS
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="smt">Semester</label>
+                            <select id="smt" name="smt" class="form-control" required>
+                                <option> --Pilih Semester-- </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+
                             </select>
                         </div>
-
                     </div>
+                    <div class="form-group">
+                        <label for="mk_pilihan">Matakuliah</label>
+                        <select id="mk_pilihan" name="mk_pilihan" class="form-control" required>
+                            <option value="0">Tidak</option>
+                            <option value="1">Ya</option>
+                        </select>
+                    </div>
+
                 </div>
-                <div class="modal-footer bg-whitesmoke br">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
-            </form>
         </div>
+        <div class="modal-footer bg-whitesmoke br">
+            <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+        </form>
     </div>
+</div>
 </div>
 <!-- Modal Edit data Program Studi -->
 <div class="modal fade" id="editMatakuliahModal" tabindex="-1" role="dialog" aria-labelledby="editMatakuliahModalLabel"
@@ -239,31 +235,36 @@ $this->load->view('admin-st/dist/header');
                     <!-- Add your form fields here -->
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="kd_mk">Kode Matakuliah</label>
-                            <input type="text" class="form-control" id="kd_jurusan" name="kd_mk" disabled required>
+                            <label for="editkdmk">Kode Matakuliah</label>
+                            <input type="text" class="form-control" id="editkdmk" name="kd_mk" disabled required>
+                            <!-- <input type="hidden" class="form-control" id="editJurs" name="kd_jurusan" disabled required> -->
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="editJurs">Nama Matakuliah</label>
-                            <input type="text" class="form-control" id="matakuliah" name="matakuliah" required>
+                            <label for="editMatkul">Nama Matakuliah</label>
+                            <input type="text" class="form-control" id="editMatkul" name="matakuliah" required>
                         </div>
                     </div>
 
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="editJenjang">Semester</label>
-                            <select id="editJenjang" name="jenjang" class="form-control" required>
-                                <?php foreach ($jenjangList as $value => $label) : ?>
-                                <option value="<?php echo $value; ?>"
-                                    <?php echo ($value == $selectedJenjang) ? 'selected' : ''; ?>>
-                                    <?php echo $label; ?>
-                                </option>
-                                <?php endforeach; ?>
+                            <label for="editSmt">Semester</label>
+                            <select id="editSmt" name="smt" class="form-control" required>
+                                <option value=""> --Pilih Semester-- </option>
+                                <option value="1" <?php echo ($semester == '1') ? 'selected' : ''; ?>>1</option>
+                                <option value="2" <?php echo ($semester == '2') ? 'selected' : ''; ?>>2</option>
+                                <option value="3" <?php echo ($semester == '3') ? 'selected' : ''; ?>>3</option>
+                                <option value="4" <?php echo ($semester == '4') ? 'selected' : ''; ?>>4</option>
+                                <option value="5" <?php echo ($semester == '5') ? 'selected' : ''; ?>>5</option>
+                                <option value="6" <?php echo ($semester == '6') ? 'selected' : ''; ?>>6</option>
+                                <option value="7" <?php echo ($semester == '7') ? 'selected' : ''; ?>>7</option>
+                                <option value="8" <?php echo ($semester == '8') ? 'selected' : ''; ?>>8</option>
+                                <option value="9" <?php echo ($semester == '9') ? 'selected' : ''; ?>>9</option>
                             </select>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="sks">SKS</label>
-                            <input type="text" class="form-control" name="sks" placeholder="Sks" required>
+                            <label for="editSks">SKS</label>
+                            <input id="editSks" type="text" class="form-control" name="sks" placeholder="Sks" required>
                             <div class="invalid-feedback">
                                 Please provide a valid name SKS
                             </div>
@@ -271,14 +272,11 @@ $this->load->view('admin-st/dist/header');
                     </div>
                     <!-- For Dosen -->
                     <div class="form-group">
-                        <label for="mk_pilihan">Matakuliah Pilihan</label>
-                        <select id="editJenjang" name="jenjang" class="form-control" required>
-                            <?php foreach ($jenjangList as $value => $label) : ?>
-                            <option value="<?php echo $value; ?>"
-                                <?php echo ($value == $selectedJenjang) ? 'selected' : ''; ?>>
-                                <?php echo $label; ?>
-                            </option>
-                            <?php endforeach; ?>
+                        <label for="editMkpil">Matakuliah Pilihan</label>
+                        <select id="editMkpil" name="mk_pilihan" class="form-control" required>
+                            <option value="0" <?php echo ($mkpilist == '0') ? 'selected' : ''; ?>>Tidak</option>
+                            <option value="1" <?php echo ($mkpilist == '1') ? 'selected' : ''; ?>>Ya</option>
+
                         </select>
                     </div>
                     <div class="modal-footer">
@@ -297,59 +295,57 @@ $this->load->view('admin-st/dist/header');
 <script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-sweetalert.js"></script>
 <script>
 $(document).ready(function() {
-    // Form submit event
-    $('#tambahMatakuliah').submit(function(e) {
+    $('#formTambahMatakuliah').submit(function(e) {
         e.preventDefault();
-        var csrfName = '<?= $this->security->get_csrf_token_name(); ?>';
-        var csrfHash = '<?= $this->security->get_csrf_hash(); ?>';
 
-        // Get form data with CSRF token
-        var formData = $(this).serialize() + '&' + csrfName + '=' + csrfHash;
+        // Dapatkan data formulir
+        var formData = $(this).serialize();
 
-        // Send AJAX request
+        // Kirim AJAX request
         $.ajax({
             type: 'POST',
-            url: '<?php echo base_url('admin/jurusan/insert'); ?>',
+            url: '<?php echo base_url('admin/matakuliah/insert'); ?>',
             data: formData,
             dataType: 'json',
             success: function(response) {
                 if (response.status === 'success') {
-                    // Use SweetAlert for success
+                    // Tampilkan modal SweetAlert dengan pesan sukses
                     Swal.fire({
                         icon: 'success',
                         title: 'Success',
-                        text: 'Data berhasil disimpan',
-                        confirmButtonColor: '#3085d6',
+                        text: response.message,
+                        showCancelButton: false,
+                        showConfirmButton: true,
                         confirmButtonText: 'OK'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // Optionally update UI here (e.g., append a new row to a table)
-                            // ...
-                            window.location.reload();
-                            // Close the modal
-                            $('#tambahMatakuliah').modal('hide');
-                        }
+                    }).then(function(result) {
+                        window.location.reload();
+                        // Close the modal
+                        $('#tambahMatakuliahModal').modal('hide');
+                        // Redirect ke halaman lain jika diperlukan
+                        // window.location.href = 'halaman_lain.php';
+
                     });
                 } else {
-                    // Use SweetAlert for error
+                    // Tampilkan modal SweetAlert dengan pesan error
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
                         text: response.message,
-                        confirmButtonColor: '#3085d6',
+                        showCancelButton: false,
+                        showConfirmButton: true,
                         confirmButtonText: 'OK'
                     });
                 }
             },
             error: function(error) {
+                // Tampilkan pesan error jika terjadi kesalahan
                 console.log('AJAX Error:', error);
-
-                // Use SweetAlert for AJAX error
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
                     text: 'An error occurred during the AJAX request.',
-                    confirmButtonColor: '#3085d6',
+                    showCancelButton: false,
+                    showConfirmButton: true,
                     confirmButtonText: 'OK'
                 });
             }
@@ -362,20 +358,22 @@ $(document).ready(function() {
 $(document).ready(function() {
     // Fungsi untuk menampilkan nilai pada form modal saat tombol Edit diklik
     $(document).on('click', '.btn-edit', function() {
-        var kdJurs = $(this).data('kd-jurusan');
-        var jurusan = $(this).data('jurusan');
-        var jenjang = $(this).data('jenjang');
-        var idDosen = $(this).data('id-dosen');
+        var kdMk = $(this).data('kd-mk')
+        // var jurs = $(this).data('jurusan');
+        var matkul = $(this).data('matakuliah');
+        var sks = $(this).data('sks');
+        var smt = $(this).data('smt');
+        var mkpil = $(this).data('mkpilihan');
 
 
         // Isikan nilai ke dalam form modal
-        $('#kd_jurusan').val(kdJurs);
-        $('#editJurs').val(jurusan);
-        $('#editJenjang').val(jenjang);
-        $('#editKapro').val(idDosen);
+        $('#editkdmk').val(kdMk);
+        // $('#editJurs').val(jurs);
+        $('#editMatkul').val(matkul);
+        $('#editSks').val(sks);
+        $('#editSmt').val(smt);
+        $('#editMkpil').val(mkpil);
 
-
-        // $('#editPassword').val(password);
     });
 
     $('#editMatakuliahForm').submit(function(e) {
@@ -389,7 +387,7 @@ $(document).ready(function() {
         // Send AJAX request
         $.ajax({
             type: 'POST',
-            url: '<?php echo base_url('admin/jurusan/updateJurusan'); ?>',
+            url: '<?php echo base_url('admin/matakuliah/update'); ?>',
             data: formData,
             dataType: 'json',
             success: function(response) {
@@ -424,11 +422,11 @@ $(document).ready(function() {
 <script>
 // Fungsi untuk menampilkan nilai pada form modal saat tombol Delete diklik
 $(document).on('click', '.btn-delete', function() {
-    var kd_jurusan = $(this).data('id');
+    var kd_mk = $(this).data('id');
 
     // Include CSRF token dalam data
     var formData = {
-        kd_jurusan: kdJurusan,
+        kd_mk: kd_mk,
         '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
     };
 
@@ -446,7 +444,7 @@ $(document).on('click', '.btn-delete', function() {
             // Pengguna mengonfirmasi, kirim permintaan AJAX untuk menghapus
             $.ajax({
                 type: 'POST',
-                url: '<?php echo base_url('admin/jurusan/deleteJurusan'); ?>',
+                url: '<?php echo base_url('admin/matakuliah/delete'); ?>',
                 data: formData,
                 dataType: 'json',
                 success: function(response) {

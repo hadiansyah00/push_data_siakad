@@ -26,56 +26,54 @@ class Evaluasi extends CI_Controller
 		// $this->load->view('admin/template/footer');
 	}
 	
-    public function insert()
-	{
+   public function insert()
+{
+    // Periksa apakah metode yang digunakan adalah POST
+    if ($this->input->server('REQUEST_METHOD') === 'POST') {
+        // Periksa apakah CSRF token valid
+        if ($this->input->post($this->security->get_csrf_token_name()) !== $this->security->get_csrf_hash()) {
+            // CSRF token tidak valid, handle sesuai kebutuhan
+            echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+            return;
+        }
 
-		$data = array(
-			'pertanyaan'	=> htmlspecialchars($this->input->post('pertanyaan')),
+        // Set aturan validasi sesuai kebutuhan
+        $this->form_validation->set_rules('pertanyaan', 'Pertanyaan', 'required');
+      
+        // Jalankan validasi
+        if ($this->form_validation->run() == FALSE) {
+            // Validasi gagal, kirim respon error
+            echo json_encode(['status' => 'error', 'message' => validation_errors()]);
+            return;
+        }
 
-		);
+        // Formulir valid, lakukan penyimpanan data
+        $data = [
+          	'pertanyaan'	=> $this->input->post('pertanyaan'),
+			'tgl_insert'	=> date('y-m-d')
+        ];
 
-		//var_dump($data);
-		$this->EdomModel->insertData('evaluasi', $data);
-		$this->session->set_flashdata(
-			'pesan',
-			'<div class="alert alert-block alert-success">
-				<button type="button" class="close" data-dismiss="alert">
-					<i class="ace-icon fa fa-times"></i>
-				</button>
+        // Simpan data ke database
+        $this->MahasiswaModel->insertData('evaluasi', $data);
 
-				<i class="ace-icon fa fa-check green"></i>
-
-				Data
-				<strong class="green">
-					Jadwal
-				</strong>Berhasi di input!
-			</div>'
-		);
-		redirect('admin/Evaluasi');
-	}
+        // Kirim respon sukses
+        echo json_encode(['status' => 'success', 'message' => 'Data Mahasiswa berhasil disimpan']);
+    } else {
+        // Jika metode bukan POST, kirim respon error
+        echo json_encode(['status' => 'error', 'message' => 'Invalid Request Method']);
+    }
+}
 	
-	
-    public function delete($id)
-	{
-		$where = array('id_eval' => $id);
-
-		$this->db->delete('evaluasi', $where);
-		$this->session->set_flashdata(
-			'pesan',
-			'<div class="alert alert-block alert-danger">
-				<button type="button" class="close" data-dismiss="alert">
-					<i class="ace-icon fa fa-times"></i>
-				</button>
-
-				<i class="ace-icon fa fa-check red"></i>
-
-				Data Jadwal Berhasi di 
-				<strong class="red">
-					Hapus!
-				</strong>
-			</div>'
-		);
-		redirect($_SERVER['HTTP_REFERER']);
-	}
+    public function delete()
+{
+    $id = $this->input->post('id_eval');
+ 
+    $result = $this->MahasiswaModel->deleteData('evaluasi', array('id_eval' => $id));
+    if ($result) {
+        echo json_encode(array('status' => 'success'));
+    } else {
+        echo json_encode(array('status' => 'error'));
+    }
+}
 
 }

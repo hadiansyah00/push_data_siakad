@@ -26,10 +26,7 @@ $this->load->view('admin-st/dist/header');
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <a class="btn-sm btn-primary" href="#" data-toggle="modal"
-                                data-target="#PrimaryModalhdbgcl"><i class="fa fa-plus"></i>
-                                Tambah Data</a>
-                            </a>
+
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">

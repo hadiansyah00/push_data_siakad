@@ -17,21 +17,33 @@ class Matakuliah extends CI_Controller
 		$data['judul'] = 'Master';
 		$data['subJudul'] = 'Matakuliah';
 		$data['jurusan'] = $this->JurusanModel->getData('jurusan')->result();
+		$data['tahun'] = $this->TaModel->getAktif()->result();
+
+
 		// $this->load->view('admin/template/header', $data);
 		// $this->load->view('admin/template/sidebar', $data);
 		$this->load->view('admin-st/matakuliah/tambah-matkul-st', $data);
 		// $this->load->view('admin/template/footer');
 	}
 
-	public function detil($id)
+	public function detil($kd_jurusan)
 	{
 		$data['title'] = 'Data Kurikulum SBH';
 		$data['judul'] = 'Master';
 		$data['subJudul'] = 'Detil Kurikulum';
 
-		$where = array('kd_jurusan' => $id);
+		$where = array('kd_jurusan' => $kd_jurusan);
 		$data['detil'] = $this->JurusanModel->detilData('jurusan', $where)->result();
-		$data['matkul'] = $this->MatkulModel->getData($id);
+		$data['matkul'] = $this->MatkulModel->getData($kd_jurusan);
+		$data['tahun'] = $this->TaModel->getAktif()->result();
+		
+	
+		$mkpilist = array(
+			'0' => 'Tidak',
+			'1' => 'Ya'
+		);
+		
+		$selekaja = $matkul->mk_pilihan; 
 		//$data['matkul'] = $this->db->get_where('matakuliah',$where)->result();
 		// $this->load->view('admin/template/header', $data);
 		// $this->load->view('admin/template/sidebar', $data);
@@ -60,22 +72,39 @@ class Matakuliah extends CI_Controller
             echo json_encode(['status' => 'error', 'message' => validation_errors()]);
             return;
         }
-
+		$smt = $this->input->post('smt');
+		if ($smt == 1) {
+			$s = "Ganjil";
+		} elseif ($smt == 3) {
+			$s = "Ganjil";
+		} elseif ($smt == 5) {
+			$s = "Ganjil";
+		} elseif ($smt == 7) {
+			$s = "Ganjil";
+		} elseif ($smt == 9) {
+			$s = "Ganjil";
+		} else {
+			$s = "Genap";
+		}
+		$semester = $s;
         // Formulir valid, lakukan penyimpanan data
         $data = [
-          	'kd_jurusan'	=> $this->input->post('kd_jurusan'),
-			'jurusan'		=> $this->input->post('jurusan'),
-			// 'singkat'		=> $this->input->post('singkat'),
-			'jenjang'		=> $this->input->post('jenjang'),
-			'id_dosen'    => $this->input->post('nama_dosen'),
-			'tgl_insert'	=> date('y-m-d')
+            'kd_mk' => $this->input->post('kd_mk'),
+            'kd_jurusan' => $this->input->post('kd_jurusan'),
+            'matakuliah' => $this->input->post('matakuliah'),
+            // 'singkat' => $this->input->post('singkat'),
+           	'semester'			=> $semester,
+			'smt' 				=> $smt,
+            'sks' => $this->input->post('sks'),
+            'mk_pilihan' => $this->input->post('mk_pilihan'),
+            'tgl_insert' => date('y-m-d')
         ];
 
         // Simpan data ke database
-        $this->MahasiswaModel->insertData('jurusan', $data);
+        $this->MahasiswaModel->insertData('matakuliah', $data);
 
-        // Kirim respon sukses
-        echo json_encode(['status' => 'success', 'message' => 'Data Mahasiswa berhasil disimpan']);
+        // Kirim respon sukses dengan AJAX
+        echo json_encode(['status' => 'success', 'message' => 'Data Matakuliah berhasil disimpan']);
     } else {
         // Jika metode bukan POST, kirim respon error
         echo json_encode(['status' => 'error', 'message' => 'Invalid Request Method']);
@@ -83,24 +112,45 @@ class Matakuliah extends CI_Controller
 }
 
 
-public function updateJurusan()
+public function update()
 {
     if (!$this->input->is_ajax_request()) {
         show_404();
     }
 
-    $kdJurusan = $this->input->post('kd_jurusan');
-    $jurusan = $this->input->post('jurusan');
-    $jenjang = $this->input->post('jenjang');
-    $id_dosen    = $this->input->post('nama_dosen');
+
+		$smt = $this->input->post('smt');
+		if ($smt == 1) {
+			$s = "Ganjil";
+		} elseif ($smt == 3) {
+			$s = "Ganjil";
+		} elseif ($smt == 5) {
+			$s = "Ganjil";
+		} elseif ($smt == 7) {
+			$s = "Ganjil";
+		} elseif ($smt == 9) {
+			$s = "Ganjil";
+		} else {
+			$s = "Genap";
+		}
+		$semester = $s;
+
+    $kdMk = $this->input->post('kd_mk');
+    // $kdJurusan = $this->input->post('kd_jurusan');
+    $matakuliah = $this->input->post('matakuliah');
+    $smts = $semester;
+    $sks    = $this->input->post('sks');
+	$mk_pilihan    = $this->input->post('mk_pilihan');
     // Check if the password is empty, set a default password
    
-    // Update data mahasiswa
+    // Update data matakuliah
     $data = array(
-        'kd_jurusan' 	=> $kdJurusan,
-        'jurusan' 		=> $jurusan,
-        'jenjang'		=> $jenjang,
-        'id_dosen' 		=> $id_dosen,
+		'kd_mk' 		=> $kdMk,
+        // 'kd_jurusan' 	=> $kdJurusan,
+        'matakuliah' 		=> $matakuliah,
+        'smt'		=> $smts,
+		'sks'			=> $sks,
+        'mk_pilihan' 	=> $mk_pilihan,
     );
 
     // Validate CSRF token
@@ -110,21 +160,21 @@ public function updateJurusan()
     }
 
     // Update the data in the database
-    $result = $this->MahasiswaModel->updateData('jurusan', $data, ['kd_jurusan' => $kdJurusan]);
+    $result = $this->MahasiswaModel->updateData('matakuliah', $data, ['kd_mk' => $kdMk]);
 
     if ($result) {
-        echo json_encode(['status' => 'success', 'message' => 'Data Program Studi updated successfully']);
+        echo json_encode(['status' => 'success', 'message' => 'Data Kurikulum updated successfully']);
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'Failed to update data Program Studi']);
+        echo json_encode(['status' => 'error', 'message' => 'Gagal to update data Kurikulum']);
     }
 }
 
 
-	public function deletJurusan()
+	public function delete()
 {
-    $kdJurusan = $this->input->post('kd_jurusan');
+    $kdMk = $this->input->post('kd_mk');
  
-    $result = $this->MahasiswaModel->deleteData('jurusan', array('kd_jurusan' => $kdJurusan));
+    $result = $this->MahasiswaModel->deleteData('matakuliah', array('kd_mk' => $kdMk));
     if ($result) {
         echo json_encode(array('status' => 'success'));
     } else {
@@ -132,170 +182,5 @@ public function updateJurusan()
     }
 }
 
-	public function insertMatkul($kd_jurusan)
-	{
-		$smt = $this->input->post('smt');
-		if ($smt == 1) {
-			$s = "Ganjil";
-		} elseif ($smt == 3) {
-			$s = "Ganjil";
-		} elseif ($smt == 5) {
-			$s = "Ganjil";
-		} elseif ($smt == 7) {
-			$s = "Ganjil";
-		} elseif ($smt == 9) {
-			$s = "Ganjil";
-		} else {
-			$s = "Genap";
-		}
-		$semester = $s;
-
-		$data = array(
-			'kd_mk'				=> htmlspecialchars($this->input->post('kd_mk')),
-            'kd_jurusan'		=> htmlspecialchars($this->input->post('jurusan')),
-			'matakuliah'		=> htmlspecialchars($this->input->post('matakuliah')),
-			'mk_pilihan'        => htmlspecialchars($this->input->post('mk_pilihan')),
-			'sks'				=> htmlspecialchars($this->input->post('sks')),
-			'semester'			=> $semester,
-			'smt' 				=> $smt,
-			'tgl_insert'		=> date('y-m-d')
-		);
-
-		//var_dump($data);
-		$this->MatkulModel->insertData('matakuliah', $data);
-		$this->session->set_flashdata(
-			'pesan',
-			'<div class="alert alert-block alert-success">
-				<button type="button" class="close" data-dismiss="alert">
-					<i class="ace-icon fa fa-times"></i>
-				</button>
-
-				<i class="ace-icon fa fa-check green"></i>
-
-				Data
-				<strong class="green">
-					Matakuliah
-				</strong>Berhasi di input!
-			</div>'
-		);
-		redirect('admin/Matakuliah/detil/' . $kd_jurusan);
-	}
-
-	// public function tambahMatkul()
-	// {
-	// 	$data['judul'] = 'Akademik';
-	// 	$data['subJudul'] = 'Tambah Matakuliah';
-	// 	$data['jurusan'] = $this->MatkulModel->getJurusan()->result();
-	// 	$this->load->view('admin/template/header');
-	// 	$this->load->view('admin/template/sidebar', $data);
-	// 	$this->load->view('admin/matakuliah/tambah-matkul', $data);
-	// 	$this->load->view('admin/template/footer');
-	// }
-
-	// public function simpan()
-	// {
-	// 	$key['kd_mk']	= $this->input->post('kd_mk');
-	// 	$data['kd_mk']	= $this->input->post('kd_mk');
-	// 	$data['kd_jurusan']	= $this->input->post('jurusan');
-	// 	$data['matakuliah']	= $this->input->post('matakuliah');
-	// 	$data['sks']	= $this->input->post('sks');
-	// 	$data['smt']	= $this->input->post('smt');
-	// 	$data['aktif']	= $this->input->post('aktif');
-
-	// 	$query = $this->db->get_where('matakuliah',$key);
-	// 	if($query->num_rows()>0){
-	// 		$this->db->update('matakuliah',$key,$data);
-	// 		echo "Data berhasil diupdate";
-	// 	}else{
-	// 		$this->db->insert('matakuliah',$data);
-	// 		echo "Data berhasil di masukan";
-	// 	}
-	// }
-
-	public function update($id)
-	{
-		$data['title'] = 'Update Data Matakuliah SBH';
-		$data['judul'] = 'Master';
-		$data['subJudul'] = 'Update Matakuliah';
-		$where = array('kd_mk' => $id);
-		
-		$data['mk'] = $this->db->get_where('matakuliah', $where)->result();
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/matakuliah/update', $data);
-		$this->load->view('admin/template/footer');
-	}
-
-	public  function updateAksi($kd_jurusan)
-	{
-		$id = $this->input->post('kd_mk');
-
-		$smt = $this->input->post('smt');
-		if ($smt == 1) {
-			$s = "Ganjil";
-		} elseif ($smt == 3) {
-			$s = "Ganjil";
-		} elseif ($smt == 5) {
-			$s = "Ganjil";
-		} elseif ($smt == 7) {
-			$s = "Ganjil";
-		} elseif ($smt == 9) {
-			$s = "Ganjil";
-		} else {
-			$s = "Genap";
-		}
-		$semester = $s;
-		$data = array(
-// 			'kd_mk'	    	    => htmlspecialchars($this->input->post('kd_mk')),
-			'matakuliah'		=> htmlspecialchars($this->input->post('matakuliah')),
-			'sks'				=> htmlspecialchars($this->input->post('sks')),
-			'mk_pilihan'        => htmlspecialchars($this->input->post('mk_pilihan')),
-			'semester'			=> $semester,
-			'smt'				=> $smt,
-			'tgl_update'		=> date('y-m-d')
-		);
-
-		$where = array('kd_mk' => $id);
-		//var_dump($data);
-		$this->db->update('matakuliah', $data, $where);
-		$this->session->set_flashdata(
-			'pesan',
-			'<div class="alert alert-block alert-success">
-				<button type="button" class="close" data-dismiss="alert">
-					<i class="ace-icon fa fa-times"></i>
-				</button>
-
-				<i class="ace-icon fa fa-check green"></i>
-
-				Data Matakuliah Berhasi di 
-				<strong class="green">
-					Update!
-				</strong>
-			</div>'
-		);
-		redirect('admin/Matakuliah/detil/' . $kd_jurusan);
-	}
-
-	public function delete($id)
-	{
-		$where = array('kd_mk' => $id);
-
-		$this->db->delete('matakuliah', $where);
-		$this->session->set_flashdata(
-			'pesan',
-			'<div class="alert alert-block alert-danger">
-				<button type="button" class="close" data-dismiss="alert">
-					<i class="ace-icon fa fa-times"></i>
-				</button>
-
-				<i class="ace-icon fa fa-check red"></i>
-
-				Data Matakuliah Berhasi di 
-				<strong class="red">
-					Hapus!
-				</strong>
-			</div>'
-		);
-		redirect($_SERVER['HTTP_REFERER']);
-	}
+	
 }

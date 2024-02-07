@@ -11,7 +11,7 @@ $this->load->view('admin-st/dist/header');
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Pilih Program Studi Tahun Akademik <?php echo $tahun['ta']; ?> / <?php echo $tahun['semester']; ?></h1>
+            <h1>Pilih Program Studi</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="#">Data Master</a></div>
                 <div class="breadcrumb-item"><a href="#">Data Program Studi</a></div>
@@ -20,8 +20,6 @@ $this->load->view('admin-st/dist/header');
         </div>
 
         <div class="section-body">
-
-
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -52,7 +50,7 @@ $this->load->view('admin-st/dist/header');
                                             <td><?php echo $row->jenjang; ?></td>
                                             <td>
                                                 <a class="btn-sm btn-primary"
-                                                    href="<?php echo base_url('admin/kurikulum/index_kurikulum/' . $row->kd_jurusan . '/'); ?>"><i
+                                                    href="<?php echo base_url('admin/KusionerEdom/getEdom/' . $row->kd_jurusan . '/'); ?>"><i
                                                         class="fa fa-list"></i></a>
                                             </td>
                                         </tr>

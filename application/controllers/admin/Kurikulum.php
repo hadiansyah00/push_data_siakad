@@ -54,69 +54,111 @@ class Kurikulum extends CI_Controller
 		// $this->load->view('admin/template/footer');
 	}
 
-	//id_peran = dosen 2
-	//id_dosen = dosen 1
-	//koordinator = kordinator 1
 	
-	public function insert($kd_jurusan)
-	{
-      $this->ModelSecurity->getCsrf();
-		
-		$ta = $this->TaModel->getAktif()->result();
-		foreach ($ta as $t) :
+// 	public function insert()
+// {
+//     // Periksa apakah metode yang digunakan adalah POST
+//     if ($this->input->server('REQUEST_METHOD') === 'POST') {
+//         // Periksa apakah CSRF token valid
+//         $csrf_token_name = $this->security->get_csrf_token_name();
+//         $csrf_token_value = $this->input->post($csrf_token_name);
+//         if (!$this->security->csrf_verify($csrf_token_value)) {
+//             // CSRF token tidak valid, handle sesuai kebutuhan
+//             echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+//             return;
+//         }
+
+//         // Ambil nilai kd_mk dari form
+//         $kd_mk = htmlspecialchars($this->input->post('matkul'));
+
+//         // Lakukan kueri untuk mendapatkan nilai kd_jurusan berdasarkan kd_mk
+//         $kd_jurusan = $this->KurikulumModel->getKdJurusanByKdMk($kd_mk);
+
+//         if ($kd_jurusan) {
+//             // Jika kd_jurusan berhasil ditemukan, lanjutkan operasi penyimpanan data
+//             $ta = $this->TaModel->getAktif()->result();
+//             foreach ($ta as $t) {
+//                 $a = $t->id_ta;
+//             }
+
+//             // Buat array data untuk disimpan ke dalam database
+//             $data = [
+//                 'kd_jurusan' => $kd_jurusan,
+//                 'id_ta' => $a,
+//                 'kd_mk' => $kd_mk,
+//                 'id_perdos' => htmlspecialchars($this->input->post('perdos')),
+//                 'id_peran' => htmlspecialchars($this->input->post('peran')),
+//                 'tgl_insert' => date('y-m-d')
+//             ];
+
+//             // Simpan data ke dalam database
+//             $this->KurikulumModel->insertData('kurikulum', $data);
+
+//             // Kirim respon sukses dengan AJAX
+//             echo json_encode(['status' => 'success', 'message' => 'Data Matakuliah berhasil disimpan']);
+//         } else {
+//             // Jika kd_jurusan tidak ditemukan, kirim respon error
+//             echo json_encode(['status' => 'error', 'message' => 'Kode Jurusan tidak ditemukan']);
+//         }
+//     } else {
+//         // Jika metode bukan POST, kirim respon error
+//         echo json_encode(['status' => 'error', 'message' => 'Invalid Request Method']);
+//     }
+// }
+
+
+	public function insert()
+    {
+        // Periksa apakah metode yang digunakan adalah POST
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            // Periksa apakah CSRF token valid
+            if ($this->input->post($this->security->get_csrf_token_name()) !== $this->security->get_csrf_hash()) {
+                // CSRF token tidak valid, handle sesuai kebutuhan
+                echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+                return;
+            }
+
+            // Lakukan validasi form di sini jika diperlukan
+
+        	$kd_jurusan = $this->uri->segment(4);
+			echo $kd_jurusan; // Cek nilai kd_jurusan
+
+ 		 	$ta = $this->TaModel->getAktif()->result();			
+			foreach ($ta as $t) :
 			$a = $t->id_ta;
-		endforeach;
-		$data = array(
-			'kd_jurusan'				=> $kd_jurusan,
-			'id_ta'						=> $a,
-			'kd_mk'						=> htmlspecialchars($this->input->post('matkul')),
-			'id_perdos'					=> htmlspecialchars($this->input->post('perdos')),
-			'id_peran'					=> htmlspecialchars($this->input->post('peran')),
-			'tgl_insert'				=> date('y-m-d')
-		);
+			endforeach;
+            
+			$data = [	
+                'kd_jurusan'    => htmlspecialchars($this->input->post('kd_jurusan')),
+				'id_ta' 		=>$a,
+                'kd_mk'         => htmlspecialchars($this->input->post('matkul')),
+                'id_perdos'     => htmlspecialchars($this->input->post('perdos')),
+                'id_peran'      => htmlspecialchars($this->input->post('peran')),
+                'tgl_insert'    => date('Y-m-d')
+            ];
 
-		//var_dump($data);
-		$this->KurikulumModel->insertData('kurikulum', $data);
-		$this->session->set_flashdata(
-			'pesan',
-			'<div class="alert alert-block alert-success">
-				<button type="button" class="close" data-dismiss="alert">
-					<i class="ace-icon fa fa-times"></i>
-				</button>
+            // Simpan data ke dalam database
+            $this->KurikulumModel->insertData('kurikulum', $data);
 
-				<i class="ace-icon fa fa-check green"></i>
-
-				Data
-				<strong class="green">
-					Jadwal
-				</strong>Berhasi di input!
-			</div>'
-		);
-		redirect('admin/Kurikulum/index_kurikulum/' . $kd_jurusan);
-	}
+            // Kirim respon sukses dengan AJAX
+            echo json_encode(['status' => 'success', 'message' => 'Data Matakuliah berhasil disimpan']);
+        } else {
+            // Jika metode bukan POST, kirim respon error
+            echo json_encode(['status' => 'error', 'message' => 'Invalid Request Method']);
+        }
+    }
 
 
-	public function delete($id)
-	{
-		
-		
-		$where = array('id_kurikulum' => $id);
-		$this->db->delete('kurikulum', $where);
-		$this->session->set_flashdata(
-			'pesan',
-			'<div class="alert alert-block alert-danger">
-				<button type="button" class="close" data-dismiss="alert">
-					<i class="ace-icon fa fa-times"></i>
-				</button>
+	public function delete()
+{
+    $id = $this->input->post('id_kurikulum');
+ 
+    $result = $this->MahasiswaModel->deleteData('kurikulum', array('id_kurikulum' => $id));
+    if ($result) {
+        echo json_encode(array('status' => 'success'));
+    } else {
+        echo json_encode(array('status' => 'error'));
+    }
+}
 
-				<i class="ace-icon fa fa-check red"></i>
-
-				Data Jadwal Berhasi di 
-				<strong class="red">
-					Hapus!
-				</strong>
-			</div>'
-		);
-		redirect($_SERVER['HTTP_REFERER']);
-	}
 }
