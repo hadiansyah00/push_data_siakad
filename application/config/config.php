@@ -487,7 +487,10 @@ $config['csrf_exclude_uris'] = array(
 	'admin/evaluasi/insert',
 	'admin/evaluasi/delete',
 	
-
+	'admin/settings/insert',
+	// 'mhs/Home',
+	'admin/settings/delete',
+	
 	// 'mhs/Home',
 	'mhs/krs/simpan_krs',
 	'mhs/Evaluasi_mhs/simpan',
@@ -503,7 +506,15 @@ $config['csrf_exclude_uris'] = array(
 	'mhs/profil/updatePhoto',
 	'mhs/profil/updateAksiSemester',
 	'admin/kurikulum/insert',
-	'admin/kurikulum/insert/{kd_jurusan}'
+	'admin/kurikulum/insert/{kd_jurusan}',
+	// BAUK
+	'bauk/B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab/updateStatusKrs',
+	'bauk/B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab/updateStatusUts',
+	'bauk/B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab/updateStatusUas',
+	'bauk/B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab/updateStatusNilaiUts',
+	'bauk/B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab/updateStatusNilaiUas',
+	'bauk/B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab/updateStatusKhs',
+
 );
 
 /*

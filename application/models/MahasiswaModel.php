@@ -2,11 +2,21 @@
 
 class MahasiswaModel extends CI_Model
 {
-	public function updateUserProfile($id_mahasiswa, $data) {
-        // Update user profile based on the provided data
-        $this->db->where('id_mahasiswa', $id_mahasiswa);
-        $this->db->update('mahasiswa', $data);
+	
+	public function updateStatus($id_mahasiswa,$updateData)
+    {
+    
+    $this->db->where('id_mahasiswa', $id_mahasiswa);
+    $this->db->update('mahasiswa', $updateData);
+
+    // Periksa apakah update berhasil
+    if ($this->db->affected_rows() > 0) {
+        return true; // Jika berhasil
+    } else {
+        return false; // Jika gagal
     }
+    }
+	
 	  public function deleteData($table, $where)
     {
         // Delete data from the specified table based on the given conditions

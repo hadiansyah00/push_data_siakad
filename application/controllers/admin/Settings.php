@@ -20,10 +20,10 @@ class Settings extends CI_Controller {
 		$data['status'] = $this->db->get('set_krs')->row_array();
 		
 		//$data['jurusan'] = $this->JurusanModel->getData('jurusan')->result();
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/settings/settings', $data);
-		$this->load->view('admin/template/footer');
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/settings/settings-st', $data);
+		// $this->load->view('admin/template/footer');
 	}
 
 //SETTING KRS AKTIF
@@ -78,139 +78,84 @@ class Settings extends CI_Controller {
 	      redirect('admin/settings');
 	}
 
+public function insert()
+{
+    // Periksa apakah metode yang digunakan adalah POST
+    if ($this->input->server('REQUEST_METHOD') === 'POST') {
+        // Periksa apakah CSRF token valid
+        if ($this->input->post($this->security->get_csrf_token_name()) !== $this->security->get_csrf_hash()) {
+            // CSRF token tidak valid, handle sesuai kebutuhan
+            echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+            return;
+        }
 
+        // Set aturan validasi sesuai kebutuhan
+        $this->form_validation->set_rules('ta', 'Tahun Akademik', 'required');
+        $this->form_validation->set_rules('semester', 'Semester', 'required');
+        // Tambahkan aturan validasi lainnya sesuai kebutuhan
 
-//TAHUN AKADEMIK INSERT
-	public function insert()
-	{
-		$data = array(
+        // Jalankan validasi
+        if ($this->form_validation->run() == FALSE) {
+            // Validasi gagal, kirim respon error
+            echo json_encode(['status' => 'error', 'message' => validation_errors()]);
+            return;
+        }
+
+        // Formulir valid, lakukan penyimpanan data
+     	$data = array(
 			'ta'		 	=> htmlspecialchars($this->input->post('ta')),
 			'semester'		=> htmlspecialchars($this->input->post('semester')),
 			'tgl_insert'	=> date('y-m-d')
 		);
 
-		$this->TaModel->insertData('ta', $data);
-		$this->session->set_flashdata(
-	        'pesan1',
-	        '<div class="alert alert-block alert-success">
-				<button type="button" class="close" data-dismiss="alert">
-					<i class="ace-icon fa fa-times"></i>
-				</button>
+        // Simpan data ke database
+        $this->MahasiswaModel->insertData('ta', $data);
 
-				<i class="ace-icon fa fa-check green"></i>
+        // Kirim respon sukses
+        echo json_encode(['status' => 'success', 'message' => 'Data Tahun Akademik berhasil disimpan']);
+    } else {
+        // Jika metode bukan POST, kirim respon error
+        echo json_encode(['status' => 'error', 'message' => 'Invalid Request Method']);
+    }
+}
 
-				Data
-				<strong class="green">
-					Tahun Akademik
-				</strong>Berhasi di input!
-			</div>'
-	      );
-	      redirect('admin/settings');
-	}
 
-//SET TAHUN AKADEMIK AKTIF
-	public function setTa($id)
-	{
-		//reset status tahun akademik
-		$status = array('status' => 0);
-		$this->db->update('ta', $status);
+public function updateStatus()
+{
+    // Periksa apakah metode yang digunakan adalah POST
+    if ($this->input->server('REQUEST_METHOD') === 'POST') {
+        // Periksa apakah CSRF token valid
+        if (!$this->security->csrf_verify()) {
+            // CSRF token tidak valid
+            echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+            return;
+        }
 
-		//Set aktif tahun akademik
-		$where = array('id_ta' => $id);
-		$data = array('status' => 1);
+        // Ambil data POST
+        $id_ta = $this->input->post('id_ta');
 
-		$this->db->update('ta', $data, $where);
-		$this->session->set_flashdata(
-	        'pesan1',
-	        '<div class="alert alert-block alert-success">
-				<button type="button" class="close" data-dismiss="alert">
-					<i class="ace-icon fa fa-times"></i>
-				</button>
+        // Lakukan pembaruan status di sini
+        // Contoh:
+        $this->TaModel->updateStatus($id_ta);
 
-				<i class="ace-icon fa fa-check green"></i>
-
-				Data
-				<strong class="green">
-					Tahun Akademik Telah Aktif!
-				</strong>
-			</div>'
-	      );
-	      redirect('admin/settings');
-	}
+        // Kirim respon sukses dengan AJAX
+        echo json_encode(['status' => 'success', 'message' => 'Status berhasil diperbarui']);
+    } else {
+        // Jika metode bukan POST, kirim respon error
+        echo json_encode(['status' => 'error', 'message' => 'Invalid Request Method']);
+    }
+}
 
 //DELETE TAHUN AKADEMIK
-	public function delete($id)
-	{
-		$where = array('id_ta' => $id);
-
-		$this->db->delete('ta', $where);
-		$this->session->set_flashdata(
-	        'pesan1',
-	        '<div class="alert alert-block alert-danger">
-				<button type="button" class="close" data-dismiss="alert">
-					<i class="ace-icon fa fa-times"></i>
-				</button>
-
-				<i class="ace-icon fa fa-check red"></i>
-
-				Data Tahun Akademik Berhasi di 
-				<strong class="red">
-					Hapus!
-				</strong>
-			</div>'
-	      );
-	      redirect('admin/settings');
-	}
-
-
-//UNHIDE BTN DELETE
-	public function setUnhide($id)
-	{
-		//Set unhide btn del
-		$where = array('id_setkrs' => $id);
-		$data = array('hide_btn_del' => 1);
-
-		$this->db->update('set_krs', $data, $where);
-		$this->session->set_flashdata(
-	        'pesan',
-	        '<div class="alert alert-block alert-success">
-				<button type="button" class="close" data-dismiss="alert">
-					<i class="ace-icon fa fa-times"></i>
-				</button>
-
-				<i class="ace-icon fa fa-check green"></i>
-				<strong class="green">
-					Button Delete, Aktif!
-				</strong>
-			</div>'
-	      );
-	      redirect('admin/settings');
-	}
-
-	//HIDE BTN DELETE
-	public function setHide($id)
-	{
-		//Set hide btn del
-		$where = array('id_setkrs' => $id);
-		$data = array('hide_btn_del' => 0);
-
-		$this->db->update('set_krs', $data, $where);
-		$this->session->set_flashdata(
-	        'pesan',
-	        '<div class="alert alert-block alert-danger">
-				<button type="button" class="close" data-dismiss="alert">
-					<i class="ace-icon fa fa-times"></i>
-				</button>
-
-				<i class="ace-icon fa fa-check danger"></i>
-				<strong class="green">
-					Button Delete, Disembunyikan!
-				</strong>
-			</div>'
-	      );
-	      redirect('admin/settings');
-	}
-
-
-
+		public function delete()
+		{
+			$idTa = $this->input->post('id_ta');
+		
+			$result = $this->MahasiswaModel->deleteData('ta', array('id_ta' => $idTa));
+			if ($result) {
+				echo json_encode(array('status' => 'success'));
+			} else {
+				echo json_encode(array('status' => 'error'));
+			}
+		}					
 }

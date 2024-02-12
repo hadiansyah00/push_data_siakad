@@ -58,4 +58,15 @@ class TaModel extends CI_Model {
 		return $this->db->query($data);
 		//return $this->db->get('ta');
 	}
+	public function updateStatus($id_ta)
+    {
+      // Langkah 1: Update semua status menjadi 0
+        $this->db->set('status', 0);
+        $this->db->update('ta');
+
+        // Langkah 2: Update status data yang dipilih menjadi 1
+        $data = array('status' => 1); // Ubah status sesuai kebutuhan
+        $this->db->where('id_ta', $id_ta);
+        $this->db->update('ta', $data);
+    }
 }

@@ -62,13 +62,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <li class="menu-header">Informasi Akademik</li>
         <li
-            class="dropdown <?php echo $this->uri->segment(2) == 'KusionerEdom' || $this->uri->segment(2) == 'evaluasi' ? 'active' : ''; ?>">
+            class="dropdown <?php echo $this->uri->segment(2) == 'KusionerEdom' || $this->uri->segment(2) == 'evaluasi' || $this->uri->segment(3) == 'getEdom'  ? 'active' : ''; ?>">
             <a href="#" class="nav-link has-dropdown"><i class="far fa-file-alt"></i> <span>Data Evaluasi
                     Dosen</span></a>
             <ul class="dropdown-menu">
 
-                <li class="<?php echo $this->uri->segment(2) == 'KusionerEdom' ? 'active' : ''; ?>"><a class="nav-link"
+                <li class="<?php echo $this->uri->segment(2) == 'KusionerEdom' ? 'active' : ''; ?>"><a class="nav-link "
                         href="<?php echo base_url(); ?>admin/KusionerEdom"> Evaluasi Dosen</a></li>
+
+
                 <li class="<?php echo $this->uri->segment(2) == 'evaluasi' ? 'active' : ''; ?>"><a class="nav-link"
                         href="<?php echo base_url(); ?>admin/evaluasi">Pertanyaan Edom</a>
                 </li>
@@ -76,7 +78,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </ul>
         </li>
         <li
-            class="dropdown <?php echo $this->uri->segment(2) == 'Krs' || $this->uri->segment(2) == 'KrsView' || $this->uri->segment(2) == 'Khs'|| $this->uri->segment(2) == 'NilaiUts'|| $this->uri->segment(2) == 'NilaiUas'|| $this->uri->segment(2) == 'nilai_akhir' ? 'active' : ''; ?>">
+            class="dropdown <?php echo $this->uri->segment(2) == 'Krs' || $this->uri->segment(2) == 'KrsView' || $this->uri->segment(2) == 'Khs'|| $this->uri->segment(2) == 'NilaiUts'|| $this->uri->segment(2) == 'NilaiUas'|| $this->uri->segment(2) == 'nilai_akhir'  ? 'active' : ''; ?>">
             <a href="#" class="nav-link has-dropdown"><i class="far fa-file-alt"></i> <span>Data Jadwal</span></a>
             <ul class="dropdown-menu">
 
@@ -103,12 +105,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </ul>
         </li>
 
+        <li class="menu-header">Administrasi</li>
+        <li class="<?php echo $this->uri->segment(2) == 'B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab' ? 'active' : ''; ?>">
+            <a class="nav-link" href="<?php echo base_url(); ?>bauk/B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab"><i
+                    class="fas fa-pencil-ruler"></i>
+                <span>Aktivasi Mahasiswa</span></a></li>
         <li class="menu-header">Setting Tahun Ajaran</li>
-        <li class="<?php echo $this->uri->segment(2) == 'transkrip' ? 'active' : ''; ?>"><a class="nav-link"
-                href="<?php echo base_url(); ?>mhs/transkrip"><i class="fas fa-pencil-ruler"></i>
+        <li class="<?php echo $this->uri->segment(2) == 'settings' ? 'active' : ''; ?>"><a class="nav-link"
+                href="<?php echo base_url(); ?>admin/settings"><i class="fas fa-pencil-ruler"></i>
                 <span>Pengaturan</span></a></li>
 
         </ul>
 
-    </aside>
+        </ aside>
 </div>

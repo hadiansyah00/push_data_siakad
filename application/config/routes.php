@@ -68,3 +68,4 @@ $route['mahasiswa/jadwal'] = 'mhs/jadwal';
 $route['evaluasi_mhs/mulai/(:num)/(:num)'] = 'Evaluasi_mhs/mulai/$1/$2';
 $route['evaluasi_mhs/simpan'] = 'Evaluasi_mhs/simpan';
 $route['admin/kusioneredom/cetakpdf/(:any)/(:any)'] = 'admin/kusioneredom/cetakPDF/$1/$2';
+$route['admin/settings/update_status/(:any)'] = 'admin/settings/update_status/$1';

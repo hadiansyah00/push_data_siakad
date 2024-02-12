@@ -14,38 +14,7 @@ class B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab extends CI_Controller
 		$this->ModelSecurity->getSecurity();
 	}
 
-	// public function index()
-	// {
-	// 	$data['title'] = 'Data Mahasiswa SBH';
-	// 	$data['judul'] = 'Master';
-	// 	$data['subJudul'] = 'Mahasiswa';
-	// 	$data['mahasiswa'] = $this->MahasiswaModel->getData()->result();
-	// 	$this->load->view('bauk/template/header', $data);
-	// 	$this->load->view('bauk/template/sidebar', $data);
-	// 	$this->load->view('bauk/mahasiswa/mahasiswa', $data);
-	// 	$this->load->view('bauk/template/footer');
-	// }
-
-	//lihat detil mahasiswa..//belum data detil tidak tampil!
-	// public function view_mhs($id_mhs)
-	// {
-
-	// 	$data['title'] = 'Detail View Mahasiswa SBH';
-	// 	$data['judul'] = 'Master';
-	// 	$data['subJudul'] = 'Detail Mahasiswa';
-
-	// 	//$where = array('id_mahasiswa' => $id_mahasiswa);
-	// 	//var_dump($where);die();
-
-	// 	$data['mhs'] = $this->MahasiswaModel->mhsId($id_mhs)->row_array();
-	// 	$data['mhs'] = $this->MahasiswaModel->mhsId($id_mhs)->row_array();
-	// 	//$data['mahasiswa'] = $this->MahasiswaModel->getMhsId($where)->result();
-	// 	$this->load->view('bauk/template/header', $data);
-	// 	$this->load->view('bauk/template/sidebar', $data);
-	// 	$this->load->view('bauk/mahasiswa/view_mhs', $data);
-	// 	$this->load->view('bauk/template/footer');
-	// }
-
+	
 	public function index()
 	{
 		$data['title'] = 'Aktivasi KRS';
@@ -57,13 +26,187 @@ class B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab extends CI_Controller
 		$data['status_krs'] = $this->db->get('mahasiswa')->row_array();
         $data['jadwal'] = $this->JadwaluapModel->getDataUap($id)->result();
 		
-		$this->load->view('bauk/template/header', $data);
-		$this->load->view('bauk/template/sidebar', $data);
-		$this->load->view('bauk/mahasiswa/mahasiswa', $data);
-		$this->load->view('bauk/template/footer');
+		// $this->load->view('bauk/template/header', $data);
+		// $this->load->view('bauk/template/sidebar', $data);
+		$this->load->view('bauk/mahasiswa/mahasiswa-st', $data);
+		// $this->load->view('bauk/template/footer');
 	}
 
+
 	//SETTING KRS AKTIF
+		public function updateStatusKrs()
+	{
+		// Periksa apakah metode yang digunakan adalah POST
+		if ($this->input->server('REQUEST_METHOD') === 'POST') {
+			// Periksa apakah CSRF token valid
+			if (!$this->security->csrf_verify()) {
+				// CSRF token tidak valid
+				echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+				return;
+			}
+
+		  // Ambil data dari POST
+        $id_mahasiswa = $this->input->post('id_mahasiswa');
+        $status = $this->input->post('status');
+
+        // Lakukan validasi data jika diperlukan
+
+        // Update status KRS
+        $updateData = ['status' => $status];
+        $this->MahasiswaModel->updateStatus($id_mahasiswa, $updateData);
+
+			// Kirim respon sukses dengan AJAX
+			echo json_encode(['status' => 'success', 'message' => 'Status Krs berhasil diperbarui']);
+		} else {
+			// Jika metode bukan POST, kirim respon error
+			echo json_encode(['status' => 'error', 'message' => 'Invalid Krs Request Method']);
+		}
+	}
+	public function updateStatusUts()
+	{
+		// Periksa apakah metode yang digunakan adalah POST
+		if ($this->input->server('REQUEST_METHOD') === 'POST') {
+			// Periksa apakah CSRF token valid
+			if (!$this->security->csrf_verify()) {
+				// CSRF token tidak valid
+				echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+				return;
+			}
+
+		
+        // Ambil data dari POST
+        $id_mahasiswa = $this->input->post('id_mahasiswa');
+        $status_uts = $this->input->post('status_uts');
+
+        // Lakukan validasi data jika diperlukan
+
+        // Update status KRS
+        $updateData = ['status_uts' => $status_uts];
+        $this->MahasiswaModel->updateStatus($id_mahasiswa, $updateData);
+
+
+			// Kirim respon sukses dengan AJAX
+			echo json_encode(['status' => 'success', 'message' => 'Status UTS berhasil diperbarui']);
+		} else {
+			// Jika metode bukan POST, kirim respon error
+			echo json_encode(['status' => 'error', 'message' => 'Invalid UTS Request Method']);
+		}
+	}
+	public function updateStatusUas()
+	{
+		// Periksa apakah metode yang digunakan adalah POST
+		if ($this->input->server('REQUEST_METHOD') === 'POST') {
+			// Periksa apakah CSRF token valid
+			if (!$this->security->csrf_verify()) {
+				// CSRF token tidak valid
+				echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+				return;
+			}
+
+			// Ambil data dari POST
+			$id_mahasiswa = $this->input->post('id_mahasiswa');
+			$status = $this->input->post('status_uas');
+
+			// Lakukan validasi data jika diperlukan
+
+			// Update status KRS
+			$updateData = ['status_uas' => $status];
+			$this->MahasiswaModel->updateStatus($id_mahasiswa, $updateData);
+
+			// Kirim respon sukses dengan AJAX
+			echo json_encode(['status' => 'success', 'message' => 'Status UAS berhasil diperbarui']);
+		} else {
+			// Jika metode bukan POST, kirim respon error
+			echo json_encode(['status' => 'error', 'message' => 'Invalid UAS Request Method']);
+		}
+	}
+	public function updateStatusNilaiUts()
+	{
+		// Periksa apakah metode yang digunakan adalah POST
+		if ($this->input->server('REQUEST_METHOD') === 'POST') {
+			// Periksa apakah CSRF token valid
+			if (!$this->security->csrf_verify()) {
+				// CSRF token tidak valid
+				echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+				return;
+			}
+
+			
+		  // Ambil data dari POST
+			$id_mahasiswa = $this->input->post('id_mahasiswa');
+			$status = $this->input->post('status_nilai_uts');
+
+			// Lakukan validasi data jika diperlukan
+
+			// Update status KRS
+			$updateData = ['status_nilai_uts' => $status];
+			$this->MahasiswaModel->updateStatus($id_mahasiswa, $updateData);
+
+			// Kirim respon sukses dengan AJAX
+			echo json_encode(['status' => 'success', 'message' => 'Status Nilai UTS berhasil diperbarui']);
+		} else {
+			// Jika metode bukan POST, kirim respon error
+			echo json_encode(['status' => 'error', 'message' => 'Invalid Nilai UTS Request Method']);
+		}
+	}
+		public function updateStatusNilaiUas()
+		{
+			// Periksa apakah metode yang digunakan adalah POST
+			if ($this->input->server('REQUEST_METHOD') === 'POST') {
+				// Periksa apakah CSRF token valid
+				if (!$this->security->csrf_verify()) {
+					// CSRF token tidak valid
+					echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+					return;
+				}
+
+				
+			// Ambil data dari POST
+			$id_mahasiswa = $this->input->post('id_mahasiswa');
+			$status = $this->input->post('status_nilai_uas');
+
+			// Lakukan validasi data jika diperlukan
+
+			// Update status KRS
+			$updateData = ['status_nilai_uas' => $status];
+			$this->MahasiswaModel->updateStatus($id_mahasiswa, $updateData);
+
+				// Kirim respon sukses dengan AJAX
+				echo json_encode(['status' => 'success', 'message' => 'Status Nilai UAS berhasil diperbarui']);
+			} else {
+				// Jika metode bukan POST, kirim respon error
+				echo json_encode(['status' => 'error', 'message' => 'Invalid Nilai UAS Request Method']);
+			}
+		}
+		public function updateStatusKhs()
+		{
+			// Periksa apakah metode yang digunakan adalah POST
+			if ($this->input->server('REQUEST_METHOD') === 'POST') {
+				// Periksa apakah CSRF token valid
+				if (!$this->security->csrf_verify()) {
+					// CSRF token tidak valid
+					echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+					return;
+				}
+
+					
+			// Ambil data dari POST
+			$id_mahasiswa = $this->input->post('id_mahasiswa');
+			$status = $this->input->post('status_nilai_khs');
+
+			// Lakukan validasi data jika diperlukan
+
+			// Update status KRS
+			$updateData = ['status_nilai_khs' => $status];
+			$this->MahasiswaModel->updateStatus($id_mahasiswa, $updateData);
+			
+				// Kirim respon sukses dengan AJAX
+				echo json_encode(['status' => 'success', 'message' => 'Status KHS berhasil diperbarui']);
+			} else {
+				// Jika metode bukan POST, kirim respon error
+				echo json_encode(['status' => 'error', 'message' => 'Invalid KHS Request Method']);
+			}
+		}
 	public function setKrs($id)
 	{
 		//Set aktif KRS

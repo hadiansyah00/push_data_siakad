@@ -153,7 +153,7 @@ $this->load->view('mhs/dist/header');
                                                         <?= $row->status_edom_1 == 1 ? '<i class="fas fa-check-circle text-success"> </i>' . '&nbsp;'. $dosen1 : '' .$dosen1 ?>
                                                     </strong>
                                                 </p>
-                                                <?= ($row->status_edom_2 == 1 && $row->id_perdos != 0 && $row->id_peran != 0) ? '' : '' ?>
+                                                <?= ($row->status_edom_1 == 1 && $row->id_perdos != 0 && $row->id_peran != 0) ? '' : '' ?>
                                                 <?php if ($row->status_edom_1 == 0 || $row->status_edom_1 === null): ?>
                                                 <a class="btn btn-sm btn-success <?php echo ($row->id_perdos == 0) ? 'disabled' : ''; ?>"
                                                     href="<?php echo $link_kuesioner; ?>">
@@ -168,7 +168,7 @@ $this->load->view('mhs/dist/header');
                                                     </strong>
                                                 </p>
                                                 <?= ($row->status_edom_2 == 1 && $row->id_perdos != 0 && $row->id_peran != 0) ? '' : '' ?>
-                                                <?php if ($row->status_edom_2 == 0 || $row->status_edom_1 === null): ?>
+                                                <?php if ($row->status_edom_2 == 0 || $row->status_edom_2 === null ): ?>
                                                 <a class="btn btn-sm btn-success <?php echo ($row->id_peran == 0) ? 'disabled' : ''; ?>"
                                                     href="<?php echo $link_kuesioner_2; ?>">
                                                     <i class="fas fa-pencil-alt"></i>

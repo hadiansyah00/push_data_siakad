@@ -356,11 +356,8 @@ $(document).ready(function() {
         });
     });
 });
-</script>
-<script>
-// Fungsi untuk menampilkan nilai pada form modal saat tombol Delete diklik
 $(document).on('click', '.btn-delete', function() {
-    var kd_jurusan = $(this).data('id');
+    var kdJurusan = $(this).data('id');
 
     // Include CSRF token dalam data
     var formData = {
@@ -382,7 +379,7 @@ $(document).on('click', '.btn-delete', function() {
             // Pengguna mengonfirmasi, kirim permintaan AJAX untuk menghapus
             $.ajax({
                 type: 'POST',
-                url: '<?php echo base_url('admin/jurusan/deleteJurusan'); ?>',
+                url: '<?php echo base_url('admin/jurusan/delete'); ?>',
                 data: formData,
                 dataType: 'json',
                 success: function(response) {
