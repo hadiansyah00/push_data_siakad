@@ -488,6 +488,7 @@ $config['csrf_exclude_uris'] = array(
 	'admin/evaluasi/delete',
 	
 	'admin/settings/insert',
+	'admin/settings/AddUsers',
 	// 'mhs/Home',
 	'admin/settings/delete',
 	

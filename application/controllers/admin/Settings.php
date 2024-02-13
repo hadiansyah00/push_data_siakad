@@ -18,6 +18,8 @@ class Settings extends CI_Controller {
 		$data['ta'] = $this->TaModel->getData('ta')->result();
 		$data['tahun'] = $this->TaModel->getAktifKrs()->row_array();
 		$data['status'] = $this->db->get('set_krs')->row_array();
+		$data['users'] = $this->UserModel->get_users();
+
 		
 		//$data['jurusan'] = $this->JurusanModel->getData('jurusan')->result();
 		// $this->load->view('admin/template/header', $data);
@@ -77,7 +79,47 @@ class Settings extends CI_Controller {
 	      );
 	      redirect('admin/settings');
 	}
+public function AddUsers()
+{
+    // Periksa apakah metode yang digunakan adalah POST
+    if ($this->input->server('REQUEST_METHOD') === 'POST') {
+        // Periksa apakah CSRF token valid
+        if ($this->input->post($this->security->get_csrf_token_name()) !== $this->security->get_csrf_hash()) {
+            // CSRF token tidak valid, handle sesuai kebutuhan
+            echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+            return;
+        }
 
+        // Set aturan validasi sesuai kebutuhan
+        $this->form_validation->set_rules('username', 'Username Pengguna', 'required');
+        $this->form_validation->set_rules('role', 'Role Pengguna', 'required');
+        // Tambahkan aturan validasi lainnya sesuai kebutuhan
+
+        // Jalankan validasi
+        if ($this->form_validation->run() == FALSE) {
+            // Validasi gagal, kirim respon error
+            echo json_encode(['status' => 'error', 'message' => validation_errors()]);
+            return;
+        }
+
+        // Formulir valid, lakukan penyimpanan data
+     	$data = array(
+			'username' => $this->input->post('username'),
+            'email' => $this->input->post('email'),
+			'role' => $this->input->post('role'),
+			'tgl_insert'	=> date('y-m-d')
+		);
+
+        // Simpan data ke database
+        $this->MahasiswaModel->insertData('users', $data);
+
+        // Kirim respon sukses
+        echo json_encode(['status' => 'success', 'message' => 'Data Tahun Akademik berhasil disimpan']);
+    } else {
+        // Jika metode bukan POST, kirim respon error
+        echo json_encode(['status' => 'error', 'message' => 'Invalid Request Method']);
+    }
+}
 public function insert()
 {
     // Periksa apakah metode yang digunakan adalah POST

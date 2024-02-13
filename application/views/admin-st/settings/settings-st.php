@@ -23,6 +23,46 @@ $this->load->view('admin-st/dist/header');
             <div class="row">
                 <div class="col-12">
                     <div class="card">
+                        <h4 class="text-center">Data Users</h4>
+                        <div class="card-header">
+
+                            <a href="#" target="_blank" class="btn btn-sm btn-primary" data-toggle="modal"
+                                data-target="#tambahUser"><i class="fa fa-plus"></i>Tambah
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        <?php foreach ($users as $user) { ?>
+                                        <tr>
+                                            <td><?php echo $user['id']; ?></td>
+                                            <td><?php echo $user['username']; ?></td>
+                                            <td><?php echo $user['email']; ?></td>
+                                            <td><?php echo $user['role']; ?></td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger btn-sm btn-delete"
+                                                    data-id="<?php echo $row->id_ta; ?>">
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <?php } ?>
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="card">
                         <div class="card-header">
                             <h4 class="text-center">Setting Pembukan / Pengisian KRS</h4>
                         </div>
@@ -74,6 +114,7 @@ $this->load->view('admin-st/dist/header');
                         </div>
                     </div>
                 </div>
+
             </div>
 
         </div>
@@ -153,6 +194,7 @@ $this->load->view('admin-st/dist/header');
 </div>
 </section>
 </div>
+<!-- Modal tambah Data TA -->
 <div class="modal fade" tabindex="-1" role="dialog" id="tambahTa">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -190,6 +232,62 @@ $this->load->view('admin-st/dist/header');
         </div>
     </div>
 </div>
+
+<!-- Modal Tambah Data User -->
+<div class="modal fade" tabindex="-1" role="dialog" id="tambahUser">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tambah Data User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="formTambahUser" class="needs-validation" novalidate>
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
+                                value="<?= $this->security->get_csrf_hash(); ?>">
+                            <div class="form-group col-md-6">
+                                <label>Nama</label>
+                                <input type="text" class="form-control" name="username" placeholder="Username Pengguna"
+                                    required="">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" name="email" placeholder="Email Pengguna"
+                                    required="">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Password</label>
+                                <input type="password" class="form-control" name="password"
+                                    placeholder="Password Pengguna" required="">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="role">Role</label>
+                                <select name="role" class="form-control">
+                                    <option> --Pilih Role-- </option>
+                                    <option value="admin">Admin</option>
+                                    <option value="bauk">BAUK</option>
+                                    <!-- <option value="bauk"> Dosen </option> -->
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -257,7 +355,70 @@ $(document).ready(function() {
         });
     });
 });
+$(document).ready(function() {
+    // Form submit event
+    $('#formTambahUser').submit(function(e) {
+        e.preventDefault();
+        var csrfName = '<?= $this->security->get_csrf_token_name(); ?>';
+        var csrfHash = '<?= $this->security->get_csrf_hash(); ?>';
 
+        // Get form data with CSRF token
+        var formData = $(this).serialize();
+
+        // Send AJAX request
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url('admin/settings/AddUsers'); ?>',
+            data: formData,
+            dataType: 'json',
+            beforeSend: function(xhr) {
+                // Set CSRF token header
+                xhr.setRequestHeader(csrfName, csrfHash);
+            },
+            success: function(response) {
+                if (response.status === 'success') {
+                    // Use SweetAlert for success
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Data berhasil disimpan',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Optionally update UI here (e.g., append a new row to a table)
+                            // ...
+                            window.location.reload();
+                            // Close the modal
+                            $('#tambahUser').modal('hide');
+                        }
+                    });
+                } else {
+                    // Use SweetAlert for error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.message,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            },
+            error: function(error) {
+                console.log('AJAX Error:', error);
+
+                // Use SweetAlert for AJAX error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred during the AJAX request.',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+    });
+});
 $(document).on('click', '.btn-delete', function() {
     var idTa = $(this).data('id');
 
@@ -369,5 +530,6 @@ $(document).ready(function() {
 
 <script src="<?php echo base_url(); ?>assets-new-look/modules/sweetalert/sweetalert.min.js"></script>
 </script>
+
 
 <script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-sweetalert.js"></script>
