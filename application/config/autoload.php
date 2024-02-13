@@ -58,7 +58,7 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('session', 'database', 'form_validation','upload','pdf');
+$autoload['libraries'] = array('session', 'database', 'form_validation','upload','pdf','dompdf_lib');
 
 /*
 | -------------------------------------------------------------------
@@ -89,7 +89,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('url', 'form', 'tanggal', 'download');
+$autoload['helper'] = array('url', 'form', 'tanggal', 'download','dompdf_helper');
 
 /*
 | -------------------------------------------------------------------
@@ -133,3 +133,4 @@ $autoload['language'] = array();
 |	$autoload['model'] = array('first_model' => 'first');
 */
 $autoload['model'] = array('JadwaluapModel','LoginModel', 'RpsModel', 'UserModel', 'ModelSecurity', 'JurusanModel', 'MatkulModel', 'DosenModel', 'MahasiswaModel', 'JadwalModel', 'JadwalutsModel', 'TaModel', 'KrsModel', 'NilaiModel', 'KurikulumModel', 'VerifikasiModel', 'JadwaluasModel','EdomModel');
+require_once FCPATH . 'vendor/autoload.php'; 

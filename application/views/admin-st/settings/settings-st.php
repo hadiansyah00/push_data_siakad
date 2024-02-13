@@ -258,38 +258,6 @@ $(document).ready(function() {
     });
 });
 
-$(document).ready(function() {
-    $('.toggle-switch').change(function() {
-        var id_ta = $(this).data('id');
-        var csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>';
-        var csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
-
-        // Kirim AJAX request
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo base_url("admin/settings/updateStatus"); ?>',
-            data: {
-                id_ta: id_ta,
-                <?php echo $this->security->get_csrf_token_name(); ?>: '<?php echo $this->security->get_csrf_hash(); ?>'
-            },
-            dataType: 'json',
-            success: function(response) {
-                if (response.status === 'success') {
-                    // Handle success response
-                    alert('Status berhasil diperbarui');
-                    location.reload();
-                } else {
-                    // Handle error response
-                    alert('Gagal memperbarui status');
-                }
-            },
-            error: function(xhr, status, error) {
-                // Handle AJAX error
-                console.error('AJAX Error:', error);
-            }
-        });
-    });
-});
 $(document).on('click', '.btn-delete', function() {
     var idTa = $(this).data('id');
 
@@ -346,6 +314,42 @@ $(document).on('click', '.btn-delete', function() {
     });
 });
 </script>
+<script>
+$(document).ready(function() {
+    $('.toggle-switch').change(function() {
+        var id_ta = $(this).data('id');
+        var status = $(this).prop('checked') ? 1 : 0; // Periksa apakah checkbox di-check atau tidak
+        var csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>';
+        var csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
+
+        // Kirim AJAX request
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url("admin/settings/updateStatus"); ?>',
+            data: {
+                id_ta: id_ta,
+                status: status, // Kirim status baru
+                csrf_test_name: csrfHash // Gunakan nama properti yang tepat untuk CSRF token
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'success') {
+                    // Handle success response
+                    alert('Status berhasil diperbarui');
+                    location.reload();
+                } else {
+                    // Handle error response
+                    alert('Gagal memperbarui status');
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle AJAX error
+                console.error('AJAX Error:', error);
+            }
+        });
+    });
+});
+</script>
 
 
 </script>
@@ -363,9 +367,7 @@ $(document).on('click', '.btn-delete', function() {
 <script src="<?php echo base_url(); ?>assets-new-look/modules/jquery-ui/jquery-ui.min.js"></script>
 <script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-datatables.js"></script>
 
-<script>
-src = "<?php echo base_url(); ?>assets-new-look/modules/sweetalert/sweetalert.min.js" > < / sc
-ript >
+<script src="<?php echo base_url(); ?>assets-new-look/modules/sweetalert/sweetalert.min.js"></script>
 </script>
 
 <script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-sweetalert.js"></script>

@@ -30,6 +30,11 @@ $this->load->view('admin-st/dist/header');
                              <a href="#" target="_blank" class="btn btn-sm btn-primary" data-toggle="modal"
                                  data-target="#tambahKurikulum"><i class="fa fa-plus"></i>Tambah
                              </a>
+                             <h1>Generate PDF</h1>
+                             <!-- Button untuk generate PDF -->
+                             <a href="<?= base_url('admin/KusionerEdom/generatePdfTes') ?>" target="_blank">
+                                 <button>Generate PDF</button>
+                             </a>
                          </div>
                          <div class="card-body">
                              <div class="table-responsive">
@@ -56,7 +61,6 @@ $this->load->view('admin-st/dist/header');
                                              <td><?php echo $row->max_matakuliah; ?></td>
                                              <td><?php echo $row->max_smt; ?></td>
                                              <td><?php echo $row->max_sks; ?></td>
-
                                              <?php
 												$pengajar_1 = $this->KurikulumModel->getIdDosenById($row->max_peran);
 												$pengajar_2 = $this->KurikulumModel->getIdDosenById_peran($row->max_perdos);
@@ -65,8 +69,8 @@ $this->load->view('admin-st/dist/header');
                                         
 												$link_kuesioner = site_url('admin/KusionerEdom/lihat/' . $row->kd_mk . '/' . $pengajar_2);
 												$link_kuesioner_2 = site_url('admin/KusionerEdom/lihat/' . $row->kd_mk . '/' . $pengajar_1);
-												$link_cetak_1 =site_url('admin/kusioneredom/cetak/' . $row->kd_mk . '/' . $pengajar_2);
-												$link_cetak_2 =site_url('admin/kusioneredom/cetak/' . $row->kd_mk . '/' . $pengajar_1);
+												$link_cetak_1 =site_url('admin/kusioneredom/generatePdf/' . $row->kd_mk . '/' . $pengajar_2);
+												$link_cetak_2 =site_url('admin/kusioneredom/generatePdf/' . $row->kd_mk . '/' . $pengajar_1);
 												
                                         ?>
                                              <td>

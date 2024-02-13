@@ -176,6 +176,7 @@ $this->load->view('admin-st/dist/header');
                                 </table>
                             </div>
                         </div>
+
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped">
@@ -208,6 +209,79 @@ $this->load->view('admin-st/dist/header');
                                 </table>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="card-body col-md-6">
+                                <div class="card-header">
+                                    <h4>Mahasiswa yang sudah Mengisi KRS</h4>
+
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Nama Mahasiswa</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+									$no = 1;
+									foreach ($mahasiswa_krs as $mahasiswa) {
+										echo "<tr>";
+										echo "<td>$no</td>";
+										echo "<td>$mahasiswa->nama_mhs</td>";
+										echo "</tr>";
+										$no++;
+									}
+									?>
+                                        </tbody>
+                                        <tr>
+                                            <th colspan="2">
+                                                <p><i>Mahasiswa sudah mengisi KRS tapi belum mengisi EDOM</i>
+                                                </p>
+                                            </th>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                            </div>
+                            <div class="card-body col-md-6">
+                                <div class="card-header">
+                                    <h4>Mahasiswa yang sudah Mengisi EDOM </h4>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Nama Mahasiswa</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+									$no = 1;
+									foreach ($mahasiswa_evaluasi as $mahasiswa) {
+										echo "<tr>";
+										echo "<td>$no</td>";
+										echo "<td>$mahasiswa->nama_mhs</td>";
+										echo "</tr>";
+										$no++;
+									}
+									?>
+                                            <tr>
+                                                <th colspan="2">
+                                                    <p><i>Mahasiswa sudah mengisi EDOM</i>
+                                                    </p>
+                                                </th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -226,6 +300,7 @@ $this->load->view('admin-st/dist/header');
 
 <script src="<?php echo base_url(); ?>assets-new-look/modules/jquery-ui/jquery-ui.min.js"></script>
 <script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-datatables.js"></script>
-<script src="<?php echo base_url(); ?>assets-new-look/modules/sweetalert/sweetalert.min.js"></script>
+< src="<?php echo base_url(); ?>assets-new-look/modules/sweetalert/sweetalert.min.js"></ script>
+
 
 <script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-sweetalert.js"></script>

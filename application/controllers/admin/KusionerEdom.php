@@ -1,5 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class KusionerEdom extends CI_Controller
 {
@@ -10,8 +12,8 @@ class KusionerEdom extends CI_Controller
 		//url security
 		$this->ModelSecurity->getSecurity();
 		$this->load->model('EdomModel');
-		$this->load->library('Pdf');
-
+		// $this->load->library('Pdf');
+	
 
 	}
 
@@ -97,8 +99,49 @@ class KusionerEdom extends CI_Controller
 		$this->load->view('admin-st/evaluasi/hasil_kuesioner_edom-st', $data);
 	
 	}
+public function generatePdfTes()
+{
 
-	
+    // Load HTML content
+    $html = '<h1>Hello, World!</h1>';
+
+    // Load HTML to Dompdf
+    $this->dompdf->loadHtml($html);
+
+    // Render PDF (optional)
+    $this->dompdf->render();
+
+    // Output PDF to browser
+    $this->dompdf->stream("example_pdf.pdf", array("Attachment" => false));
+}
+
+public function generatePdf($kd_mk, $id_dosen)
+{
+    // Mendapatkan data yang dibutuhkan
+    $tahun = $this->TaModel->getAktif()->row_array();
+    $rata_rata = $this->EdomModel->getRataRataByIdKrsDosen($kd_mk, $id_dosen);
+    $info_edom = $this->EdomModel->getInfoMk($kd_mk);
+    $dosen_info = $this->EdomModel->getDosenInfo($id_dosen);
+    $saran = $this->EdomModel->getSaran($kd_mk, $id_dosen);
+    $jumlahMahasiswa = $this->EdomModel->countMahasiswaEvaluasi($id_dosen);
+    $listMahasiswa = $this->EdomModel->countMahasiswaEvaluasi_list($kd_mk);
+
+    // Load library Dompdf
+    $this->load->library('dompdf_lib');
+
+    // Path gambar logo
+    $image_path = base_url('assets/images/Logo_Stikes_Sosmed.png');
+
+    // Create new Dompdf instance
+    $dompdf = new Dompdf_lib();
+
+    // Load HTML content with logo path
+    $html = $this->load->view('admin-st/evaluasi/pdf_hasil_edom', compact('tahun', 'rata_rata', 'info_edom', 'dosen_info', 'saran', 'jumlahMahasiswa', 'listMahasiswa', 'image_path'), true);
+
+    // Generate PDF
+    $dompdf->generatePdf($html);
+}
+
 
 	public function cetak($kd_mk, $id_dosen) {
 	    

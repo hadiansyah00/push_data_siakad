@@ -130,15 +130,11 @@ public function updateStatus()
             echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
             return;
         }
+    
+            $id_ta = $this->input->post('id_ta');
+            // Perbarui status ta
+            $this->MahasiswaModel->updateStatusTa($id_ta);
 
-        // Ambil data POST
-        $id_ta = $this->input->post('id_ta');
-
-        // Lakukan pembaruan status di sini
-        // Contoh:
-        $this->TaModel->updateStatus($id_ta);
-
-        // Kirim respon sukses dengan AJAX
         echo json_encode(['status' => 'success', 'message' => 'Status berhasil diperbarui']);
     } else {
         // Jika metode bukan POST, kirim respon error
