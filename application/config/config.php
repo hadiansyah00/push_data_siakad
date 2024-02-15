@@ -489,8 +489,28 @@ $config['csrf_exclude_uris'] = array(
 	
 	'admin/settings/insert',
 	'admin/settings/AddUsers',
+	'admin/settings/UpdateUsers',
 	// 'mhs/Home',
 	'admin/settings/delete',
+
+	'admin/jadwal/do_upload',
+	'admin/jadwal/simpan_ke_database',
+
+	'admin/jadwal/jadwaluts/insert',
+	'admin/jadwal/jadwaluts/update',
+	'admin/jadwal/jadwaluts/delete',
+
+	'admin/jadwal/jadwaluas/insert',
+	'admin/jadwal/jadwaluas/update',
+	'admin/jadwal/jadwaluas/delete',
+
+	'admin/jadwal/jadwal_pra_uap/insert',
+	'admin/jadwal/jadwal_pra_uap/update',
+	'admin/jadwal/jadwal_pra_uap/delete',
+
+	'admin/jadwal/jadwal_uap/insert',
+	'admin/jadwal/jadwal_uap/update',
+	'admin/jadwal/jadwal_uap/delete',
 	
 	// 'mhs/Home',
 	'mhs/krs/simpan_krs',

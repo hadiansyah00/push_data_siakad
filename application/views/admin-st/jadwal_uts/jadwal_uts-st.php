@@ -7,17 +7,15 @@ $this->load->view('admin-st/dist/header');
     href="<?php echo base_url(); ?>assets-new-look/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet"
     href="<?php echo base_url(); ?>assets-new-look/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css">
-
-
-<!-- Include SweetAlert library -->
-<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11"> -->
+<!-- Main Content -->
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Data Mahasiswa</h1>
+            <h1>Data Jadwal UTS </h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="#">Data Master</a></div>
-                <div class="breadcrumb-item"><a href="#">Data Mahasiswa</a></div>
+                <!-- <div class="breadcrumb-item"><a href="#">Data Prog. Studi</a></div> -->
+                <div class="breadcrumb-item">Data Jadwal UTS</div>
             </div>
         </div>
 
@@ -27,7 +25,7 @@ $this->load->view('admin-st/dist/header');
                     <div class="card">
                         <div class="card-header">
                             <a href="#" target="_blank" class="btn btn-sm btn-primary" data-toggle="modal"
-                                data-target="#tambahMahasiswa"><i class="fa fa-plus"></i>Tambah
+                                data-target="#tambahUts"><i class="fa fa-plus"></i>Tambah
                             </a>
                         </div>
                         <div class="card-body">
@@ -35,64 +33,58 @@ $this->load->view('admin-st/dist/header');
                                 <table class="table table-striped" id="table-1">
                                     <thead>
                                         <tr>
-                                            <th data-field="no">No</th>
-                                            <th data-field="nim">Nim</th>
-                                            <th data-field="nama_mhs">Nama</th>
-                                            <th data-field="jurusan">Prog. Studi</th>
-                                            <th data-field="status">Status</th>
-                                            <th data-field="nama_dosen">Dospem</th>
+                                            <th>No</th>
+                                            <th>Kode MK</th>
+                                            <th>Kelas</th>
+                                            <th>Prog Studi</th>
+                                            <th>SKS</th>
+                                            <th>Tanggal UTS</th>
+                                            <th>Ruang UTS</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $i = 1;
-									foreach ($mahasiswa as $row) { ?>
-
-                                        <tr class="text-center">
+									foreach ($jadwal as $row) { ?>
+                                        <?php if ($row->semester == $tahun['semester']) { ?>
+                                        <?php if ($row->status == $tahun['status']) { ?>
+                                        <tr>
                                             <td><?php echo $i++; ?></td>
-                                            <td><?php echo $row->nim; ?></td>
-                                            <td><?php echo $row->nama_mhs; ?></td>
-                                            <td><?php echo $row->jenjang; ?> <?php echo $row->jurusan; ?></td>
-
-                                            <td> <a class="link" href="#">
-                                                    <?php if ($row->status_mhs == 'tidak') {
-													echo "<span class='badge badge-pill badge-danger mb-1 float-right'>
-                                                            
-                                                            Non Aktif
-                                                     </span>";
-												}elseif ($row->status_mhs == 'aktif'){
-													echo "<span class='badge badge-pill badge-success mb-1 float-right'>
-                                                       
-                                                                            Aktif 
-                                                     </span>";
-												}elseif ($row->status_mhs == 'cuti'){
-													echo "<span class='badge badge-pill badge-warning mb-1 float-right'>
-                                                          
-                                                                            Cuti 
-                                                     </span>";
-												}elseif ($row->status_mhs == 'lulus'){
-													echo "<span class='badge badge-pill badge-primary mb-1 float-right'>
-                                                        
-                                                                            Lulus 
-                                                     </span>";
-												} ?></a></a>
-
-
+                                            <td><?php echo $row->kd_mk; ?></td>
+                                            <td><?php	
+												    if ($row->kelas == 2) {
+											            echo $tes = 'Karyawan';
+                										} elseif  ($row->kelas == 1) {
+                										echo $tes  = 'reguler';
+                										}
+                										elseif ($row->kelas = 0){
+                										    echo $tes= 'Pagi';
+                										}
+                										?></td>
+                                            <td>
+                                                <?php echo $row->jurusan; ?>
                                             </td>
+                                            <td><?php echo $row->matakuliah; ?></td>
+                                            <td><?php echo $row->smt; ?></td>
+                                            <td><?php echo $row->sks; ?></td>
+                                            <td>
+                                                <?php echo format_indo($row->tgl_uts); ?>
+                                                <?php echo $row->jam; ?>
+                                                <hr>
+                                            </td>
+                                            <td><?php echo $row->ruang_uts; ?> </td>
 
-                                            <td> <?php echo $row->nama_dosen; ?></td>
                                             <td>
                                                 <!-- Tambahkan data-nilai pada tombol Edit -->
                                                 <button type="button" class="btn btn-primary btn-sm btn-edit"
-                                                    data-id-mahasiswa="<?php echo $row->id_mahasiswa; ?>"
-                                                    data-nim="<?php echo $row->nim; ?>"
-                                                    data-nama-mhs="<?php echo $row->nama_mhs; ?>"
-                                                    data-tahun-masuk="<?php echo $row->tahun_masuk; ?>"
-                                                    data-kelas-mhs="<?php echo $row->kelas_mhs; ?>"
-                                                    data-status-mhs="<?php echo $row->status_mhs; ?>"
-                                                    data-dosen-pemb="<?php echo $row->id_dosen; ?>"
-                                                    data-jurusan-mhs="<?php echo $row->kd_jurusan; ?>"
-                                                    data-toggle="modal" data-target="#editMahasiswaModal">
+                                                    data-id-jadwal="<?php echo $row->id_jadwal;; ?>"
+                                                    data-kdMk="<?php echo $row->kd_mk; ?>"
+                                                    data-jurusan="<?php echo $row->kd_jurusan; ?>"
+                                                    data-kelas="<?php echo $row->kelas; ?>"
+                                                    data-tgluts="<?php echo $row->tgl_uts; ?>"
+                                                    data-jam="<?php echo $row->jam; ?>"
+                                                    data-ruang="<?php echo $row->ruang_uts; ?>" data-toggle="modal"
+                                                    data-target="#editUtsModal">
                                                     Edit
                                                 </button>
 
@@ -101,9 +93,11 @@ $this->load->view('admin-st/dist/header');
                                                     data-id="<?php echo $row->id_mahasiswa; ?>">
                                                     Delete
                                                 </button>
-
                                             </td>
+
                                         </tr>
+                                        <?php } ?>
+                                        <?php } ?>
                                         <?php } ?>
                                     </tbody>
                                 </table>
@@ -116,106 +110,109 @@ $this->load->view('admin-st/dist/header');
         </div>
     </section>
 </div>
+<?php $this->load->view('admin-st/dist/footer'); ?>
+<!-- JS Libraies -->
+<script src="<?php echo base_url(); ?>assets-new-look/modules/datatables/datatables.min.js"></script>
+<script
+    src="<?php echo base_url(); ?>assets-new-look/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js">
+</script>
 
-<!-- Modal Tambah Data -->
-<div class="modal fade" tabindex="-1" role="dialog" id="tambahMahasiswa">
+<script src="<?php echo base_url(); ?>assets-new-look/modules/datatables/Select-1.2.4/js/dataTables.select.min.js">
+</script>
+
+<script src="<?php echo base_url(); ?>assets-new-look/modules/jquery-ui/jquery-ui.min.js"></script>
+<script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-datatables.js"></script>
+<?php $kd_jurusan = $this->uri->segment(4); ?>
+<div class="modal fade" tabindex="-1" role="dialog" id="tambahUts">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah Data</h5>
+                <h5 class="modal-title">Tambah Data Jadwal UTS</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="formTambahMahasiswa" class="needs-validation" novalidate>
+            <form id="formTambahUts" class="needs-validation" novalidate>
                 <div class="modal-body">
                     <div class="modal-body">
                         <div class="form-row">
+
                             <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
                                 value="<?= $this->security->get_csrf_hash(); ?>">
-                            <div class="form-group col-md-6">
-                                <label>NIM</label>
-                                <input type="number" class="form-control" placeholder="NIM" name="nim" required>
-                                <div class="invalid-feedback">
-                                    Please provide a valid NIM.
-                                </div>
+                            <div class="form-group col-lg-6">
+                                <label>Matakuliah</label>
+                                <select name="matkul" id="matkul" class="form-control">
+                                    <option> --Pilih Matakuliah-- </option>
+                                    <?php
+										foreach ($matkul as $row) { ?>
+
+                                    <option value="<?php echo $row->kd_mk; ?>">SMT <?php echo $row->smt; ?> -
+                                        <?php echo $row->kd_mk; ?> - <?php echo $row->matakuliah ?> - SKS
+                                        <?php echo $row->sks; ?></option>
+                                    <?php } ?>
+
+                                </select>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="nama_lengkap">Nama Lengkap</label>
-                                <input type="text" class="form-control" name="nama_mhs" placeholder="Nama Lengkap"
-                                    required>
-                                <div class="invalid-feedback">
-                                    Please provide a valid name.
-                                </div>
+                                <label>Prog. Studi</label>
+                                <select name="jurusan" class="form-control">
+                                    <option> --Pilih Jurusan-- </option>
+                                    <?php
+												$kd = $this->MatkulModel->getJurusan()->result();
+												foreach ($kd as $ds) : ?>
+                                    <option value="<?php echo $ds->kd_jurusan; ?>"><?php echo $ds->jurusan; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="tahun_masuk">Tahun Masuk</label>
-                                <input type="number" class="form-control" placeholder="Tahun Masuk" name="tahun_masuk"
-                                    required>
-                                <div class="invalid-feedback">
-                                    Please provide a valid entry year.
-                                </div>
+                                <label>Prog. Studi</label>
+                                <select name="ruang_uts" class="form-control">
+                                    <option> --Ruangan-- </option>
+                                    <option value="1.1">1.1</option>
+                                    <option value="1.2">1.2</option>
+                                    <option value="1.3">1.3</option>
+                                    <option value="1.4 ">1.4</option>
+                                    <option value="2.6">2.6</option>
+                                    <option value="1.1 & 1.2">1.1 & 1.2</option>
+                                    <option value="1.1 & 1.4">1.1 & 1.4</option>
+                                    <option value="2.2"> 2.2</option>
+                                    <option value="A"> A </option>
+                                    <option value="B"> B </option>
+                                    <option value="C"> C </option>
+                                    <option value="D"> D</option>
+                                    <option value="E"> E </option>
+                                </select>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="password">Password</label>
-                                <input type="password" name="password" class="form-control" placeholder="Password"
-                                    required>
+                                <label>Prog. Studi</label>
+                                <select name="kelas" class="form-control">
+                                    <option> --Ruangan-- </option>
+                                    <option value="1">Pagi</option>
+                                    <option value="2">Karyawan</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Jam UTS</label>
+                                <input type="text" name="jam" class="form-control" placeholder="Masukan Jam"
+                                    required="">
                                 <div class="invalid-feedback">
-                                    Please provide a valid password.
+                                    Please provide a valid name File
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Tanggal UTS</label>
+                                <input type="date" name="tgl_uts" class="form-control" required="">
+                                <div class="invalid-feedback">
+                                    Please provide a valid name File
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="kelas_mhs">Kelas</label>
-                            <select id="kelas_mhs" name="kelas_mhs" class="form-control" required>
-                                <option value="0">Pagi</option>
-                                <option value="1">Karyawan</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="status_mhs">Status</label>
-                            <select id="status_mhs" name="status_mhs" class="form-control" required>
-                                <option value="aktif">Aktif</option>
-                                <option value="tidak">Non Aktif</option>
-                                <option value="lulus">Lulus</option>
-                                <option value="cuti">Cuti</option>
-                            </select>
-                        </div>
 
-                        <div class="form-group">
-                            <label for="jurusan">Prog. Studi</label>
-                            <select id="jurusan" name="jurusan" class="form-control" required>
-                                <option value="">-- Jurusan --</option>
-                                <?php
-							$jurusanList = $this->JurusanModel->getData('jurusan')->result();
-							foreach ($jurusanList as $jurusan) : ?>
-                                <option value="<?php echo $jurusan->kd_jurusan; ?>">
-                                    <?php echo $jurusan->jurusan; ?>
-                                </option>
-                                <?php endforeach; ?>
-                            </select>
-                            <div class="invalid-feedback">
-                                Please select a program of study.
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="nama_dosen">Dosen Pembimbing</label>
-                            <select id="nama_dosen" name="nama_dosen" class="form-control" required>
-                                <option value="">-- Dospem --</option>
-                                <?php
-						$dosenList = $this->DosenModel->getData('dosen')->result();
-						foreach ($dosenList as $dosen) : ?>
-                                <option value="<?php echo $dosen->id_dosen; ?>">
-                                    <?php echo $dosen->nama_dosen; ?>
-                                </option>
-                                <?php endforeach; ?>
-                            </select>
-                            <div class="invalid-feedback">
-                                Please select a supervisor.
-                            </div>
-                        </div>
 
                     </div>
                 </div>
@@ -226,39 +223,28 @@ $this->load->view('admin-st/dist/header');
         </div>
     </div>
 </div>
-<!-- Modal Edit data Mahasiswa -->
-<div class="modal fade" id="editMahasiswaModal" tabindex="-1" role="dialog" aria-labelledby="editMahasiswaModalLabel"
+<div class="modal fade" id="editUtsModal" tabindex="-1" role="dialog" aria-labelledby="editUtsModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editMahasiswaModalLabel">Edit Data Mahasiswa</h5>
+                <h5 class="modal-title" id="editUtsModalLabel">Edit Data Jadwal UTS</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="editMahasiswaForm" method="POST"
-                action="<?php echo base_url('admin/mahasiswa/updateMahasiswa'); ?>" class="needs-validation" novalidate>
+            <form id="editUtsForm" method="POST" action="<?php echo base_url('admin/jadwaluts/update'); ?>"
+                class="needs-validation" novalidate>
                 <div class="modal-body">
                     <!-- Add your form fields here -->
-                    <input type="hidden" id="id_mahasiswa" name="id_mahasiswa">
+                    <input type="hidden" id="idUts" name="id_jadwal">
 
                     <div class="form-group">
-                        <label for="editNIM">NIM</label>
-                        <input type="text" class="form-control" id="editNIM" name="nim" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="editNama">Nama Lengkap</label>
-                        <input type="text" class="form-control" id="editNama" name="nama_mhs" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="editTahunMasuk">Tahun Masuk</label>
-                        <input type="text" class="form-control" id="editTahunMasuk" name="tahun_masuk" required>
+                        <label for="editMk">Matakuliah</label>
+                        <input type="text" class="form-control" id="editMk" name="nim" required>
                     </div>
                     <div class="form-group">
-                        <label for="kelas_mhs_edit">Kelas</label>
+                        <label for="kelas_mhs_edit">Kelas Mahasiswa</label>
                         <select id="kelas_mhs_edit" name="kelas_mhs" class="form-control" required>
                             <?php foreach ($kelasList as $value => $label) : ?>
                             <option value="<?php echo $value; ?>"
@@ -268,20 +254,19 @@ $this->load->view('admin-st/dist/header');
                             <?php endforeach; ?>
                         </select>
                     </div>
-
                     <div class="form-group">
-                        <label for="editStatusMhs">Status</label>
-                        <select id="editStatusMhs" name="status_mhs" class="form-control" required>
-                            <?php foreach ($statusList as $value => $label) : ?>
+                        <label for="editRuang">Ruang Mahasiswa</label>
+                        <select id="editRuang" name="ruang_uts" class="form-control" required>
+                            <?php foreach ($kelasList as $value => $label) : ?>
                             <option value="<?php echo $value; ?>"
-                                <?php echo ($value == $selectedStatus) ? 'selected' : ''; ?>>
+                                <?php echo ($value == $selectedKelas) ? 'selected' : ''; ?>>
                                 <?php echo $label; ?>
                             </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <!-- For Jurusan -->
-                    <div class="form-group">1
+                    <div class="form-group">
                         <label for="editJurusan">Prog. Studi</label>
                         <select id="editJurusan" name="jurusan" class="form-control" required>
                             <option value="">-- Jurusan --</option>
@@ -293,26 +278,21 @@ $this->load->view('admin-st/dist/header');
                             <?php endforeach; ?>
                         </select>
                     </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="editJam">Jam</label>
+                            <input type="text" class="form-control" id="editJam" name="jam" required>
 
-                    <!-- For Dosen -->
-                    <div class="form-group">
-                        <label for="editDospem">Dosen Pembimbing</label>
-                        <select id="editDospem" name="nama_dosen" class="form-control" required>
-                            <option value="">-- Dospem --</option>
-                            <?php foreach ($dosenList as $dosen) : ?>
-                            <option value="<?php echo $dosen->id_dosen; ?>"
-                                <?php echo ($dosen->id_dosen == $selectedDosen) ? 'selected' : ''; ?>>
-                                <?php echo $dosen->nama_dosen; ?>
-                            </option>
-                            <?php endforeach; ?>
-                        </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="editTgl">Tanggal</label>
+                            <input type="date" class="form-control" id="editMk" name="tgl_uts" required>
+
+                        </div>
+
                     </div>
 
 
-                    <div class="form-group">
-                        <label for="editPassword">Password</label>
-                        <input type="password" class="form-control" name="password">
-                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>
@@ -323,28 +303,16 @@ $this->load->view('admin-st/dist/header');
 </div>
 
 
-<?php $this->load->view('admin-st/dist/footer'); ?>
-<!-- JS Libraies -->
-<script src="<?php echo base_url(); ?>assets-new-look/modules/datatables/datatables.min.js"></script>
-<script
-    src="<?php echo base_url(); ?>assets-new-look/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js">
-</script>
-
-<script src="<?php echo base_url(); ?>assets-new-look/modules/datatables/Select-1.2.4/js/dataTables.select.min.js">
-</script>
-
-
-<script src="<?php echo base_url(); ?>assets-new-look/modules/jquery-ui/jquery-ui.min.js"></script>
-<script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-datatables.js"></script>
-
 <!-- Pastikan Anda sudah menyertakan SweetAlert library -->
 <script src="<?php echo base_url(); ?>assets-new-look/modules/sweetalert/sweetalert.min.js"></script>
 
 <script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-sweetalert.js"></script>
+
+
 <script>
 $(document).ready(function() {
     // Form submit event
-    $('#formTambahMahasiswa').submit(function(e) {
+    $('#formTambahUts').submit(function(e) {
         e.preventDefault();
         var csrfName = '<?= $this->security->get_csrf_token_name(); ?>';
         var csrfHash = '<?= $this->security->get_csrf_hash(); ?>';
@@ -355,7 +323,7 @@ $(document).ready(function() {
         // Send AJAX request
         $.ajax({
             type: 'POST',
-            url: '<?php echo base_url('admin/mahasiswa/insert'); ?>',
+            url: '<?php echo base_url('admin/jadwaluts/insert'); ?>',
             data: formData,
             dataType: 'json',
             success: function(response) {
@@ -373,7 +341,7 @@ $(document).ready(function() {
                             // ...
                             window.location.reload();
                             // Close the modal
-                            $('#tambahMahasiswa').modal('hide');
+                            $('#tambahUts').modal('hide');
                         }
                     });
                 } else {
@@ -402,35 +370,29 @@ $(document).ready(function() {
         });
     });
 });
-</script>
-
-<script>
 $(document).ready(function() {
     // Fungsi untuk menampilkan nilai pada form modal saat tombol Edit diklik
     $(document).on('click', '.btn-edit', function() {
-        var idMahasiswa = $(this).data('id-mahasiswa');
-        var nim = $(this).data('nim');
-        var namaMhs = $(this).data('nama-mhs');
-        var tahunMasuk = $(this).data('tahun-masuk');
-        var kelasMhs = $(this).data('kelas-mhs');
-        var statusMhs = $(this).data('status-mhs');
-        var dospem = $(this).data('dosen-pemb');
-        var jursMhs = $(this).data('jurusan-mhs');
+        var idUts = $(this).data('id-jadwal');
+        var kodeMK = $(this).data('kdMk');
+        var jurs = $(this).data('jurusan');
+        var kelas = $(this).data('kelas');
+        var tgl = $(this).data('tgluts');
+        var jam = $(this).data('jam');
+        var ruang = $(this).data('ruang');
+
 
         // Isikan nilai ke dalam form modal
-        $('#id_mahasiswa').val(idMahasiswa);
-        $('#editNIM').val(nim);
-        $('#editNama').val(namaMhs);
-        $('#editTahunMasuk').val(tahunMasuk);
-        $('#kelas_mhs_edit').val(kelasMhs);
-        $('#editStatusMhs').val(statusMhs);
-        $('#editDospem').val(dospem);
-        $('#editJurusan').val(jursMhs);
-
-        // $('#editPassword').val(password);
+        $('#idUts').val(idUts);
+        $('#editMk').val(kodeMK);
+        $('#editJurs').val(jurs);
+        $('#editKelas').val(kelas);
+        $('#editTgl').val(tgl);
+        $('#editJam').val(jam);
+        $('#editRuang').val(ruang);
     });
 
-    $('#editMahasiswaForm').submit(function(e) {
+    $('#editUtsForm').submit(function(e) {
         e.preventDefault();
 
         // Get form data and append CSRF token
@@ -441,7 +403,7 @@ $(document).ready(function() {
         // Send AJAX request
         $.ajax({
             type: 'POST',
-            url: '<?php echo base_url('admin/mahasiswa/updateMahasiswa'); ?>',
+            url: '<?php echo base_url('admin/jadwaluts/update'); ?>',
             data: formData,
             dataType: 'json',
             success: function(response) {
@@ -476,11 +438,11 @@ $(document).ready(function() {
 <script>
 // Fungsi untuk menampilkan nilai pada form modal saat tombol Delete diklik
 $(document).on('click', '.btn-delete', function() {
-    var idMahasiswa = $(this).data('id');
+    var id_jadwal = $(this).data('id');
 
     // Include CSRF token dalam data
     var formData = {
-        id_mahasiswa: idMahasiswa,
+        id_jadwal: id_jadwal,
         '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
     };
 
@@ -498,7 +460,7 @@ $(document).on('click', '.btn-delete', function() {
             // Pengguna mengonfirmasi, kirim permintaan AJAX untuk menghapus
             $.ajax({
                 type: 'POST',
-                url: '<?php echo base_url('admin/mahasiswa/deleteMahasiswa'); ?>',
+                url: '<?php echo base_url('admin/jadwaluts/delete'); ?>',
                 data: formData,
                 dataType: 'json',
                 success: function(response) {
@@ -525,9 +487,12 @@ $(document).on('click', '.btn-delete', function() {
                 },
                 error: function(error) {
                     console.log('AJAX Error:', error);
+
                 }
             });
         }
     });
+
+
 });
 </script>

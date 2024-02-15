@@ -19,14 +19,18 @@ class Settings extends CI_Controller {
 		$data['tahun'] = $this->TaModel->getAktifKrs()->row_array();
 		$data['status'] = $this->db->get('set_krs')->row_array();
 		$data['users'] = $this->UserModel->get_users();
-
 		
-		//$data['jurusan'] = $this->JurusanModel->getData('jurusan')->result();
-		// $this->load->view('admin/template/header', $data);
-		// $this->load->view('admin/template/sidebar', $data);
+		$rolelist = array(
+			'bauk' => 'BAUK',
+			'admin' => 'Admin',
+		);
+		$users = $this->UserModel->get_users();
+		$selectedRole = $users->role; 
+		$data['rolelist'] = $rolelist;
+		$data['selectedRole'] = $selectedRole;
+		
 		$this->load->view('admin-st/settings/settings-st', $data);
-		// $this->load->view('admin/template/footer');
-	}
+		}
 
 //SETTING KRS AKTIF
 	public function setKrs($id)
@@ -118,6 +122,45 @@ public function AddUsers()
     } else {
         // Jika metode bukan POST, kirim respon error
         echo json_encode(['status' => 'error', 'message' => 'Invalid Request Method']);
+    }
+}
+public function UpdateUsers (){
+	if (!$this->input->is_ajax_request()) {
+        show_404();
+    }
+
+    $idUser = $this->input->post('id');
+    $username = $this->input->post('username');
+    $email = $this->input->post('email');
+    $role = $this->input->post('role');
+	$password = md5($this->input->post('password'), PASSWORD_DEFAULT);
+    // Validation if needed
+
+    // Check if the password is empty, set a default password
+   
+    // Update data Users
+    $data = array(
+        'id' 			=> $idUser,
+        'username' 		=> $username,
+        'email'			=> $email,
+		'role'			=> $role,
+        'password' 		=> $password,
+	
+    );
+
+    // Validate CSRF token
+    if ($this->input->post($this->security->get_csrf_token_name()) !== $this->security->get_csrf_hash()) {
+        echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+        return;
+    }
+
+    // Update the data in the database
+    $result = $this->MahasiswaModel->updateData('users', $data, ['id' => $idUser]);
+
+    if ($result) {
+        echo json_encode(['status' => 'success', 'message' => 'Data User updated successfully']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Failed to update data User ']);
     }
 }
 public function insert()

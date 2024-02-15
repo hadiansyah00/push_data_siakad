@@ -19,10 +19,10 @@ class Jadwal_pra_uap extends CI_Controller
 
 		$data['tahun'] = $this->TaModel->getAktif()->result();
 		$data['jurusan'] = $this->JurusanModel->getData2('jurusan')->result();
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/jadwal_pra_uap/jadwal_pra_uap', $data);
-		$this->load->view('admin/template/footer');
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/jadwal_pra_uap/jadwal_pra_uap-st', $data);
+		// $this->load->view('admin/template/footer');
 	}
 
     public function index_jadwal2($id)
@@ -37,10 +37,10 @@ class Jadwal_pra_uap extends CI_Controller
 		$data['detil'] = $this->JurusanModel->detilData('jurusan', $where)->result();
 		$data['matkul'] = $this->JadwaluasModel->getMatkul($id)->result();
 		$data['jadwal'] = $this->JadwaluapModel->getDataPra($id)->result();
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/jadwal_pra_uap/master_jadwal_pra_uap', $data);
-		$this->load->view('admin/template/footer');
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/jadwal_pra_uap/master_jadwal_pra_uap-st', $data);
+		// $this->load->view('admin/template/footer');
 	}
 
 	public function insert($kd_jurusan)

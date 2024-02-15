@@ -28,6 +28,8 @@ class JadwalModel extends CI_Model
 	// 			ORDER BY semester ASC";
 	// 	return $this->db->query($data);
 	// }
+
+	
 	public function getPdf()
 	
 	{

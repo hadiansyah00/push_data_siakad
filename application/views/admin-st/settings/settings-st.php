@@ -48,6 +48,15 @@ $this->load->view('admin-st/dist/header');
                                             <td><?php echo $user['email']; ?></td>
                                             <td><?php echo $user['role']; ?></td>
                                             <td>
+                                                <button type="button" class="btn btn-primary btn-sm btn-edit"
+                                                    data-id-users="<?php echo$user['id']; ?>"
+                                                    data-username="<?php echo $user['username']; ?>"
+                                                    data-email="<?php echo $user['email']; ?>"
+                                                    data-password="<?php echo $user['password']; ?>"
+                                                    data-role="<?php echo $user['role']; ?>" data-toggle="modal"
+                                                    data-target="#editUserModal">
+                                                    Edit
+                                                </button>
                                                 <button type="button" class="btn btn-danger btn-sm btn-delete"
                                                     data-id="<?php echo $row->id_ta; ?>">
                                                     Delete
@@ -172,6 +181,7 @@ $this->load->view('admin-st/dist/header');
                                                 </div>
                                             </td>
                                             <td>
+
                                                 <button type="button" class="btn btn-danger btn-sm btn-delete"
                                                     data-id="<?php echo $row->id_ta; ?>">
                                                     Delete
@@ -287,7 +297,58 @@ $this->load->view('admin-st/dist/header');
         </div>
     </div>
 </div>
+<div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUserModalLabel">Edit Data User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editUserForm" method="POST" action="<?php echo base_url('admin/settings/UpdateUser'); ?>"
+                class="needs-validation" novalidate>
+                <div class="modal-body">
+                    <!-- Add your form fields here -->
+                    <input type="hidden" id="editId" name="id">
 
+                    <div class="form-group">
+                        <label for="editUser">Username</label>
+                        <input type="text" class="form-control" id="editUser" name="username" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editEmail">Email</label>
+                        <input type="email" class="form-control" id="editEmail" name="email" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="editRole">Role</label>
+                        <select id="editRole" name="role" class="form-control" required>
+                            <?php foreach ($rolelist as $value => $label) : ?>
+                            <option value="<?php echo $value; ?>"
+                                <?php echo ($value == $selectedRole) ? 'selected' : ''; ?>>
+                                <?php echo $label; ?>
+                            </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="editPass">Password</label>
+                        <input type="password" class="form-control" name="password">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -419,6 +480,7 @@ $(document).ready(function() {
         });
     });
 });
+//Delete Tahun Akademik 
 $(document).on('click', '.btn-delete', function() {
     var idTa = $(this).data('id');
 
@@ -476,6 +538,7 @@ $(document).on('click', '.btn-delete', function() {
 });
 </script>
 <script>
+//Toogle Tahun Akadedmik
 $(document).ready(function() {
     $('.toggle-switch').change(function() {
         var id_ta = $(this).data('id');
@@ -511,7 +574,72 @@ $(document).ready(function() {
     });
 });
 </script>
+<script>
+// Edit Modal
+$(document).ready(function() {
+    // Fungsi untuk menampilkan nilai pada form modal saat tombol Edit diklik
+    $(document).on('click', '.btn-edit', function() {
+        var idUsers = $(this).data('id-users');
+        var user = $(this).data('username');
+        var em = $(this).data('email');
+        var password = $(this).data('password');
+        var role = $(this).data('role');
 
+
+        // Isikan nilai ke dalam form modal
+        $('#editId').val(idUsers);
+        $('#editUser').val(user);
+        $('#editEmail').val(em);
+        $('#editPass').val(password);
+        $('#editRole').val(role);
+
+
+        // $('#editPassword').val(password);
+    });
+
+    $('#editUserForm').submit(function(e) {
+        e.preventDefault();
+
+        // Get form data and append CSRF token
+        var formData = $(this).serialize();
+        formData +=
+            '&<?php echo $this->security->get_csrf_token_name(); ?>=<?php echo $this->security->get_csrf_hash(); ?>';
+
+        // Send AJAX request
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url('admin/settings/UpdateUsers'); ?>',
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'success') {
+                    // Display success message using SweetAlert
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: response.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(function() {
+                        // Reload the page after the delay
+                        window.location.reload();
+                    });
+                } else {
+                    // Display error message using SweetAlert
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: response.message
+                    });
+                }
+            },
+            error: function(error) {
+                console.log('AJAX Error:', error);
+            }
+        });
+    });
+});
+</script>
 
 </script>
 <?php $this->load->view('admin-st/dist/footer'); ?>

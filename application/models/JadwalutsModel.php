@@ -5,7 +5,7 @@ class JadwalutsModel extends CI_Model
 
 	
 
-	public function getAll($id)
+	public function getAll()
 	{
 		$this->db->select('*');
 		$this->db->from('jadwal_uts');
@@ -13,19 +13,18 @@ class JadwalutsModel extends CI_Model
 		$this->db->join('jurusan', 'jurusan.kd_jurusan = jadwal_uts.kd_jurusan', 'left');
 // 		$this->db->join('dosen', 'dosen.id_dosen = jadwal_uts.id_dosen', 'left');
 		$this->db->join('matakuliah', 'matakuliah.kd_mk = jadwal_uts.kd_mk', 'left');
-		$this->db->where('jadwal_uts.kd_jurusan', $id);
+		// $this->db->where('jadwal_uts.kd_jurusan', $id);
 		$this->db->order_by('smt', 'ASC');
 		$this->db->order_by('tgl_uts', 'ASC');
-			$this->db->order_by('id_jadwal', 'ASC');
+		$this->db->order_by('id_jadwal', 'ASC');
 		$query = $this->db->get();
 		return $query;
 	}
 
-	public function getMatkul($id)
+	public function getMatkul()
 	{
 		$this->db->select('*');
 		$this->db->from('matakuliah');
-		$this->db->where('matakuliah.kd_jurusan', $id);
 		$this->db->order_by('smt', 'ASC');
 		$query = $this->db->get();
 		return $query;

@@ -78,18 +78,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </ul>
         </li>
         <li
-            class="dropdown <?php echo $this->uri->segment(2) == 'Krs' || $this->uri->segment(2) == 'KrsView' || $this->uri->segment(2) == 'Khs'|| $this->uri->segment(2) == 'NilaiUts'|| $this->uri->segment(2) == 'NilaiUas'|| $this->uri->segment(2) == 'nilai_akhir'  ? 'active' : ''; ?>">
+            class="dropdown <?php echo $this->uri->segment(2) == 'jadwal' || $this->uri->segment(2) == 'KrsView' || $this->uri->segment(2) == 'Khs'|| $this->uri->segment(2) == 'NilaiUts'|| $this->uri->segment(2) == 'NilaiUas'|| $this->uri->segment(2) == 'nilai_akhir'  ? 'active' : ''; ?>">
             <a href="#" class="nav-link has-dropdown"><i class="far fa-file-alt"></i> <span>Data Jadwal</span></a>
             <ul class="dropdown-menu">
 
-                <li class="<?php echo $this->uri->segment(2) == 'Khs' ? 'active' : ''; ?>"><a class="nav-link"
-                        href="<?php echo base_url(); ?>mhs/Khs"> Jadwal Kuliah</a></li>
-                <li class="<?php echo $this->uri->segment(2) == 'Khs' ? 'active' : ''; ?>"><a class="nav-link"
-                        href="<?php echo base_url(); ?>mhs/Khs"> Jadwal UTS</a></li>
-                <li class="<?php echo $this->uri->segment(2) == 'Khs' ? 'active' : ''; ?>"><a class="nav-link"
-                        href="<?php echo base_url(); ?>mhs/Khs"> Jadwal Pra UAP</a></li>
-                <li class="<?php echo $this->uri->segment(2) == 'Khs' ? 'active' : ''; ?>"><a class="nav-link"
-                        href="<?php echo base_url(); ?>mhs/Khs"> Jadwal UAP</a></li>
+                <li class="<?php echo $this->uri->segment(2) == 'jadwal' ? 'active' : ''; ?>"><a class="nav-link"
+                        href="<?php echo base_url(); ?>admin/jadwal"> Jadwal Kuliah</a></li>
+                <li class="<?php echo $this->uri->segment(2) == 'jadwaluts' ? 'active' : ''; ?>"><a class="nav-link"
+                        href="<?php echo base_url(); ?>admin/jadwaluts"> Jadwal UTS</a></li>
+                <li class="<?php echo $this->uri->segment(2) == 'jadwaluas' ? 'active' : ''; ?>"><a class="nav-link"
+                        href="<?php echo base_url(); ?>admin/jadwaluas"> Jadwal UAS</a></li>
+                <li class="<?php echo $this->uri->segment(2) == 'Jadwal_pra_uap' ? 'active' : ''; ?>"><a
+                        class="nav-link" href="<?php echo base_url(); ?>admin/Jadwal_pra_uap"> Jadwal Pra UAP</a></li>
+                <li class="<?php echo $this->uri->segment(2) == 'Jadwal_uap' ? 'active' : ''; ?>"><a class="nav-link"
+                        href="<?php echo base_url(); ?>admin/Jadwal_uap"> Jadwal UAP</a></li>
             </ul>
         </li>
         <li
@@ -109,7 +111,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <li class="<?php echo $this->uri->segment(2) == 'B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab' ? 'active' : ''; ?>">
             <a class="nav-link" href="<?php echo base_url(); ?>bauk/B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab"><i
                     class="fas fa-pencil-ruler"></i>
-                <span>Aktivasi Mahasiswa</span></a></li>
+                <span>Aktivasi Mahasiswa</span></a>
+        </li>
         <li class="menu-header">Setting Tahun Ajaran</li>
         <li class="<?php echo $this->uri->segment(2) == 'settings' ? 'active' : ''; ?>"><a class="nav-link"
                 href="<?php echo base_url(); ?>admin/settings"><i class="fas fa-pencil-ruler"></i>
