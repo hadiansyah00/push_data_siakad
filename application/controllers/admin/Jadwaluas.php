@@ -19,12 +19,16 @@ class Jadwaluas extends CI_Controller
 		$data['matkul'] = $this->JadwaluasModel->getMatkul()->result();
 		$data['tahun'] = $this->TaModel->getAktif()->result();
 		$data['jurusan'] = $this->JurusanModel->getData('jurusan')->result();
-		// $this->load->view('admin/template/header', $data);
-		// $this->load->view('admin/template/sidebar', $data);
-		$data['jadwal'] = $this->JadwaluasModel->getAll()->result();
+	
+		
+		$data['matkulgz'] = $this->JadwalutsModel->getMatkulgz()->result();
+		$data['matkulfarm'] = $this->JadwalutsModel->getMatkulfarm()->result();
+		$data['matkulkb'] = $this->JadwalutsModel->getMatkulkb()->result();
+
+		$data['jadwaluas'] = $this->JadwaluasModel->getJadwalUASByTaAktif()->result();
 		$this->load->view('admin-st/jadwal_uas/jadwal_uas-st', $data);
-		// $this->load->view('admin/template/footer');
-	}
+		
+		}
 
    
 public function insert()
@@ -40,7 +44,7 @@ public function insert()
 
         // Set aturan validasi sesuai kebutuhan
         $this->form_validation->set_rules('kelas', 'Kelas Mahasiswa', 'required');
-        $this->form_validation->set_rules('jurusan', 'Program Studi', 'required');
+        // $this->form_validation->set_rules('jurusan', 'Program Studi', 'required');
 		
         // Tambahkan aturan validasi lainnya sesuai kebutuhan
 
@@ -50,22 +54,29 @@ public function insert()
             echo json_encode(['status' => 'error', 'message' => validation_errors()]);
             return;
         }
-		$ta = $this->TaModel->getAktif()->result();
-		foreach ($ta as $t) :
-			$a = $t->id_ta;
-		endforeach;
-        $data = [
-           
-            'id_ta'			=> $a,
-			'kelas'  		=> $this->input->post('kelas'),
-			'kd_jurusan'  	=> $this->input->post('jurusan'),
-			'kd_mk'  		=> $this->input->post('matkul'),
-			'jam_uas'  		=> $this->input->post('jam_uas'),
-			'ruang_uts' 	=> $this->input->post('ruang_uas'),
-			'tgl_uas'  		=> $this->input->post('tgl_uas'),
-            'tgl_insert'  	=> date('y-m-d'),
-        ];
+		$ta = $this->TaModel->getAktif()->row();
+		$id_ta = $ta->id_ta;
 
+		// Mendapatkan kode mata kuliah yang dipilih
+		$kd_mk = $this->input->post('matkul');
+
+		// Mendapatkan data mata kuliah berdasarkan kode mata kuliah
+		$matakuliah = $this->MatkulModel->getByKode($kd_mk);
+
+		// Menggunakan data mata kuliah untuk mendapatkan kode jurusan
+		$kd_jurusan = $matakuliah->kd_jurusan;
+
+		// Data yang akan disimpan dalam database
+		$data = [
+			'id_ta'         => $id_ta,
+			'kelas'         => $this->input->post('kelas'),
+			'kd_jurusan'    => $kd_jurusan, // Menggunakan kode jurusan dari mata kuliah
+			'kd_mk'         => $kd_mk,
+			'jam_uas'       => $this->input->post('jam_uas'),
+			'ruang_uas'     => $this->input->post('ruang_uas'),
+			'tgl_uas'       => $this->input->post('tgl_uas'),
+			'tgl_insert'    => date('y-m-d'),
+		];
         // Simpan data ke database
         $this->MahasiswaModel->insertData('jadwal_uas', $data);
 
@@ -76,43 +87,6 @@ public function insert()
         echo json_encode(['status' => 'error', 'message' => 'Invalid Request Method']);
     }
 }
-	// public function insert($kd_jurusan)
-	// {
-	// 	$ta = $this->TaModel->getAktif()->result();
-	// 	foreach ($ta as $t) :
-	// 		$a = $t->id_ta;
-	// 	endforeach;
-	// 	$data = array(
-	// 		'kd_jurusan'		=> $kd_jurusan,
-	// 		'id_ta'				=> $a,
-	// 		'kd_mk'				=> htmlspecialchars($this->input->post('matkul')),
-	// 	    'kelas'				=> htmlspecialchars($this->input->post('kelas')),
-	// 		'jam_uas'			=> htmlspecialchars($this->input->post('jam_uas')),
-	// 		'ruang_uas'			=> htmlspecialchars($this->input->post('ruang_uas')),
-	// 		'tgl_uas'			=> htmlspecialchars($this->input->post('tgl_uas')),
-	// 		'tgl_uas'			=>  htmlspecialchars($this->input->post('tgl_uas')),
-	// 		'tgl_insert'    	=> date('y-m-d'),
-	// 	);
-
-	// 	//var_dump($data);
-	// 	$this->JadwaluasModel->insertData('jadwal_uas', $data);
-	// 	$this->session->set_flashdata(
-	// 		'pesan',
-	// 		'<div class="alert alert-block alert-success">
-	// 			<button type="button" class="close" data-dismiss="alert">
-	// 				<i class="ace-icon fa fa-times"></i>
-	// 			</button>
-
-	// 			<i class="ace-icon fa fa-check green"></i>
-
-	// 			Data
-	// 			<strong class="green">
-	// 				Jadwal UAS
-	// 			</strong>Berhasi di input!
-	// 		</div>'
-	// 	);
-	// 	redirect($_SERVER['HTTP_REFERER']);
-	// }
 
 	public function update()
 	{
@@ -157,19 +131,31 @@ public function insert()
 			echo json_encode(['status' => 'error', 'message' => 'Failed to update data Mahasiswa']);
 		}
 	}
-	public function delete()
-	{
-		$idJadwal = $this->input->post('id_jawdal');
-		
-		// Perform the delete operation and check for success
-		// Adjust the following code based on your implementation
-		$result = $this->MahasiswaModel->deleteData('jadwal_uas', array('id_jadwal' => $idJadwal));
-		if ($result) {
-			echo json_encode(array('status' => 'success'));
-		} else {
-			echo json_encode(array('status' => 'error'));
-		}
-	}
+	public function delete() {
+        // Pastikan ini adalah permintaan AJAX
+        if (!$this->input->is_ajax_request()) {
+            exit('No direct script access allowed');
+        }
+
+        // Tangkap ID jadwal yang akan dihapus dari permintaan POST
+        $id_jadwal = $this->input->post('id_jadwal');
+
+        // Hapus data dengan menggunakan model
+        $delete = $this->JadwaluasModel->delete_data($id_jadwal);
+
+        if ($delete) {
+            // Berhasil dihapus
+            $response['status'] = 'success';
+            $response['message'] = 'Data Jadwal berhasil dihapus.';
+        } else {
+            // Gagal menghapus
+            $response['status'] = 'error';
+            $response['message'] = 'Gagal menghapus data. Silakan coba lagi.';
+        }
+
+        // Kembalikan respons dalam format JSON
+        echo json_encode($response);
+    }
 // 	public function update($id)
 // 	{
 // 		$data['title'] = 'Update Data Jawdal UAS SBH';

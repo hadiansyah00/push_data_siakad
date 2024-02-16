@@ -238,5 +238,17 @@ public function updateStatus()
 			} else {
 				echo json_encode(array('status' => 'error'));
 			}
-		}					
+		}	
+		public function set_all_status_zero()
+		{
+		
+			$this->MahasiswaModel->set_all_status_zero();
+			$this->session->set_flashdata('pesan', 'Semua status berhasil direset.');
+				
+				// Output untuk AJAX
+				$response['success'] = true;
+				$response['message'] = 'Semua status berhasil direset.';
+				echo json_encode($response);
+		}
+				
 }

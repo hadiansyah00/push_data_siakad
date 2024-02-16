@@ -78,7 +78,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </ul>
         </li>
         <li
-            class="dropdown <?php echo $this->uri->segment(2) == 'jadwal' || $this->uri->segment(2) == 'KrsView' || $this->uri->segment(2) == 'Khs'|| $this->uri->segment(2) == 'NilaiUts'|| $this->uri->segment(2) == 'NilaiUas'|| $this->uri->segment(2) == 'nilai_akhir'  ? 'active' : ''; ?>">
+            class="dropdown <?php echo $this->uri->segment(2) == 'jadwal' || $this->uri->segment(2) == 'jadwaluts' || $this->uri->segment(2) == 'jadwaluas'|| $this->uri->segment(2) == 'Jadwal_pra_uap'|| $this->uri->segment(2) == 'Jadwal_uap'|| $this->uri->segment(2) == 'nilai_akhir'  ? 'active' : ''; ?>">
             <a href="#" class="nav-link has-dropdown"><i class="far fa-file-alt"></i> <span>Data Jadwal</span></a>
             <ul class="dropdown-menu">
 
@@ -99,10 +99,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <a href="#" class="nav-link has-dropdown"><i class="far fa-file-alt"></i> <span>Data Nilai</span></a>
             <ul class="dropdown-menu">
 
+                <li class="<?php echo $this->uri->segment(2) == 'nilai' ? 'active' : ''; ?>"><a class="nav-link"
+                        href="<?php echo base_url(); ?>admin/nilai"> Input Nilai</a></li>
                 <li class="<?php echo $this->uri->segment(2) == 'Khs' ? 'active' : ''; ?>"><a class="nav-link"
-                        href="<?php echo base_url(); ?>mhs/Khs"> Input Nilai</a></li>
-                <li class="<?php echo $this->uri->segment(2) == 'Khs' ? 'active' : ''; ?>"><a class="nav-link"
-                        href="<?php echo base_url(); ?>mhs/Khs"> Transkrip Nilai</a></li>
+                        href="<?php echo base_url(); ?>admin/nilai/transkrip"> Transkrip Nilai</a></li>
 
             </ul>
         </li>

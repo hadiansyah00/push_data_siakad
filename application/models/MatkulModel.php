@@ -24,13 +24,18 @@ class MatkulModel extends CI_Model
 		$query = $this->db->get()->result();
 		return $query;
 	}
+	public function getByKode($kd_mk)
+	{
+		return $this->db->get_where('matakuliah', ['kd_mk' => $kd_mk])->row();
+	}
 
 	// public function allData($table, $where)
 	// {
 	// }
 
 	public function getMatkul()
-	{
+	{	
+		
 		$this->db->order_by('smt', 'ASC');
 		$query = $this->db->get('matakuliah');
 		return $query;

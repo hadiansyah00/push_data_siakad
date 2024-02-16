@@ -5,26 +5,60 @@ class JadwalutsModel extends CI_Model
 
 	
 
-	public function getAll()
+	public function getJadwalUTSByTaAktif() {
+
+    $this->db->select('*');
+    $this->db->from('jadwal_uts');
+    $this->db->join('ta', 'ta.id_ta = jadwal_uts.id_ta', 'left');
+    $this->db->join('jurusan', 'jurusan.kd_jurusan = jadwal_uts.kd_jurusan', 'left');
+    $this->db->join('matakuliah', 'matakuliah.kd_mk = jadwal_uts.kd_mk', 'left');
+    $this->db->where('ta.status', 1); // Memastikan tahun akademik aktif
+    $this->db->order_by('smt', 'ASC');
+    $this->db->order_by('tgl_uts', 'ASC');
+    $this->db->order_by('id_jadwal', 'ASC');
+    $query = $this->db->get();
+    return $query;
+}
+    public function delete_data($id_jadwal) {
+        // Lakukan penghapusan data dari database
+        $this->db->where('id_jadwal', $id_jadwal);
+        $delete = $this->db->delete('jadwal_uts');
+
+        // Mengembalikan status penghapusan
+        return $delete;
+    }
+
+public function getDataProg()
 	{
 		$this->db->select('*');
 		$this->db->from('jadwal_uts');
-		$this->db->join('ta', 'ta.id_ta = jadwal_uts.id_ta', 'left');
 		$this->db->join('jurusan', 'jurusan.kd_jurusan = jadwal_uts.kd_jurusan', 'left');
-// 		$this->db->join('dosen', 'dosen.id_dosen = jadwal_uts.id_dosen', 'left');
-		$this->db->join('matakuliah', 'matakuliah.kd_mk = jadwal_uts.kd_mk', 'left');
-		// $this->db->where('jadwal_uts.kd_jurusan', $id);
-		$this->db->order_by('smt', 'ASC');
-		$this->db->order_by('tgl_uts', 'ASC');
-		$this->db->order_by('id_jadwal', 'ASC');
 		$query = $this->db->get();
 		return $query;
 	}
-
-	public function getMatkul()
+	public function getMatkulgz()
 	{
 		$this->db->select('*');
 		$this->db->from('matakuliah');
+		$this->db->where('kd_jurusan', 13211);
+		$this->db->order_by('smt', 'ASC');
+		$query = $this->db->get();
+		return $query;
+	}
+	public function getMatkulfarm()
+	{
+		$this->db->select('*');
+		$this->db->from('matakuliah');
+		$this->db->where('kd_jurusan', 48201);
+		$this->db->order_by('smt', 'ASC');
+		$query = $this->db->get();
+		return $query;
+	}
+	public function getMatkulkb()
+	{
+		$this->db->select('*');
+		$this->db->from('matakuliah');
+		$this->db->where('kd_jurusan', 15401);
 		$this->db->order_by('smt', 'ASC');
 		$query = $this->db->get();
 		return $query;

@@ -567,4 +567,26 @@ class MahasiswaModel extends CI_Model
 			return 0;
 		}
 	}
+	public function set_all_status_zero() {
+        // Lakukan pengubahan status di sini
+        // Contoh: Mengubah semua status menjadi 0 pada tabel mahasiswa
+
+        // Update status menjadi 0
+        $this->db->set('status', 0);
+		$this->db->set('status_uts', 0);
+		$this->db->set('status_uas', 0);
+		$this->db->set('status_uap', 0);
+		$this->db->set('status_pra_uap', 0);
+		$this->db->set('status_nilai_uts', 0);
+		$this->db->set('status_nilai_uas', 0);
+		$this->db->set('status_nilai_khs', 0);
+        $this->db->update('mahasiswa');
+
+        // Tambahkan proses yang sama untuk kolom lain jika diperlukan
+
+        // Jika ingin menangani kesalahan atau memberikan respons, tambahkan kode di sini
+        // Misalnya, return nilai untuk memberikan informasi ke kontroler
+        return true;
+	}
+	
 }

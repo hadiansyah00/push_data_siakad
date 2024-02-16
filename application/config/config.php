@@ -486,7 +486,9 @@ $config['csrf_exclude_uris'] = array(
 
 	'admin/evaluasi/insert',
 	'admin/evaluasi/delete',
-	
+
+	'admin/settings/set_all_status_zero',
+	'admin/settings/updateStatus',
 	'admin/settings/insert',
 	'admin/settings/AddUsers',
 	'admin/settings/UpdateUsers',
@@ -496,22 +498,22 @@ $config['csrf_exclude_uris'] = array(
 	'admin/jadwal/do_upload',
 	'admin/jadwal/simpan_ke_database',
 
-	'admin/jadwal/jadwaluts/insert',
-	'admin/jadwal/jadwaluts/update',
-	'admin/jadwal/jadwaluts/delete',
+	'admin/jadwaluts/insert',
+	'admin/jadwaluts/update',
+	'admin/jadwaluts/delete',
 
-	'admin/jadwal/jadwaluas/insert',
-	'admin/jadwal/jadwaluas/update',
-	'admin/jadwal/jadwaluas/delete',
+	'admin/jadwaluas/insert',
+	'admin/jadwaluas/update',
+	'admin/jadwaluas/deleteJadwal',
 
-	'admin/jadwal/jadwal_pra_uap/insert',
-	'admin/jadwal/jadwal_pra_uap/update',
-	'admin/jadwal/jadwal_pra_uap/delete',
+	'admin/jadwal_pra_uap/insert',
+	'admin/jadwal_pra_uap/update',
+	'admin/jadwal/jadwal_pra_uap/deleteJadwal',
 
-	'admin/jadwal/jadwal_uap/insert',
-	'admin/jadwal/jadwal_uap/update',
-	'admin/jadwal/jadwal_uap/delete',
-	
+	'admin/jadwal_uap/insert',
+	'admin/jadwal_uap/update',
+	'admin/jadwal_uap/deleteJadwal',
+	'admin/nilai/input',
 	// 'mhs/Home',
 	'mhs/krs/simpan_krs',
 	'mhs/Evaluasi_mhs/simpan',
@@ -528,6 +530,9 @@ $config['csrf_exclude_uris'] = array(
 	'mhs/profil/updateAksiSemester',
 	'admin/kurikulum/insert',
 	'admin/kurikulum/insert/{kd_jurusan}',
+
+
+
 	// BAUK
 	'bauk/B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab/updateStatusKrs',
 	'bauk/B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab/updateStatusUts',

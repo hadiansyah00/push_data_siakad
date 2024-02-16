@@ -25,8 +25,17 @@ $this->load->view('admin-st/dist/header');
                     <div class="card">
                         <div class="card-header">
                             <a href="#" target="_blank" class="btn btn-sm btn-primary" data-toggle="modal"
-                                data-target="#tambahUts"><i class="fa fa-plus"></i>Tambah
+                                data-target="#tambahUtskb"><i class="fa fa-plus"></i>Tambah Kebidanan
                             </a>
+                            &nbsp;
+                            <a href="#" target="_blank" class="btn btn-sm btn-primary" data-toggle="modal"
+                                data-target="#tambahUtsgz"><i class="fa fa-plus"></i>Tambah Gizi
+                            </a>
+                            &nbsp;
+                            <a href="#" target="_blank" class="btn btn-sm btn-primary" data-toggle="modal"
+                                data-target="#tambahUtsfr"><i class="fa fa-plus"></i>Tambah Farmasi
+                            </a>
+
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -37,7 +46,9 @@ $this->load->view('admin-st/dist/header');
                                             <th>Kode MK</th>
                                             <th>Kelas</th>
                                             <th>Prog Studi</th>
+                                            <th>Matkul</th>
                                             <th>SKS</th>
+                                            <th>SMT</th>
                                             <th>Tanggal UTS</th>
                                             <th>Ruang UTS</th>
                                             <th>Aksi</th>
@@ -46,8 +57,6 @@ $this->load->view('admin-st/dist/header');
                                     <tbody>
                                         <?php $i = 1;
 									foreach ($jadwal as $row) { ?>
-                                        <?php if ($row->semester == $tahun['semester']) { ?>
-                                        <?php if ($row->status == $tahun['status']) { ?>
                                         <tr>
                                             <td><?php echo $i++; ?></td>
                                             <td><?php echo $row->kd_mk; ?></td>
@@ -76,7 +85,7 @@ $this->load->view('admin-st/dist/header');
 
                                             <td>
                                                 <!-- Tambahkan data-nilai pada tombol Edit -->
-                                                <button type="button" class="btn btn-primary btn-sm btn-edit"
+                                                <!-- <button type="button" class="btn btn-primary btn-sm btn-edit"
                                                     data-id-jadwal="<?php echo $row->id_jadwal;; ?>"
                                                     data-kdMk="<?php echo $row->kd_mk; ?>"
                                                     data-jurusan="<?php echo $row->kd_jurusan; ?>"
@@ -86,18 +95,17 @@ $this->load->view('admin-st/dist/header');
                                                     data-ruang="<?php echo $row->ruang_uts; ?>" data-toggle="modal"
                                                     data-target="#editUtsModal">
                                                     Edit
-                                                </button>
+                                                </button> -->
 
 
                                                 <button type="button" class="btn btn-danger btn-sm btn-delete"
-                                                    data-id="<?php echo $row->id_mahasiswa; ?>">
+                                                    data-id="<?php echo $row->id_jadwal; ?>">
                                                     Delete
                                                 </button>
                                             </td>
 
                                         </tr>
-                                        <?php } ?>
-                                        <?php } ?>
+
                                         <?php } ?>
                                     </tbody>
                                 </table>
@@ -123,11 +131,11 @@ $this->load->view('admin-st/dist/header');
 <script src="<?php echo base_url(); ?>assets-new-look/modules/jquery-ui/jquery-ui.min.js"></script>
 <script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-datatables.js"></script>
 <?php $kd_jurusan = $this->uri->segment(4); ?>
-<div class="modal fade" tabindex="-1" role="dialog" id="tambahUts">
+<div class="modal fade" tabindex="-1" role="dialog" id="tambahUtsgz">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah Data Jadwal UTS</h5>
+                <h5 class="modal-title">Tambah Data Jadwal UTS Gizi </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -136,34 +144,204 @@ $this->load->view('admin-st/dist/header');
                 <div class="modal-body">
                     <div class="modal-body">
                         <div class="form-row">
-
                             <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
                                 value="<?= $this->security->get_csrf_hash(); ?>">
-                            <div class="form-group col-lg-6">
+                            <div class="form-group col-lg-12">
                                 <label>Matakuliah</label>
                                 <select name="matkul" id="matkul" class="form-control">
                                     <option> --Pilih Matakuliah-- </option>
                                     <?php
-										foreach ($matkul as $row) { ?>
-
+										foreach ($matkulgz as $row) { 	
+												?>
                                     <option value="<?php echo $row->kd_mk; ?>">SMT <?php echo $row->smt; ?> -
                                         <?php echo $row->kd_mk; ?> - <?php echo $row->matakuliah ?> - SKS
                                         <?php echo $row->sks; ?></option>
                                     <?php } ?>
 
+
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Prog. Studi</label>
+                                <select name="ruang_uts" class="form-control">
+                                    <option> --Ruangan-- </option>
+                                    <option value="1.1">1.1</option>
+                                    <option value="1.2">1.2</option>
+                                    <option value="1.3">1.3</option>
+                                    <option value="1.4 ">1.4</option>
+                                    <option value="2.6">2.6</option>
+                                    <option value="1.1 & 1.2">1.1 & 1.2</option>
+                                    <option value="1.1 & 1.4">1.1 & 1.4</option>
+                                    <option value="2.2"> 2.2</option>
+                                    <option value="A"> A </option>
+                                    <option value="B"> B </option>
+                                    <option value="C"> C </option>
+                                    <option value="D"> D</option>
+                                    <option value="E"> E </option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
                                 <label>Prog. Studi</label>
-                                <select name="jurusan" class="form-control">
-                                    <option> --Pilih Jurusan-- </option>
-                                    <?php
-												$kd = $this->MatkulModel->getJurusan()->result();
-												foreach ($kd as $ds) : ?>
-                                    <option value="<?php echo $ds->kd_jurusan; ?>"><?php echo $ds->jurusan; ?></option>
-                                    <?php endforeach; ?>
+                                <select name="kelas" class="form-control">
+                                    <option> --Ruangan-- </option>
+                                    <option value="1">Pagi</option>
+                                    <option value="2">Karyawan</option>
                                 </select>
                             </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Jam UTS</label>
+                                <input type="text" name="jam" class="form-control" placeholder="Masukan Jam"
+                                    required="">
+                                <div class="invalid-feedback">
+                                    Please provide a valid name File
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Tanggal UTS</label>
+                                <input type="date" name="tgl_uts" class="form-control" required="">
+                                <div class="invalid-feedback">
+                                    Please provide a valid name File
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="tambahUtsfr">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tambah Data Jadwal UTS Farmasi </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="formTambahUts" class="needs-validation" novalidate>
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
+                                value="<?= $this->security->get_csrf_hash(); ?>">
+                            <div class="form-group col-lg-12">
+                                <label>Matakuliah</label>
+                                <select name="matkul" id="matkul" class="form-control">
+                                    <option> --Pilih Matakuliah-- </option>
+                                    <?php
+										foreach ($matkulfarm as $row) { 	
+												?>
+                                    <option value="<?php echo $row->kd_mk; ?>">SMT <?php echo $row->smt; ?> -
+                                        <?php echo $row->kd_mk; ?> - <?php echo $row->matakuliah ?> - SKS
+                                        <?php echo $row->sks; ?></option>
+                                    <?php } ?>
+
+
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Prog. Studi</label>
+                                <select name="ruang_uts" class="form-control">
+                                    <option> --Ruangan-- </option>
+                                    <option value="1.1">1.1</option>
+                                    <option value="1.2">1.2</option>
+                                    <option value="1.3">1.3</option>
+                                    <option value="1.4 ">1.4</option>
+                                    <option value="2.6">2.6</option>
+                                    <option value="1.1 & 1.2">1.1 & 1.2</option>
+                                    <option value="1.1 & 1.4">1.1 & 1.4</option>
+                                    <option value="2.2"> 2.2</option>
+                                    <option value="A"> A </option>
+                                    <option value="B"> B </option>
+                                    <option value="C"> C </option>
+                                    <option value="D"> D</option>
+                                    <option value="E"> E </option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Prog. Studi</label>
+                                <select name="kelas" class="form-control">
+                                    <option> --Ruangan-- </option>
+                                    <option value="1">Pagi</option>
+                                    <option value="2">Karyawan</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Jam UTS</label>
+                                <input type="text" name="jam" class="form-control" placeholder="Masukan Jam"
+                                    required="">
+                                <div class="invalid-feedback">
+                                    Please provide a valid name File
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Tanggal UTS</label>
+                                <input type="date" name="tgl_uts" class="form-control" required="">
+                                <div class="invalid-feedback">
+                                    Please provide a valid name File
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="tambahUtskb">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tambah Data Jadwal UTS Kebidanan </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="formTambahUtskb" class="needs-validation" novalidate>
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
+                                value="<?= $this->security->get_csrf_hash(); ?>">
+                            <div class="form-group col-lg-12">
+                                <label>Matakuliah</label>
+                                <select name="matkul" id="matkul" class="form-control">
+                                    <option> --Pilih Matakuliah-- </option>
+                                    <?php
+										foreach ($matkulkb as $row) { 	
+												?>
+                                    <option value="<?php echo $row->kd_mk; ?>">SMT <?php echo $row->smt; ?> -
+                                        <?php echo $row->kd_mk; ?> - <?php echo $row->matakuliah ?> - SKS
+                                        <?php echo $row->sks; ?></option>
+                                    <?php } ?>
+
+
+                                </select>
+                            </div>
+
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
@@ -267,13 +445,13 @@ $this->load->view('admin-st/dist/header');
                     </div>
                     <!-- For Jurusan -->
                     <div class="form-group">
-                        <label for="editJurusan">Prog. Studi</label>
-                        <select id="editJurusan" name="jurusan" class="form-control" required>
+                        <label for="editJurs">Prog. Studi</label>
+                        <select id="editJurs" name="jurusan" class="form-control" required>
                             <option value="">-- Jurusan --</option>
-                            <?php foreach ($jurusanList as $jurusan) : ?>
-                            <option value="<?php echo $jurusan->kd_jurusan; ?>"
-                                <?php echo ($jurusan->kd_jurusan == $selectedJurusan) ? 'selected' : ''; ?>>
-                                <?php echo $jurusan->jurusan; ?>
+                            <?php foreach ($jurusanListJadwal as $jadwal) : ?>
+                            <option value="<?php echo $jadwal->kd_jurusan; ?>"
+                                <?php echo ($jadwal->kd_jurusan == $selectedJadwalProdi) ? 'selected' : ''; ?>>
+                                <?php echo $jadwal->jurusan; ?>
                             </option>
                             <?php endforeach; ?>
                         </select>
@@ -341,7 +519,127 @@ $(document).ready(function() {
                             // ...
                             window.location.reload();
                             // Close the modal
-                            $('#tambahUts').modal('hide');
+                            $('#tambahUtsgz').modal('hide');
+                        }
+                    });
+                } else {
+                    // Use SweetAlert for error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.message,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            },
+            error: function(error) {
+                console.log('AJAX Error:', error);
+
+                // Use SweetAlert for AJAX error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred during the AJAX request.',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+    });
+});
+$(document).ready(function() {
+    // Form submit event
+    $('#formTambahUtskb').submit(function(e) {
+        e.preventDefault();
+        var csrfName = '<?= $this->security->get_csrf_token_name(); ?>';
+        var csrfHash = '<?= $this->security->get_csrf_hash(); ?>';
+
+        // Get form data with CSRF token
+        var formData = $(this).serialize() + '&' + csrfName + '=' + csrfHash;
+
+        // Send AJAX request
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url('admin/jadwaluts/insert'); ?>',
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'success') {
+                    // Use SweetAlert for success
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Data berhasil disimpan',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Optionally update UI here (e.g., append a new row to a table)
+                            // ...
+                            window.location.reload();
+                            // Close the modal
+                            $('#tambahUtskb').modal('hide');
+                        }
+                    });
+                } else {
+                    // Use SweetAlert for error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.message,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            },
+            error: function(error) {
+                console.log('AJAX Error:', error);
+
+                // Use SweetAlert for AJAX error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred during the AJAX request.',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+    });
+});
+$(document).ready(function() {
+    // Form submit event
+    $('#formTambahUtsfr').submit(function(e) {
+        e.preventDefault();
+        var csrfName = '<?= $this->security->get_csrf_token_name(); ?>';
+        var csrfHash = '<?= $this->security->get_csrf_hash(); ?>';
+
+        // Get form data with CSRF token
+        var formData = $(this).serialize() + '&' + csrfName + '=' + csrfHash;
+
+        // Send AJAX request
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url('admin/jadwaluts/insert'); ?>',
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'success') {
+                    // Use SweetAlert for success
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Data berhasil disimpan',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Optionally update UI here (e.g., append a new row to a table)
+                            // ...
+                            window.location.reload();
+                            // Close the modal
+                            $('#tambahUtsfr').modal('hide');
                         }
                     });
                 } else {
@@ -485,14 +783,18 @@ $(document).on('click', '.btn-delete', function() {
                         });
                     }
                 },
-                error: function(error) {
+                error: function(xhr, status, error) {
                     console.log('AJAX Error:', error);
-
+                    // Tangani kesalahan dengan menampilkan pesan kesalahan
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Terjadi kesalahan saat menghapus data.'
+                    });
                 }
             });
+
         }
     });
-
-
 });
 </script>

@@ -25,6 +25,9 @@ $this->load->view('admin-st/dist/header');
                     <div class="card">
                         <div class="card-header">
                             <h4 class="text-center">Setting Pembukan / Pengisian KRS</h4>
+                            <button type="button" class="btn btn-danger" id="btnResetStatus">Set Semua Status 0</button>
+
+
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -525,6 +528,10 @@ $('.toggle-switch-khs').change(function() {
 });
 </script>
 </script>
+
+
+
+
 <?php $this->load->view('admin-st/dist/footer'); ?>
 <!-- JS Libraies -->
 <script src="<?php echo base_url(); ?>assets-new-look/modules/datatables/datatables.min.js"></script>
@@ -544,3 +551,55 @@ $('.toggle-switch-khs').change(function() {
 
 
 <script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-sweetalert.js"></script>
+<script>
+$(document).ready(function() {
+    $('#btnResetStatus').click(function() {
+        // Tampilkan konfirmasi menggunakan SweetAlert
+        Swal.fire({
+            title: 'Apakah Anda yakin akan mereset semua status verifikasi mahasiswa?',
+            text: 'Tindakan ini tidak dapat dibatalkan!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Reset!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Jika pengguna mengonfirmasi, lakukan panggilan AJAX untuk mengatur semua status menjadi 0
+                $.ajax({
+                    url: '<?php echo base_url('admin/settings/set_all_status_zero'); ?>',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            // Jika sukses, tampilkan pesan sukses
+                            Swal.fire(
+                                'Sukses!',
+                                'Semua status berhasil direset. Silahkan Refresh Browser',
+                                'success'
+                            );
+
+                        } else {
+                            // Jika terjadi kesalahan, tampilkan pesan kesalahan secara eksplisit
+                            Swal.fire(
+                                'Gagal!',
+                                'Terjadi kesalahan saat mereset status.',
+                                'error'
+                            );
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Jika terjadi kesalahan AJAX, tampilkan pesan kesalahan secara eksplisit
+                        Swal.fire(
+                            'Error!',
+                            'Terjadi kesalahan saat melakukan permintaan.',
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
+    });
+});
+</script>

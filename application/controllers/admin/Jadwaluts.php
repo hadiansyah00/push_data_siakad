@@ -18,13 +18,47 @@ class Jadwaluts extends CI_Controller
 		$data['subJudul'] = 'Jadwal UTS';
 
 		
-		
+		$data['tahun'] = $this->TaModel->getAktif()->result();
 		$data['jurusan'] = $this->JurusanModel->getData('jurusan')->result();	
-		$data['matkul'] = $this->JadwalutsModel->getMatkul()->result();
-		$data['jadwal'] = $this->JadwalutsModel->getAll()->result();
+
+		$data['matkulgz'] = $this->JadwalutsModel->getMatkulgz()->result();
+		$data['matkulfarm'] = $this->JadwalutsModel->getMatkulfarm()->result();
+		$data['matkulkb'] = $this->JadwalutsModel->getMatkulkb()->result();
+
+
+
+		$data['jadwal'] = $this->JadwalutsModel->getJadwalUTSByTaAktif()->result();
+		// Get Edit Jurusan 
+		$jurusanList = $this->JadwalutsModel->getDataProg('jurusan')->result();
+		$selectedJurusan = $mahasiswa->kd_jurusan;
+		$data['jurusanList'] = $jurusanList;
+		$data['selectedJurusan'] = $selectedJurusan;
+
+		// Fetch data for the Dosen combo box
+		$dosenList = $this->MahasiswaModel->getData('dosen')->result();
+
+		// Get the selected Dosen from your database or wherever it's stored
+		$selectedDosen = $mahasiswa->id_dosen; // Adjust this based on your actual data structure
+
+		// Pass the data to your view
+		$data['dosenList'] = $dosenList;
+		$data['selectedDosen'] = $selectedDosen;
+
+
+		
+		$statusList = array(
+			'aktif' => 'Aktif',
+			'tidak' => 'Non Aktif',
+			'lulus' => 'Lulus',
+			'cuti' => 'Cuti'
+		);
+
+		// Get the selected value from your database or wherever it's stored
+		$selectedStatus = $mahasiswa->status_mhs; // Adjus
+
+
 		$this->load->view('admin-st/jadwal_uts/jadwal_uts-st', $data);
-		// $this->load->view('admin/template/footer');
-	}
+			}
 
     // public function index_jadwal($id)
 	// {
@@ -56,7 +90,7 @@ public function insert()
 
         // Set aturan validasi sesuai kebutuhan
         $this->form_validation->set_rules('kelas', 'Kelas Mahasiswa', 'required');
-        $this->form_validation->set_rules('jurusan', 'Program Studi', 'required');
+        // $this->form_validation->set_rules('jurusan', 'Program Studi', 'required');
 		
         // Tambahkan aturan validasi lainnya sesuai kebutuhan
 
@@ -66,21 +100,29 @@ public function insert()
             echo json_encode(['status' => 'error', 'message' => validation_errors()]);
             return;
         }
-		$ta = $this->TaModel->getAktif()->result();
-		foreach ($ta as $t) :
-			$a = $t->id_ta;
-		endforeach;
-        $data = [
-           
-            'id_ta'			=> $a,
-			'kelas'  		=> $this->input->post('kelas'),
-			'kd_jurusan'  	=> $this->input->post('jurusan'),
-			'kd_mk'  		=> $this->input->post('matkul'),
-			'jam'  			=> $this->input->post('jam'),
-			'ruang_uts' 	=> $this->input->post('ruang_uts'),
-			'tgl_uts'  		=> $this->input->post('tgl_uts'),
-            'tgl_insert'  	=> date('y-m-d'),
-        ];
+		$ta = $this->TaModel->getAktif()->row();
+		$id_ta = $ta->id_ta;
+
+		// Mendapatkan kode mata kuliah yang dipilih
+		$kd_mk = $this->input->post('matkul');
+
+		// Mendapatkan data mata kuliah berdasarkan kode mata kuliah
+		$matakuliah = $this->MatkulModel->getByKode($kd_mk);
+
+		// Menggunakan data mata kuliah untuk mendapatkan kode jurusan
+		$kd_jurusan = $matakuliah->kd_jurusan;
+
+		// Data yang akan disimpan dalam database
+		$data = [
+			'id_ta'         => $id_ta,
+			'kelas'         => $this->input->post('kelas'),
+			'kd_jurusan'    => $kd_jurusan, // Menggunakan kode jurusan dari mata kuliah
+			'kd_mk'         => $kd_mk,
+			'jam'           => $this->input->post('jam'),
+			'ruang_uts'     => $this->input->post('ruang_uts'),
+			'tgl_uts'       => $this->input->post('tgl_uts'),
+			'tgl_insert'    => date('y-m-d'),
+		];
 
         // Simpan data ke database
         $this->MahasiswaModel->insertData('jadwal_uts', $data);
@@ -137,19 +179,43 @@ public function insert()
 			echo json_encode(['status' => 'error', 'message' => 'Failed to update data Mahasiswa']);
 		}
 	}
-	public function delete()
+	public function deleteJadwal()
 	{
-		$idJadwal = $this->input->post('id_jawdal');
+		$id_jawdal = $this->input->post('id_jawdal');
 		
-		// Perform the delete operation and check for success
-		// Adjust the following code based on your implementation
-		$result = $this->MahasiswaModel->deleteData('jadwal_uts', array('id_jadwal' => $idJadwal));
+		$result = $this->MahasiswaModel->deleteData('jadwal_uts', array('id_jadwal' => $id_jawdal));
 		if ($result) {
 			echo json_encode(array('status' => 'success'));
 		} else {
 			echo json_encode(array('status' => 'error'));
 		}
 	}
+	public function delete() {
+        // Pastikan ini adalah permintaan AJAX
+        if (!$this->input->is_ajax_request()) {
+            exit('No direct script access allowed');
+        }
+
+        // Tangkap ID jadwal yang akan dihapus dari permintaan POST
+        $id_jadwal = $this->input->post('id_jadwal');
+
+        // Hapus data dengan menggunakan model
+        $delete = $this->JadwalutsModel->delete_data($id_jadwal);
+
+        if ($delete) {
+            // Berhasil dihapus
+            $response['status'] = 'success';
+            $response['message'] = 'Data Jadwal berhasil dihapus.';
+        } else {
+            // Gagal menghapus
+            $response['status'] = 'error';
+            $response['message'] = 'Gagal menghapus data. Silakan coba lagi.';
+        }
+
+        // Kembalikan respons dalam format JSON
+        echo json_encode($response);
+    }
+
 	// public function insert($kd_jurusan)
 	// {
 	// 	$ta = $this->TaModel->getAktif()->result();

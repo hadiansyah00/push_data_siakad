@@ -17,14 +17,15 @@ class Jadwal extends CI_Controller
 		$data['title'] = 'Jadwal  SBH';
 		$data['judul'] = 'Akademik';
 		$data['subJudul'] = 'Jadwal';
-			$data['dsn'] = $this->KrsModel->getDataDosen();
+		$data['dsn'] = $this->KrsModel->getDataDosen();
 		$data['pdf'] = $this->RpsModel->getData();
 		$data['tahun'] = $this->TaModel->getAktif()->result();
 		$data['jurusan'] = $this->JurusanModel->getData('jurusan')->result();
-		// $this->load->view('admin/template/header', $data);
-		// $this->load->view('admin/template/sidebar', $data);
+	
+
+
 		$this->load->view('admin-st/jadwal/jadwal-st', $data);
-		// $this->load->view('admin/template/footer');
+
 	}
 	public function do_upload()
 		{

@@ -18,137 +18,87 @@ class Jadwal_pra_uap extends CI_Controller
 		$data['subJudul'] = 'Jadwal Uas';
 
 		$data['tahun'] = $this->TaModel->getAktif()->result();
-		$data['jurusan'] = $this->JurusanModel->getData2('jurusan')->result();
+		
 		// $this->load->view('admin/template/header', $data);
 		// $this->load->view('admin/template/sidebar', $data);
+		$data['jadwal'] = $this->JadwaluapModel->getDataPraUap()->result();
+		
 		$this->load->view('admin-st/jadwal_pra_uap/jadwal_pra_uap-st', $data);
 		// $this->load->view('admin/template/footer');
 	}
-
-    public function index_jadwal2($id)
+public function insert()
 	{
-		$data['title'] = 'Jadwal PRA UAP SBH';
-		$data['judul'] = 'Akademik';
-		$data['subJudul'] = 'Jadwal PRA UAP';
+		// Periksa apakah metode yang digunakan adalah POST
+		if ($this->input->server('REQUEST_METHOD') === 'POST') {
+			// Periksa apakah CSRF token valid
+			if ($this->input->post($this->security->get_csrf_token_name()) !== $this->security->get_csrf_hash()) {
+				// CSRF token tidak valid, handle sesuai kebutuhan
+				echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+				return;
+			}
 
-		$where = array('kd_jurusan' => $id);
-		//$where = 'kd_jurusan';
-		$data['tahun'] = $this->TaModel->getAktif()->row_array();
-		$data['detil'] = $this->JurusanModel->detilData('jurusan', $where)->result();
-		$data['matkul'] = $this->JadwaluasModel->getMatkul($id)->result();
-		$data['jadwal'] = $this->JadwaluapModel->getDataPra($id)->result();
-		// $this->load->view('admin/template/header', $data);
-		// $this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin-st/jadwal_pra_uap/master_jadwal_pra_uap-st', $data);
-		// $this->load->view('admin/template/footer');
-	}
+			// Set aturan validasi sesuai kebutuhan
+			$this->form_validation->set_rules('nama_pra_uap', 'Nama ', 'required');
+			// $this->form_validation->set_rules('jurusan', 'Program Studi', 'required');
+			
+			// Tambahkan aturan validasi lainnya sesuai kebutuhan
 
-	public function insert($kd_jurusan)
-	{
-		$ta = $this->TaModel->getAktif()->result();
-		foreach ($ta as $t) :
-			$a = $t->id_ta;
-		endforeach;
-		$data = array(
-			'kd_jurusan'		=> $kd_jurusan,
-			'id_ta'				=> $a,
-		    'nama_pra_uap'				=> htmlspecialchars($this->input->post('nama_pra_uap')),
-			'jam_pra_uap'			=> htmlspecialchars($this->input->post('jam_pra_uap')),
-			'tanggal_pra_uap'	    => htmlspecialchars($this->input->post('tanggal_pra_uap')),
-		);
+			// Jalankan validasi
+			if ($this->form_validation->run() == FALSE) {
+				// Validasi gagal, kirim respon error
+				echo json_encode(['status' => 'error', 'message' => validation_errors()]);
+				return;
+			}
+			$ta = $this->TaModel->getAktif()->row();
+			$id_ta = $ta->id_ta;
 
-		//var_dump($data);
-		$this->JadwaluapModel->insertData('jadwal_pra_uap', $data);
-		$this->session->set_flashdata(
-			'pesan',
-			'<div class="alert alert-block alert-success">
-				<button type="button" class="close" data-dismiss="alert">
-					<i class="ace-icon fa fa-times"></i>
-				</button>
-
-				<i class="ace-icon fa fa-check green"></i>
-
-				Data
-				<strong class="green">
-					Jadwal PRA UAP
-				</strong>Berhasi di input!
-			</div>'
-		);
-		redirect($_SERVER['HTTP_REFERER']);
-	}
-
-
-	public function update($id)
-	{
-		$data['title'] = 'Update Data Jawdal UAS SBH';
-		$data['judul'] = 'Akademik';
-		$data['subJudul'] = 'Update Jadwal UAS';
-		
-		$where = array('id_jadwal' => $id);
 	
-// 		$where = array('id_jadwal' => $id);
-		$data['jadwal'] = $this->db->get_where('jadwal_uas', $where)->result();
+			// Data yang akan disimpan dalam database
+			$data = [
+				'id_ta'         	=> $id_ta,
+				'nama_pra_uap'      => $this->input->post('nama_pra_uap'),
+				'kd_jurusan'    	=> '15401', // Menggunakan kode jurusan dari mata kuliah
+				'jam_pra_uap'       => $this->input->post('jam_pra_uap'),
+				'tanggal_pra_uap'   => $this->input->post('tanggal_pra_uap'),
+				'tgl_insert'		=> date('y-m-d'),
+			];
 
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/jadwal_uas/update_uas', $data);
-		$this->load->view('admin/template/footer');
+			// Simpan data ke database
+			$this->MahasiswaModel->insertData('jadwal_pra_uap', $data);
+
+			// Kirim respon sukses
+			echo json_encode(['status' => 'success', 'message' => 'Data Jadwal UTS berhasil disimpan']);
+		} else {
+			// Jika metode bukan POST, kirim respon error
+			echo json_encode(['status' => 'error', 'message' => 'Invalid Request Method']);
+		}
 	}
+	
+	public function delete() {
+			// Pastikan ini adalah permintaan AJAX
+			if (!$this->input->is_ajax_request()) {
+				exit('No direct script access allowed');
+			}
 
-	public  function updateAksi()
-	{
-	    
-		$id = $this->input->post('id_jadwal');
-		$data = array(
-// 	        'kd_jurusan'		=> $kd_jurusan,
-// 			'kd_mk'				=> htmlspecialchars($this->input->post('matkul')),
-// 			'hari_uas'			=> htmlspecialchars($this->input->post('hari_uas')),
-            'kelas'				=> htmlspecialchars($this->input->post('kelas')),
-			'jam_uas'			=> htmlspecialchars($this->input->post('jam_uas')),
-			'ruang_uas'			=> htmlspecialchars($this->input->post('ruang_uas')),
-			'tgl_uas'			=> htmlspecialchars($this->input->post('tgl_uas')),
-			'tgl_update'        =>  date('y-m-d')
-		);
+			// Tangkap ID jadwal yang akan dihapus dari permintaan POST
+			$id_jadwal = $this->input->post('id');
 
-		$where = array('id_jadwal' => $id);
-		//var_dump($data);
-		$this->db->update('jadwal_uas', $data, $where);
-		$this->session->set_flashdata(
-			'pesan',
-			'<div class="alert alert-block alert-success">
-				<button type="button" class="close" data-dismiss="alert">
-					<i class="ace-icon fa fa-times"></i>
-				</button>
-				<i class="ace-icon fa fa-check green"></i>
-				Jadwal Berhasil 
-				<strong class="green">
-					di Update!
-				</strong>
-			</div>'
-		);
-	redirect('admin/Jadwaluas');
-	}
+			// Hapus data dengan menggunakan model
+			$delete = $this->JadwaluapModel->delete_data_prauap($id_jadwal);
 
-	public function delete($id)
-	{
-		$where = array('id' => $id);
+			if ($delete) {
+				// Berhasil dihapus
+				$response['status'] = 'success';
+				$response['message'] = 'Data Jadwal berhasil dihapus.';
+			} else {
+				// Gagal menghapus
+				$response['status'] = 'error';
+				$response['message'] = 'Gagal menghapus data. Silakan coba lagi.';
+			}
 
-		$this->db->delete('jadwal_pra_uap', $where);
-		$this->session->set_flashdata(
-			'pesan',
-			'<div class="alert alert-block alert-danger">
-				<button type="button" class="close" data-dismiss="alert">
-					<i class="ace-icon fa fa-times"></i>
-				</button>
+			// Kembalikan respons dalam format JSON
+			echo json_encode($response);
+		}
 
-				<i class="ace-icon fa fa-check red"></i>
-
-				Data Jadwal Berhasi di 
-				<strong class="red">
-					Hapus!
-				</strong>
-			</div>'
-		);
-		redirect($_SERVER['HTTP_REFERER']);
-	}
+  
 }

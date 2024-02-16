@@ -19,10 +19,10 @@ class Nilai extends CI_Controller
 
 		$data['tahun'] = $this->TaModel->getAktif()->result();
 		$data['jurusan'] = $this->JurusanModel->getData('jurusan')->result();
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/nilai/index', $data);
-		$this->load->view('admin/template/footer');
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/nilai/nilai-st', $data);
+		// $this->load->view('admin/template/footer');
 	}
 
 
@@ -41,10 +41,10 @@ class Nilai extends CI_Controller
 
 		$data['matkul'] = $this->KurikulumModel->getMatkul($id)->result();
 		$data['jadwal'] = $this->KurikulumModel->getAll($id)->result();
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/nilai/view_list_matkul', $data);
-		$this->load->view('admin/template/footer');
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/nilai/view_list_matkul-st', $data);
+		// $this->load->view('admin/template/footer');
 	}
 // Nilai KHS
 	public function input($id)
@@ -64,46 +64,48 @@ class Nilai extends CI_Controller
 		$data['mahasiswa'] = $this->NilaiModel->inputNilai($id, $ta['id_ta']);
 		//$data['status'] = $this->db->get('krs')->row_array();
 		//var_dump($data1);die();
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/nilai/view_input', $data);
-		$this->load->view('admin/template/footer');
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/nilai/view_input-st', $data);
+		// $this->load->view('admin/template/footer');
 	}
 
-	public function input_nilai_aksi($kd_mk)
+	public function input_nilai_aksi($kd_mk) 
 	{
 		$query = array();
 		$id_krs = $_POST['id_krs'];
 		$nilai = $_POST['nilai'];
+		$nilai_akhir = $_POST['nilai_akhir'];
+		$nilai_uts = $_POST['nilai_uts'];
+		$nilai_uas = $_POST['nilai_uas'];
 		$status_n = array('status_n' => 1);
 
-		// print_r($id_krs);
-		//print_r($bobot); die();
-
-	for ($i = 0; $i < sizeof($id_krs); $i++) {
-			$this->db->set('nilai', $nilai[$i])->where('id_krs', $id_krs[$i])->update('krs', $status_n);
-		
+		for ($i = 0; $i < sizeof($id_krs); $i++) {
+			$data = array(
+				'nilai' => $nilai[$i],
+				'nilai_akhir' => $nilai_akhir[$i],
+				'nilai_uts' => $nilai_uts[$i],
+				'nilai_uas' => $nilai_uas[$i],
+				'status_n' => 1
+			);
+			$this->db->where('id_krs', $id_krs[$i])->update('krs', $data);
 		}
-		
-	
-		
 
+		// Set pesan flash data
 		$this->session->set_flashdata(
 			'pesan',
 			'<div class="alert alert-block alert-success">
 				<button type="button" class="close" data-dismiss="alert">
 					<i class="ace-icon fa fa-times"></i>
 				</button>
-
 				<i class="ace-icon fa fa-check green"></i>
-
 				Data
-				<strong class="green">
-					Nilai Akhir
-				</strong>Berhasil di input!
+				<strong class="green">Nilai Akhir</strong> Berhasil diinput!
 			</div>'
 		);
+
 		redirect('admin/Nilai/input/' . $kd_mk);
+
 	}
 	
 		public function inputAkhir($id)
@@ -204,7 +206,6 @@ public function inputUts($id)
 		
 		}
 		
-
 		$this->session->set_flashdata(
 			'pesan',
 			'<div class="alert alert-block alert-success">

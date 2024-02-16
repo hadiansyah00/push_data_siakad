@@ -28,7 +28,10 @@ class TaModel extends CI_Model {
 		$data = "SELECT *FROM ta WHERE status = 1";
 		return $this->db->query($data);
 	}
-
+public function getTAaktik () {
+	  $this->db->where('status', 1);
+    return $this->db->get('ta');
+}
 	public function getAktifKrs()
 	{
 		$data = "SELECT *FROM ta WHERE status = 1";

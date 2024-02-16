@@ -12,21 +12,20 @@ class JadwaluasModel extends CI_Model
 		$query = $this->db->get();
 		return $query;
 	}
-	public function getAll()
-	{
-		$this->db->select('*');
-		$this->db->from('jadwal_uas');
-		$this->db->join('ta', 'ta.id_ta = jadwal_uas.id_ta', 'left');
-		$this->db->join('jurusan', 'jurusan.kd_jurusan = jadwal_uas.kd_jurusan', 'left');
-// 		$this->db->join('dosen', 'dosen.id_dosen = jadwal_uas.id_dosen', 'left');
-		$this->db->join('matakuliah', 'matakuliah.kd_mk = jadwal_uas.kd_mk', 'left');
-		$this->db->where('ta.status','1');
-		$this->db->order_by('smt', 'ASC');
-		$query = $this->db->get();
-		return $query;
-	}
+	public function getJadwalUASByTaAktif() {
 
-	
+    $this->db->select('*');
+    $this->db->from('jadwal_uas');
+    $this->db->join('ta', 'ta.id_ta = jadwal_uas.id_ta', 'left');
+    $this->db->join('jurusan', 'jurusan.kd_jurusan = jadwal_uas.kd_jurusan', 'left');
+    $this->db->join('matakuliah', 'matakuliah.kd_mk = jadwal_uas.kd_mk', 'left');
+    $this->db->where('ta.status', 1); // Memastikan tahun akademik aktif
+    $this->db->order_by('smt', 'ASC');
+    $this->db->order_by('tgl_uas', 'ASC');
+    $this->db->order_by('id_jadwal', 'ASC');
+    $query = $this->db->get();
+    return $query;
+}
 
 
 	public function getJurusan()
@@ -182,4 +181,14 @@ class JadwaluasModel extends CI_Model
 	{
 		return $this->db->get_where($table, $where);
 	}
+	 public function delete_data($id_jadwal) {
+        // Lakukan penghapusan data dari database
+        $this->db->where('id_jadwal', $id_jadwal);
+        $delete = $this->db->delete('jadwal_uas');
+
+        // Mengembalikan status penghapusan
+        return $delete;
+    }
+	
+
 }

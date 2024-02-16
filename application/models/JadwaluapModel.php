@@ -28,14 +28,38 @@ class JadwaluapModel extends CI_Model
 	// 			ORDER BY semester ASC";
 	// 	return $this->db->query($data);
 	// }
+public function delete_data_uap($id_jadwal) {
+        // Lakukan penghapusan data dari database
+        $this->db->where('id', $id_jadwal);
+        $delete = $this->db->delete('jadwal_uap');
 
-    public function getDataUap($id)
+        // Mengembalikan status penghapusan
+        return $delete;
+    }
+	public function delete_data_prauap($id_jadwal) {
+        // Lakukan penghapusan data dari database
+        $this->db->where('id', $id_jadwal);
+        $delete = $this->db->delete('jadwal_pra_uap');
+
+        // Mengembalikan status penghapusan
+        return $delete;
+    }
+    public function getDataUap()
 	{
 		$this->db->select('*');
 		$this->db->from('jadwal_uap');
 		$this->db->join('ta', 'ta.id_ta = jadwal_uap.id_ta');
 		$this->db->join('jurusan', 'jurusan.kd_jurusan = jadwal_uap.kd_jurusan');
-		$this->db->where('jadwal_uap.kd_jurusan', $id);
+		$this->db->where('status', 1);
+		$query = $this->db->get();
+		return $query;
+	}
+	 public function getDataPraUap()
+	{
+		$this->db->select('*');
+		$this->db->from('jadwal_pra_uap');
+		$this->db->join('ta', 'ta.id_ta = jadwal_pra_uap.id_ta');
+		$this->db->join('jurusan', 'jurusan.kd_jurusan = jadwal_pra_uap.kd_jurusan');
 		$this->db->where('status', 1);
 		$query = $this->db->get();
 		return $query;
