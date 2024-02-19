@@ -25,6 +25,18 @@ class UserModel extends CI_Model
 			return array();
 		}
 	}
+	public function getUserByUsername($username) {
+    // Lakukan query ke database untuk mengambil data pengguna berdasarkan username
+    $query = $this->db->get_where('dosen', array('kd_dosen' => $username));
+
+    // Jika data pengguna ditemukan, kembalikan data dalam bentuk objek
+    if ($query->num_rows() == 1) {
+        return $query->row();
+    }
+
+    // Jika data pengguna tidak ditemukan, kembalikan null
+    return null;
+	}
 
 	//cek nim dan password mahasiswa
 	public function loginMhs($username, $pass)
@@ -46,7 +58,7 @@ class UserModel extends CI_Model
 	public function loginDosen($username, $pass)
 	{
 		$username	= set_value('username');
-		$password	= set_value('password');
+		$password	= set_value('password_ds');
 
 		$result		= $this->db->where('kd_dosen', $username)
 			->where('password_ds', $pass)

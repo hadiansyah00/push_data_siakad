@@ -211,8 +211,8 @@ $this->load->view('admin-st/dist/header');
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="password_ds">Password</label>
-                            <input type="password" class="form-control" name="password_ds" placeholder="Input Password"
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" name="password" placeholder="Input Password"
                                 required>
                             <div class="invalid-feedback">
                                 Please provide a valid Password
@@ -391,7 +391,7 @@ $(document).ready(function() {
                             // ...
                             window.location.reload();
                             // Close the modal
-                            $('#tambahMahasiswa').modal('hide');
+                            $('#tambahDosen').modal('hide');
                         }
                     });
                 } else {

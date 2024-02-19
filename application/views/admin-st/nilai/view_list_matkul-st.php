@@ -61,8 +61,8 @@ $this->load->view('admin-st/dist/header');
                                              <td>
                                                  <a title="Input Nilai KHS" class="btn-sm btn-primary"
                                                      href="<?php echo base_url('admin/Nilai/input/' . $row->kd_mk . '/'); ?>"><i
-                                                         class="fa fa-edit bigger-150"></i> KHS</a>
-                                                 <a title="Input Nilai Akhir" class="btn-sm btn-primary"
+                                                         class="fa fa-edit bigger-150"></i> Input Nilai</a>
+                                                 <!-- <a title="Input Nilai Akhir" class="btn-sm btn-primary"
                                                      href="<?php echo base_url('admin/Nilai/inputAkhir/' . $row->kd_mk . '/'); ?>"><i
                                                          class="fa fa-edit bigger-150">Akhir</i></a>
                                                  <a title="Input Nilai UTS" class="btn-sm btn-primary"
@@ -70,7 +70,7 @@ $this->load->view('admin-st/dist/header');
                                                          class="fa fa-edit bigger-150">UTS</i></a>
                                                  <a title="Input Nilai UAS" class="btn-sm btn-primary"
                                                      href="<?php echo base_url('admin/Nilai/inputUas/' . $row->kd_mk . '/'); ?>"><i
-                                                         class="fa fa-edit bigger-150">UAS</i></a>
+                                                         class="fa fa-edit bigger-150">UAS</i></a> -->
                                              </td>
 
                                          </tr>

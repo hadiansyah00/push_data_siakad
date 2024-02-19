@@ -12,7 +12,6 @@ $this->load->view('admin-st/dist/header');
     <section class="section">
         <div class="section-header">
             <h1>Hasil Penilaian Evaluasi Dosen</h1>
-
         </div>
 
         <div class="section-body">
@@ -300,7 +299,7 @@ $this->load->view('admin-st/dist/header');
 
 <script src="<?php echo base_url(); ?>assets-new-look/modules/jquery-ui/jquery-ui.min.js"></script>
 <script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-datatables.js"></script>
-< src="<?php echo base_url(); ?>assets-new-look/modules/sweetalert/sweetalert.min.js"></ script>
-
-
-<script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-sweetalert.js"></script>
+<script src="<?php echo base_url(); ?>assets-new-look/modules/sweetalert/sweetalert.min.js">
+</script>
+<script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-sweetalert.js">
+</script>

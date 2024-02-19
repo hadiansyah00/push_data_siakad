@@ -88,14 +88,18 @@ class KusionerEdom extends CI_Controller
 		// Data tambahan
 		$data['kd_mk'] = $kd_mk;
 		$data['id_dosen'] = $id_dosen;
-      	$jumlahMahasiswa = $this->EdomModel->countMahasiswaEvaluasi();
-		$listMahasiswa = $this->EdomModel->countMahasiswaEvaluasi_list();
+      	$jumlahMahasiswa = $this->EdomModel->countMahasiswaEvaluasi($id_dosen);
+		$listMahasiswa = $this->EdomModel->countMahasiswaEvaluasi_list($kd_mk);
         $data['tahun'] = $this->TaModel->getAktif()->row_array();
         // Mengirim jumlah mahasiswa ke view
 		$data['list_mhs'] = $listMahasiswa;
         $data['jumlah_mahasiswa'] = $jumlahMahasiswa;
 		// Tampilkan tampilan hasil kuesioner EDOM
-	
+		
+		$data['mahasiswa_evaluasi'] = $this->EdomModel->MahasiswaEvaluasi($id_dosen);
+		$data['mahasiswa_krs'] = $this->EdomModel->Mahasiswakrs($kd_mk);	
+
+
 		$this->load->view('admin-st/evaluasi/hasil_kuesioner_edom-st', $data);
 	
 	}

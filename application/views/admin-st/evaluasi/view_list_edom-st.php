@@ -30,11 +30,7 @@ $this->load->view('admin-st/dist/header');
                              <a href="#" target="_blank" class="btn btn-sm btn-primary" data-toggle="modal"
                                  data-target="#tambahKurikulum"><i class="fa fa-plus"></i>Tambah
                              </a>
-                             <h1>Generate PDF</h1>
-                             <!-- Button untuk generate PDF -->
-                             <a href="<?= base_url('admin/KusionerEdom/generatePdfTes') ?>" target="_blank">
-                                 <button>Generate PDF</button>
-                             </a>
+
                          </div>
                          <div class="card-body">
                              <div class="table-responsive">

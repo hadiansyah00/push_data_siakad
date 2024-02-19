@@ -99,7 +99,7 @@ class Dosen extends CI_Controller
 			'status_ds'			=> htmlspecialchars($this->input->post('status_ds')),
 			'kd_jurusan'		=> htmlspecialchars($this->input->post('jurusan')),
 			'email_ds'			=> htmlspecialchars($this->input->post('email_ds')),		
-			  'password'        => password_hash($this->input->post('password')),
+			'password_ds'        => password_hash($this->input->post('password')),
 			'tgl_insert'		=> date('y-m-d')
 		);
 
