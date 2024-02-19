@@ -2,6 +2,20 @@
 
 class NilaiModel extends CI_Model
 {
+	public function getKodeJurusanByKodeMK($kd_mk)
+{
+    // Misalnya, jika kd_mk dan kd_jurusan tersimpan dalam tabel 'matakuliah'
+    $this->db->select('kd_jurusan');
+    $this->db->where('kd_mk', $kd_mk);
+    $result = $this->db->get('matakuliah')->row_array();
+    
+    if ($result) {
+        return $result['kd_jurusan'];
+    } else {
+        // Nilai kd_jurusan tidak ditemukan
+        return null;
+    }
+}
 
 	public function getMatkul($table, $where)
 	{

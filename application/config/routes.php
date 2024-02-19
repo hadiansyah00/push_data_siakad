@@ -54,7 +54,7 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['lecture'] = 'auth_ds';
 
-
+$route['dosen'] = 'auth_ds';
 // Grup Rute untuk Admin
 $route['admin'] = 'admin/dashboard';
 $route['admin/dashboard'] = 'admin/dashboard';

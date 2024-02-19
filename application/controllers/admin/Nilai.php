@@ -27,6 +27,28 @@ class Nilai extends CI_Controller
 
 
 	//input berdasarkan matakuliah
+	public function getMknilai($id)
+	{
+		// $data['title'] = 'Evaluasi Dosen SBH';
+		// $data['judul'] = 'Pilih Program Studi Akademik';
+		// $data['subJudul'] = 'EDOM SBH';
+
+
+		$where = array('kd_jurusan' => $id);
+		$where_2 = array('kd_mk' => $id);
+	
+		//$where = 'kd_jurusan';
+		// $data['tahun'] = $this->TaModel->getAktif()->row_array();
+		$data['detil'] = $this->JurusanModel->detilData('jurusan', $where)->row_array();
+		$data['tahun'] = $this->TaModel->getAktif()->result();
+		$data['matkul'] = $this->KurikulumModel->getMatkul($id)->result();
+		$data['krs_get'] = $this->KurikulumModel->getKRSByMatakuliah($id);
+		
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/nilai/view_list_matkul-st', $data);
+		// $this->load->view('admin/template/footer');
+	}
 	public function getMatkul($id)
 	{
 		$data['title'] = 'Nilai Mahasiswa SBH';
@@ -35,12 +57,14 @@ class Nilai extends CI_Controller
 
 
 		$where = array('kd_jurusan' => $id);
+		$where_2 = array('kd_mk' => $id);
+	
 		//$where = 'kd_jurusan';
 		$data['tahun'] = $this->TaModel->getAktif()->row_array();
 		$data['detil'] = $this->JurusanModel->detilData('jurusan', $where)->row_array();
 
 		$data['matkul'] = $this->KurikulumModel->getMatkul($id)->result();
-		$data['jadwal'] = $this->KurikulumModel->getAll($id)->result();
+		$data['krs_get'] = $this->KurikulumModel->getKRSByMatakuliahNilai($id);
 		// $this->load->view('admin/template/header', $data);
 		// $this->load->view('admin/template/sidebar', $data);
 		$this->load->view('admin-st/nilai/view_list_matkul-st', $data);
@@ -48,27 +72,30 @@ class Nilai extends CI_Controller
 	}
 // Nilai KHS
 	public function input($id)
-	{
-		$data['title'] = 'Nilai KHS Mahasiswa SBH ';
-		$data['judul'] = 'Akademik';
-		$data['subJudul'] = 'Input Nilai KHS';
-		$ta = $this->TaModel->getAktif()->row_array();
-		//$dosen = $this->NilaiModel->getDosen()->row_array();
+{
+    // Dapatkan nilai $kd_jurusan berdasarkan $kd_mk
+    $kd_jurusan = $this->NilaiModel->getKodeJurusanByKodeMK($id);
+    
+    $data['title'] = 'Nilai KHS Mahasiswa SBH ';
+    $data['judul'] = 'Akademik';
+    $data['subJudul'] = 'Input Nilai KHS';
+    $ta = $this->TaModel->getAktif()->row_array();
+    
+    // Tentukan kondisi untuk mendapatkan data matakuliah berdasarkan kd_mk
+    $where = array('kd_mk' => $id);
+    
+    // Dapatkan data matakuliah berdasarkan kd_mk
+    $data['matkul'] = $this->NilaiModel->getMatkul('matakuliah', $where)->row_array();
+    
+    // Dapatkan data mahasiswa untuk input nilai berdasarkan kd_mk dan id_ta
+    $data['mahasiswa'] = $this->NilaiModel->inputNilai($id, $ta['id_ta']);
+    
+    // Pass $kd_jurusan ke view untuk digunakan dalam link "backward"
+    $data['kd_jurusan'] = $kd_jurusan;
+    
+    $this->load->view('admin-st/nilai/view_input-st', $data);
+}
 
-		$where = array('kd_mk' => $id);
-		//$kd_jurusan = array('kd_jurusan' => $id);
-		//$where = 'kd_jurusan';
-		$data['tahun'] = $this->TaModel->getAktif()->row_array();
-		$data['matkul'] = $this->NilaiModel->getMatkul('matakuliah', $where)->row_array();
-		//$data['jurusan'] = $this->db->get('jurusan')->result();
-		$data['mahasiswa'] = $this->NilaiModel->inputNilai($id, $ta['id_ta']);
-		//$data['status'] = $this->db->get('krs')->row_array();
-		//var_dump($data1);die();
-		// $this->load->view('admin/template/header', $data);
-		// $this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin-st/nilai/view_input-st', $data);
-		// $this->load->view('admin/template/footer');
-	}
 
 	public function input_nilai_aksi($kd_mk) 
 	{

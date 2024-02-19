@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </li>
                     <?php if ($mhs['status_uts'] == 0 ) { ?>
                     <li class="<?php echo $this->uri->segment(2) == 'jadwaluts' ? 'active' : ''; ?>"> <a href="#"
-                            class="nav-link" data-toggle="modal" data-target="#ModalVerfikasiBauk"> Lihat KRS</a>
+                            class="nav-link" data-toggle="modal" data-target="#ModalVerfikasiBauk"> Jadwal UTS</a>
 
                         <?php } else { ?>
                     <li class="<?php echo $this->uri->segment(2) == 'jadwaluts' ? 'active' : ''; ?>"><a class="nav-link"

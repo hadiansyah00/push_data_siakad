@@ -11,11 +11,11 @@ $this->load->view('admin-st/dist/header');
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Data Jadwal UTS </h1>
+            <h1>Data Jadwal UAS </h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="#">Data Master</a></div>
                 <!-- <div class="breadcrumb-item"><a href="#">Data Prog. Studi</a></div> -->
-                <div class="breadcrumb-item">Data Jadwal UTS</div>
+                <div class="breadcrumb-item">Data Jadwal UAS</div>
             </div>
         </div>
 

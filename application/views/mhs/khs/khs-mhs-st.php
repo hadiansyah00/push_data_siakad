@@ -26,10 +26,10 @@ $this->load->view('mhs/dist/header');
 
                             <div class="card-header-form">
 
-                                <a href="<?php echo base_url('mhs/Transkrip/printKHS/' . $mhs['id_mahasiswa']); ?>"
+                                <!-- <a href="<?php echo base_url('mhs/Transkrip/printKHS/' . $mhs['id_mahasiswa']); ?>"
                                     target="_blank" class="btn btn-sm btn-primary"><i class="fa fa-print"></i>
                                     Cetak
-                                    KHS</a>
+                                    KHS</a> -->
                             </div>
                         </div>
                         <div class="card-body p-0">
@@ -63,14 +63,14 @@ $this->load->view('mhs/dist/header');
 
                                             <td>
                                                 <p><strong>
+                                                        <?php echo $row->status_verif == 'Y' ? '&nbsp;' . $row->nilai : '' ?>
+                                                    </strong>
 
-                                                        <?= $row->status_verif == 'Y' ? '' . '&nbsp;'. $row->$nilai : '' ?>
-                                                    </strong> </p>
+                                                    <?php if ($row->status_verif == 'N' || $row->status_verif === null): ?>
+                                                    <i class="fas fa-times-circle text-danger" data-toggle="tooltip"
+                                                        title="Belum Mengisi EDOM"></i>
+                                                    <?php endif; ?>
 
-                                                <?php if ($row->status_verif == 'N' || $row->status_verif === null): ?>
-                                                <i class="fas fa-times-circle text-danger data-toggle=" tooltip
-                                                    title="Belum Mengisi EDOM"></i>
-                                                <?php endif; ?>
                                             </td>
 
                                             <td>

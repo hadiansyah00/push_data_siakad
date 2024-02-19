@@ -111,7 +111,24 @@ public function getKdJurusanByKdMk($kd_mk)
 
     return $this->db->get()->result();
 }
+public function getKRSByMatakuliahNilai($id) {
+    $this->db->distinct();
+    $this->db->select('*');
+    $this->db->from('krs');
+    $this->db->join('kurikulum', 'kurikulum.id_kurikulum = krs.id_kurikulum', 'left');
+    $this->db->join('ta', 'ta.id_ta = krs.id_ta', 'left');
+    $this->db->join('jurusan', 'jurusan.kd_jurusan = kurikulum.kd_jurusan', 'left');
+    $this->db->join('peran_dosen', 'peran_dosen.id_peran = kurikulum.id_peran', 'left');
+    $this->db->join('perdos', 'perdos.id_perdos = kurikulum.id_perdos', 'left');
+    $this->db->join('matakuliah', 'matakuliah.kd_mk = kurikulum.kd_mk', 'left');
+    $this->db->where('kurikulum.kd_jurusan', $id);
+	$this->db->where('ta.status', 1); // Kondisi ta = 1
+    $this->db->group_by('matakuliah.kd_mk');
 
+    $this->db->order_by('matakuliah.kd_mk', 'ASC');
+
+    return $this->db->get()->result();
+}
 
 
 

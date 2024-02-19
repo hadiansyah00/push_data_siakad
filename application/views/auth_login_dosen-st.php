@@ -55,14 +55,14 @@
                             </div>
 
                             <div class="card-body">
-                                <form method="POST" action="<?php echo base_url(); ?>auth/getLoginDosen"
+                                <form method="POST" action="<?php echo base_url(); ?>auth/AuthDosen"
                                     class="needs-validation" novalidate="">
                                     <div class="form-group">
-                                        <label for="username">Kode Dosen</label>
+                                        <label for="email">NIM/Kode Dosen</label>
                                         <input name="username" id="username" class="form-control" type="text"
                                             tabindex="1" required autofocus>
                                         <div class="invalid-feedback">
-                                            Please fill in your Kode Dosen
+                                            Please fill in your NIM/Kode Dosen
                                         </div>
                                     </div>
 
@@ -147,7 +147,7 @@
             // Send AJAX request
             $.ajax({
                 type: 'POST',
-                url: '<?php echo base_url('auth/getLoginDosen'); ?>',
+                url: '<?php echo base_url('auth/AuthDosen'); ?>',
                 data: formData,
                 dataType: 'json',
                 success: function(response) {

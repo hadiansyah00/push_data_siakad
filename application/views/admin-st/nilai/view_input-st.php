@@ -12,8 +12,10 @@ $this->load->view('admin-st/dist/header');
          <div class="section-header">
              <h1>Data Matakuliah</h1>
              <div class="section-header-breadcrumb">
-                 <div class="breadcrumb-item active"><a href="#">Data Master</a></div>
-                 <div class="breadcrumb-item"><a href="#">Data Prog.Studi</a></div>
+                 <div class="breadcrumb-item"><a href="<?php echo base_url ('admin/nilai') ?>">Data Prog.Studi</a></div>
+                 <div class="breadcrumb-item"><a
+                         href="<?php echo base_url ('admin/nilai/getMatkul/'. $kd_jurusan . '/') ?>"> Data
+                         Matakuliah (Input Nilai) </a></div>
                  <div class="breadcrumb-item"><a href="#">Input Nilai</a></div>
              </div>
          </div>

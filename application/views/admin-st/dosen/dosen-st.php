@@ -98,17 +98,6 @@ $this->load->view('admin-st/dist/header');
         </div>
     </section>
 </div>
-<?php $this->load->view('admin-st/dist/footer'); ?>
-<!-- JS Libraies -->
-<script src="<?php echo base_url(); ?>assets-new-look/modules/datatables/datatables.min.js"></script>
-<script
-    src="<?php echo base_url(); ?>assets-new-look/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js">
-</script>
-<script src="<?php echo base_url(); ?>assets-new-look/modules/datatables/Select-1.2.4/js/dataTables.select.min.js">
-</script>
-
-<script src="<?php echo base_url(); ?>assets-new-look/modules/jquery-ui/jquery-ui.min.js"></script>
-<script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-datatables.js"></script>
 
 <!-- Modal Tambah Data -->
 <div class="modal fade" tabindex="-1" role="dialog" id="tambahDosen">
@@ -210,14 +199,12 @@ $this->load->view('admin-st/dist/header');
                                 <option value="Tidak Tetap">Tidak Tetap</option>
                             </select>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" name="password" placeholder="Input Password"
-                                required>
-                            <div class="invalid-feedback">
-                                Please provide a valid Password
-                            </div>
-                        </div>
+                            <input type="password" class="form-control" name="password">
+
+                        </div> -->
+
 
                         <div class="form-group">
                             <label for="jurusan">Prog. Studi</label>
@@ -279,7 +266,7 @@ $this->load->view('admin-st/dist/header');
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="editTelp">No Telp</label>
-                            <input type="number" class="form-control" id="editTelp" name="hp_ds" required>
+                            <input type="number" class="form-control" id="editTelp" name="hp_ds">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="editemail">Email</label>
@@ -355,9 +342,25 @@ $this->load->view('admin-st/dist/header');
 </div>
 
 
-<!-- Pastikan Anda sudah menyertakan SweetAlert library -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<?php $this->load->view('admin-st/dist/footer'); ?>
+<!-- JS Libraies -->
+<script src="<?php echo base_url(); ?>assets-new-look/modules/datatables/datatables.min.js"></script>
+<script
+    src="<?php echo base_url(); ?>assets-new-look/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js">
+</script>
+
+<script src="<?php echo base_url(); ?>assets-new-look/modules/datatables/Select-1.2.4/js/dataTables.select.min.js">
+</script>
+
+
+<script src="<?php echo base_url(); ?>assets-new-look/modules/jquery-ui/jquery-ui.min.js"></script>
+<script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-datatables.js"></script>
+
+<!-- Pastikan Anda sudah menyertakan SweetAlert library -->
+<script src="<?php echo base_url(); ?>assets-new-look/modules/sweetalert/sweetalert.min.js"></script>
+
+<script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-sweetalert.js"></script>
 
 <script>
 $(document).ready(function() {

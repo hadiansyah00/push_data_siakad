@@ -34,7 +34,7 @@ $this->load->view('mhs/dist/header');
                                     KAPRODI</a>&nbsp;
                                 <a href="<?php echo base_url('mhs/Transkrip/printKRS_dospem/' . $mhs['id_mahasiswa']); ?>"
                                     target="_blank" class="btn btn-sm btn-primary"><i class="fa fa-print"></i>
-                                    DOSPEM</a>&nbsp;
+                                    DPA</a>&nbsp;
 
                                 </form>
                             </div>

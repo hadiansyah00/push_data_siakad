@@ -13,8 +13,8 @@ $this->load->view('admin-st/dist/header');
              <h1>Data Matakuliah</h1>
              <div class="section-header-breadcrumb">
                  <div class="breadcrumb-item active"><a href="#">Data Master</a></div>
-                 <div class="breadcrumb-item"><a href="#">Data Prog.Studi</a></div>
-                 <div class="breadcrumb-item"><a href="#">Input Nilai</a></div>
+                 <div class="breadcrumb-item"><a href="<?php echo base_url ('admin/nilai') ?>">Data Prog.Studi</a></div>
+                 <div class="breadcrumb-item"><a href="#"> Data Matakuliah (Input Nilai) </a></div>
              </div>
          </div>
 
@@ -49,8 +49,7 @@ $this->load->view('admin-st/dist/header');
                                      </thead>
                                      <tbody>
                                          <?php $i = 1;
-									foreach ($jadwal as $row) : ?>
-                                         <?php if ($row->semester == $tahun['semester']) { ?>
+									foreach ($krs_get as $row) : ?>
                                          <tr>
                                              <td><?php echo $i++; ?></td>
                                              <td><?php echo $row->kd_mk; ?></td>
@@ -74,7 +73,8 @@ $this->load->view('admin-st/dist/header');
                                              </td>
 
                                          </tr>
-                                         <?php } ?>
+
+
                                          <?php endforeach; ?>
                                      </tbody>
                                  </table>

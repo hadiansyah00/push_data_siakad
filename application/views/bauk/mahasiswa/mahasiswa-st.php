@@ -179,7 +179,7 @@ $('.toggle-switch').change(function() {
             if (response.status === 'success') {
                 // Handle success response
                 // alert('Status berhasil KRS diperbarui');
-                location.reload();
+                alert('Status berhasil diperbarui ');
             } else {
                 // Handle error response
                 alert('Gagal memperbarui status');
@@ -241,7 +241,7 @@ $('.toggle-switch-uts').change(function() {
             if (response.status === 'success') {
                 // Handle success response
                 // alert('Status berhasil KRS diperbarui');
-                location.reload();
+                alert('Status berhasil diperbarui ');
             } else {
                 // Handle error response
                 alert('Gagal memperbarui status');
@@ -302,7 +302,7 @@ $('.toggle-switch-uas').change(function() {
             if (response.status === 'success') {
                 // Handle success response
                 // alert('Status berhasil KRS diperbarui');
-                location.reload();
+                alert('Status berhasil diperbarui ');
             } else {
                 // Handle error response
                 alert('Gagal memperbarui status');
@@ -363,7 +363,7 @@ $('.toggle-switch-nilai-uts').change(function() {
             if (response.status === 'success') {
                 // Handle success response
                 // alert('Status berhasil KRS diperbarui');
-                location.reload();
+                alert('Status berhasil diperbarui ');
             } else {
                 // Handle error response
                 alert('Gagal memperbarui status');
@@ -424,7 +424,7 @@ $('.toggle-switch-nilai-uas').change(function() {
             if (response.status === 'success') {
                 // Handle success response
                 // alert('Status berhasil KRS diperbarui');
-                location.reload();
+                alert('Status berhasil diperbarui ');
             } else {
                 // Handle error response
                 alert('Gagal memperbarui status');
@@ -485,7 +485,7 @@ $('.toggle-switch-khs').change(function() {
             if (response.status === 'success') {
                 // Handle success response
                 // alert('Status berhasil KRS diperbarui');
-                location.reload();
+                alert('Status berhasil diperbarui ');
             } else {
                 // Handle error response
                 alert('Gagal memperbarui status');

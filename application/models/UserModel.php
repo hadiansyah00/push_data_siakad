@@ -3,6 +3,19 @@
 class UserModel extends CI_Model
 {
 
+	 public function getUserById($userId) {
+        // Query ke database untuk mendapatkan informasi pengguna berdasarkan ID
+        $query = $this->db->get_where('mahasiswa', array('id_mahasiswa' => $userId));
+        return $query->row();
+    }
+	public function updatePasswordHash($userId) {
+    $data = array(
+        'password' => password_hash($this->input->post('new_password'), PASSWORD_DEFAULT)
+    );
+    $this->db->where('id_mahasiswa', $userId);
+    return $this->db->update('mahasiswa', $data);
+}
+
 	//Cek username dan password admin
 	public function loginUser($username, $pass)
 	{
@@ -27,7 +40,8 @@ class UserModel extends CI_Model
 	}
 	public function getUserByUsername($username) {
     // Lakukan query ke database untuk mengambil data pengguna berdasarkan username
-    $query = $this->db->get_where('dosen', array('kd_dosen' => $username));
+    $this->db->where('kd_dosen', $username);
+    $query = $this->db->get('dosen');
 
     // Jika data pengguna ditemukan, kembalikan data dalam bentuk objek
     if ($query->num_rows() == 1) {
@@ -36,7 +50,8 @@ class UserModel extends CI_Model
 
     // Jika data pengguna tidak ditemukan, kembalikan null
     return null;
-	}
+}
+
 
 	//cek nim dan password mahasiswa
 	public function loginMhs($username, $pass)

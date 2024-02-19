@@ -50,7 +50,7 @@ $this->load->view('admin-st/dist/header');
                                             <td><?php echo $row->kd_mk; ?></td>
                                             <td><?php echo $row->matakuliah; ?></td>
                                             <td><?php echo $row->sks; ?></td>
-                                            <td><?php echo $row->semester; ?></td>
+                                            <td><?php echo $row->smt; ?> (<?php echo $row->semester; ?>)</td>
                                             <td>
                                                 <a class="link" href="#">
                                                     <?php if ($row->mk_pilihan == 0) {

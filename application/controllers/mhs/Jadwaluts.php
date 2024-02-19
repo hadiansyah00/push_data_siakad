@@ -97,9 +97,9 @@ class Jadwaluts extends CI_Controller
 				
 			$pdf->Cell(10, 7, $no++. '.', 1, 0, 'C');
 			$pdf->Cell(75, 7, $d->matakuliah, 1, 0,'L');
-			$pdf->Cell(20, 7, $d->ruang_uas, 1, 0);
-			$pdf->Cell(30, 7, format_indo($d->tgl_uas ,date('d-m-y')),1, 0,'C');
-			$pdf->Cell(20, 7, $d->jam_uas, 1, 0,'C');
+			$pdf->Cell(20, 7, $d->ruang_uts, 1, 0);
+			$pdf->Cell(30, 7, format_indo($d->tgl_uts ,date('d-m-y')),1, 0,'C');
+			$pdf->Cell(20, 7, $d->jam, 1, 0,'C');
 		    $pdf->Cell(20, 7, '', 1, 0);
 			$pdf->Cell(20, 7, '', 1, 1,0);
 	        	}

@@ -77,6 +77,7 @@ class Dosen extends CI_Controller
         // Set aturan validasi sesuai kebutuhan
         $this->form_validation->set_rules('kd_dosen', 'Kode Dosen', 'required');
         $this->form_validation->set_rules('nama_dosen', 'Nama Lengkap', 'required');
+		 $this->form_validation->set_rules('nama_dosen', 'Nama Lengkap', 'required');
         // Tambahkan aturan validasi lainnya sesuai kebutuhan
 
         // Jalankan validasi
@@ -88,18 +89,18 @@ class Dosen extends CI_Controller
 
         // Formulir valid, lakukan penyimpanan data
         $data = array(
-			'nidn'				=> htmlspecialchars($this->input->post('nidn')),
-			'nama_dosen'		=> htmlspecialchars($this->input->post('nama_dosen')),
-			'kd_dosen'			=> htmlspecialchars($this->input->post('kd_dosen')),
-			'jenis_kelamin'		=> htmlspecialchars($this->input->post('jenis_kelamin')),
-			'tempat'			=> htmlspecialchars($this->input->post('tempat')),
-			'tgl'				=> htmlspecialchars($this->input->post('tgl')),
-			'alamat_dosen'		=> htmlspecialchars($this->input->post('alamat_dosen')),
-			'hp_ds'				=> htmlspecialchars($this->input->post('hp_ds')),
-			'status_ds'			=> htmlspecialchars($this->input->post('status_ds')),
-			'kd_jurusan'		=> htmlspecialchars($this->input->post('jurusan')),
-			'email_ds'			=> htmlspecialchars($this->input->post('email_ds')),		
-			'password_ds'        => password_hash($this->input->post('password')),
+			'nidn'				=> $this->input->post('nidn'),
+			'nama_dosen'		=> $this->input->post('nama_dosen'),
+			'kd_dosen'			=> $this->input->post('kd_dosen'),
+			'jenis_kelamin'		=> $this->input->post('jenis_kelamin'),
+			'tempat'			=>  $this->input->post('tempat'),
+			'tgl'				=>$this->input->post('tgl'),
+			'alamat_dosen'		=> $this->input->post('alamat_dosen'),
+			'hp_ds'				=> $this->input->post('hp_ds'),
+			'status_ds'			=> $this->input->post('status_ds'),
+			'kd_jurusan'		=>$this->input->post('jurusan'),
+			'email_ds'			=> $this->input->post('email_ds'),		
+			'password' 		=> password_hash('Stikes123', PASSWORD_DEFAULT), 
 			'tgl_insert'		=> date('y-m-d')
 		);
 
@@ -133,7 +134,7 @@ public function updateDataDosen()
 	$kdjs = $this->input->post('jurusan');
 	$emds = $this->input->post('email_ds');
     $aldos = $this->input->post('alamat_dosen');
-    $password = password_hash($this->input->post('password_ds'), PASSWORD_DEFAULT);
+    $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
 
     // Validation if needed
 
@@ -153,7 +154,7 @@ public function updateDataDosen()
     'kd_jurusan' => $kdjs,
     'email_ds' => $emds,
     'alamat_dosen' => $aldos,
-    'password_ds' => $password,
+    'password' => $password,
 );
 
     // Validate CSRF token
@@ -232,7 +233,7 @@ public function updateDataDosen()
 			'status_ds'			=> htmlspecialchars($this->input->post('status_ds')),
 			'kd_jurusan'		=> htmlspecialchars($this->input->post('jurusan')),
 			'email_ds'				=> htmlspecialchars($this->input->post('email_ds')),
-			'password_ds'			=> md5($this->input->post('password_ds', TRUE)),
+			'password'			=> password_hash($this->input->post('password', TRUE)),
 			'tgl_update'		=> date('y-m-d')
 		);
 
