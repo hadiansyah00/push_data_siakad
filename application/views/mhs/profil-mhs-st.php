@@ -33,8 +33,6 @@ $this->load->view('mhs/dist/header');
                                 </li>
 
                             </ul>
-
-
                             <div class="tab-content" id="myTabContent">
                                 <!-- Start Ini Tab untuk Setting Akun -->
                                 <div class="tab-pane fade show active" id="home" role="tabpanel"

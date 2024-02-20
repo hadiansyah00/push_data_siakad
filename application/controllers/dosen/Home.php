@@ -21,9 +21,9 @@ class Home extends CI_Controller
 		//post by admin
 		$data['post'] = $this->db->get('post')->row_array();
 		$data['slider'] = $this->db->get('img_slider')->result();
-
-		$this->load->view('dosen/templates/header', $data);
-		$this->load->view('dosen/home-dosen');
-		$this->load->view('dosen/templates/footer');
+		$data['tahun'] = $this->TaModel->getAktif()->row_array();
+		// $this->load->view('dosen/templates/header', $data);
+		$this->load->view('dosen/home-dosen', $data);
+		// $this->load->view('dosen/templates/footer');
 	}
 }

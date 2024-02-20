@@ -219,18 +219,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </li>
                     <li class="dropdown"><a href="#" data-toggle="dropdown"
                             class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            <?php if ($mhs['photo'] == NULL) { ?>
+                            <?php if ($dsn['photoo'] == NULL) { ?>
                             <img src="<?php echo base_url('assets/images/default.jpg'); ?>" alt=""
                                 class="rounded-circle mr-1">
                             <?php } else { ?>
-                            <img src="<?php echo base_url('assets/images/uploads/' . $mhs['photo']); ?>" alt=""
+                            <img src="<?php echo base_url('assets/images/uploads/' . $dsn['photoo']); ?>" alt=""
                                 class="rounded-circle mr-1">
                             <?php } ?>
-                            <div class="d-sm-none d-lg-inline-block"><?php echo $mhs['nama_mhs'] ?></div>
+                            <div class="d-sm-none d-lg-inline-block"><?php echo $dsn['nama_dosen'] ?></div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <!-- <div class="dropdown-title">Logged in 5 min ago</div> -->
-                            <a href="#" class="dropdown-item has-icon">
+                            <a href="<?php echo base_url(); ?>dosen/profil" class="dropdown-item has-icon">
                                 <i class="fas fa-cog"></i> Settings
                             </a>
                             <!-- <a href="<?php echo base_url(); ?>dist/features_activities" class="dropdown-item has-icon">
@@ -240,7 +240,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <i class="fas fa-cog"></i> Settings
                             </a> -->
                             <div class="dropdown-divider"></div>
-                            <a href="<?php echo base_url('auth/logout_admin'); ?>"
+                            <a href="<?php echo base_url('auth_ds/logout'); ?>"
                                 class="dropdown-item has-icon text-danger">
                                 <i class="fas fa-sign-out-alt"></i> Logout
                             </a>

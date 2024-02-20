@@ -23,7 +23,7 @@ $this->load->view('mhs/dist/header');
 
                     <div class="mt-4">
                         <a href="#" class="btn btn-outline-white btn-lg btn-icon icon-left"><i class="far fa-user"></i>
-                            Setup Account</a>
+                            Pengaturan Profile</a>
                     </div>
                 </div>
             </div>

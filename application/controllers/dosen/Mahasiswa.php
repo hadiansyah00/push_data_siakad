@@ -3,6 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Mahasiswa extends CI_Controller
 {
+
 	public function view_mhs($id_mhs)
 	{
 
@@ -15,10 +16,11 @@ class Mahasiswa extends CI_Controller
         $data['dsn'] = $this->KrsModel->getDataDosen();
 		$data['mhs'] = $this->MahasiswaModel->mhsId($id_mhs)->row_array();
 		//$data['mahasiswa'] = $this->MahasiswaModel->getMhsId($where)->result();
-		$this->load->view('dosen/templates/header', $data);
-		$this->load->view('dosen/view_mhs', $data);
-		$this->load->view('dosen/templates/footer');
+		// $this->load->view('dosen/templates/header', $data);
+		$this->load->view('dosen/mahasiswa/view_mhs-st', $data);
+		// $this->load->view('dosen/templates/footer');
 	}
+	
 		public function detil_transkrip($id_mhs)
 	{
 		//Session login mahasiswa berdasarkan id login (ambil data KRS)

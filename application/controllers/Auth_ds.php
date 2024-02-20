@@ -168,21 +168,7 @@ class Auth_ds extends CI_Controller
 	public function logout()
 	{
 		$this->session->sess_destroy();
-		redirect('auth');
-		$this->session->set_flashdata(
-			'pesan',
-			'<div class="alert alert-block alert-success">
-	<button type="button" class="close" data-dismiss="alert">
-		<i class="ace-icon fa fa-times"></i>
-	</button>
-
-	<i class="ace-icon fa fa-check red"></i>
-
-	
-	<strong class="red">
-		Anda Berhasil Logout
-	</strong>
-</div>'
-		);
+		redirect('dosen');
+		
 	}
 }

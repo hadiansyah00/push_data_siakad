@@ -41,24 +41,26 @@
 <body>
     <div id="app">
         <section class="section">
-            <div class="container mt-5">
+            <div class="container mt-5 bg-gradient-blue">
                 <div class="row">
                     <div
                         class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
                         <div class="login-brand">
                             <img src="<?php echo base_url(); ?>assets/img/logo_sbh.png" alt="logo" width="120" class="">
                         </div>
+                        <h2 class="text-center">LOGIN SIAKAD</h2>
+                        <div class="card card-warning">
+                            <div class="card-header text-align center">
+                                <h4 class="text-center"> Dosen / <strong><i>Lecture</i></strong></h4>
 
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h4>Login</h4>
+
                             </div>
 
                             <div class="card-body">
                                 <form method="POST" action="<?php echo base_url(); ?>auth/AuthDosen"
                                     class="needs-validation" novalidate="">
                                     <div class="form-group">
-                                        <label for="email">NIM/Kode Dosen</label>
+                                        <label for="email">Kode Dosen</label>
                                         <input name="username" id="username" class="form-control" type="text"
                                             tabindex="1" required autofocus>
                                         <div class="invalid-feedback">
@@ -94,7 +96,7 @@
 
 
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                                        <button type="submit" class="btn btn-warning btn-lg btn-block" tabindex="4">
                                             Login
                                         </button>
                                     </div>

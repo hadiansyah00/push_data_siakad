@@ -1,91 +1,48 @@
-<!-- ======= Home Details Section ======= -->
-<div class="container">
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+defined('BASEPATH') OR exit('No direct script access allowed');
+$this->load->view('dosen/dist/header');
+?>
+<!-- Main Content -->
+<div class="main-content">
+    <section class="section">
+        <div class="section-header">
+            <h1>Dashboard</h1>
+        </div>
+        <div class="col-12 mb-4">
+            <div class="hero text-white hero-bg-image hero-bg-parallax"
+                style="background-image: url('<?php echo base_url(); ?>assets-new-look/img/bag-hero-1.jpg');">
+                <div class="hero-inner">
+                    <h1>Selamat Datang, <?php echo $dsn['nama_dosen']?></h1>
+                    <h4> Tahun Akademik <?php echo $tahun['ta'] ?> /
+                        <?php echo$tahun['semester']?></h4>
+                    <p class="lead"><strong>SISTEM INFORMASI AKADEMIK | STIKES BOGOR HUSADA</strong></p></br>
 
-	<div class="portfolio-details-container">
 
-		<div class="owl-carousel portfolio-details-carousel">
-			<?php foreach ($slider as $row) { ?>
-				<img src="<?php echo base_url('assets/assets-mhs/img/' . $row->photo); ?>" class="img-fluid" alt="">
-			<?php } ?>
-		</div>
 
-	</div>
+                    <div class="mt-4">
+                        <a href="#" class="btn btn-outline-white btn-lg btn-icon icon-left"><i class="far fa-user"></i>
+                            Pengaturan Profile</a>
+                    </div>
+                </div>
+            </div>
 
-	<!-- <div class="portfolio-description">
-		<h2><?php // echo $post['judul']; 
-			?></h2>
-		<p>
-			<?php //echo $post['deskripsi']; 
-			?>
-		</p>
-	</div> -->
+        </div>
 
 </div>
 
-
-<section id="contact" class="contact">
-	<div class="container">
-		<?php if ($dsn['nama_dosen'] == NULL || $dsn['nidn'] == NULL || $dsn['kd_dosen'] == NULL || $dsn['jurusan'] == NULL) { ?>
-			<div class="alert alert-info alert-dismissible">
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-				<h4><i class="icofont-user"></i> Selamat datang di SIAKAD <strong>SBH</strong>!</h4>
-			</div>
-		<?php } ?>
-		<div class="row aos-init aos-animate" data-aos="fade-in">
-
-			<div class="col-lg-4 d-flex align-items-stretch">
-				<div class="info">
-					<a href="<?php echo base_url('dosen/profil'); ?>">
-						<div class="address">
-							<i class="icofont-user"></i>
-							<h4>Profil</h4>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="col-lg-4 d-flex align-items-stretch">
-				<div class="info">
-					<a href="<?php echo base_url('dosen/mhskrs'); ?>">
-						<div class="address">
-							<i class="bx bx-file-blank"></i>
-							<h4>Mahasiswa Didik </h4>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="col-lg-4 d-flex align-items-stretch">
-				<div class="info">
-					<a href="<?php echo base_url('dosen/uploadfile'); ?>">
-						<div class="address">
-							<i class="bx bx-book-content"></i>
-							<h4>Rencana Pembelajaran Mahasiswa</h4>
-						</div>
-					</a>
-				</div>
-			</div>
-			<!--<div class="col-lg-4 d-flex align-items-stretch">-->
-			<!--	<div class="info">-->
-			<!--		<a href="<?php echo base_url('mhs/Khs'); ?>">-->
-			<!--			<div class="address">-->
-			<!--				<i class="bx bx-book-content"></i>-->
-			<!--				<h4>KHS MAHASISWA</h4>-->
-			<!--			</div>-->
-			<!--		</a>-->
-			<!--	</div>-->
-			<!--</div>-->
-			<!--<div class="col-lg-4 d-flex align-items-stretch">-->
-			<!--	<div class="info">-->
-			<!--		<a href="<?php echo base_url('mhs/Jadwal'); ?>">-->
-			<!--			<div class="address">-->
-			<!--				<i class="bx bx-book-content"></i>-->
-			<!--				<h4>Jadwal Mengajar</h4>-->
-			<!--			</div>-->
-			<!--		</a>-->
-			<!--	</div>-->
-			<!--</div>-->
-
-
-		</div>
-
-	</div>
 </section>
+
+
+
+
+</div>
+
+</div>
+
+<?php $this->load->view('dosen/dist/footer'); ?>
+
+<!-- Page Specific JS File -->
+
+<script src="http://localhost/stisla-codeigniter-master/assets/js/page/bootstrap-modal.js"></script>

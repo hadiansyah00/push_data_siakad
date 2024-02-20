@@ -48,21 +48,22 @@
                         <div class="login-brand">
                             <img src="<?php echo base_url(); ?>assets/img/logo_sbh.png" alt="logo" width="120" class="">
                         </div>
+                        <h2 class="text-center">LOGIN SIAKAD</h2>
+                        <div class="card card-warning">
+                            <div class="card-header text-center">
+                                <h4 class="text-center"> Mahasiswa / <strong><i>Student</i></strong></h4>
 
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h4>Login</h4>
                             </div>
 
                             <div class="card-body">
                                 <form method="POST" action="<?php echo base_url(); ?>auth/getLogin"
                                     class="needs-validation" novalidate="">
                                     <div class="form-group">
-                                        <label for="email">NIM/Kode Dosen</label>
+                                        <label for="email">NIM</label>
                                         <input name="username" id="username" class="form-control" type="text"
                                             tabindex="1" required autofocus>
                                         <div class="invalid-feedback">
-                                            Please fill in your NIM/Kode Dosen
+                                            Please fill in your NIM
                                         </div>
                                     </div>
 
@@ -70,8 +71,7 @@
                                         <div class="d-block">
                                             <label for="password" class="control-label">Password</label>
                                             <div class="float-right">
-                                                <a href="<?php echo base_url(); ?>dist/auth_forgot_password"
-                                                    class="text-small">
+                                                <a href="#" class="text-small">
                                                     Forgot Password?
                                                 </a>
                                             </div>
@@ -94,7 +94,7 @@
 
 
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                                        <button type="submit" class="btn btn-warning btn-lg btn-block" tabindex="4">
                                             Login
                                         </button>
                                     </div>

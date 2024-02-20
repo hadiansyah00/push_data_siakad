@@ -24,8 +24,8 @@ class Mhskrs extends CI_Controller
 		$data['dsn'] = $this->KrsModel->getDataDosen();
     	$data['mhs'] = $this->MahasiswaModel->getMhsDidik($ds['id_dosen']);
 
-		$this->load->view('dosen/templates/header', $data);
-		$this->load->view('dosen/mhskrs', $data);
-		$this->load->view('dosen/templates/footer');
+		// $this->load->view('dosen/templates/header', $data);
+		$this->load->view('dosen/mahasiswa/mhs-dpa', $data);
+		// $this->load->view('dosen/templates/footer');
 	}
 }
