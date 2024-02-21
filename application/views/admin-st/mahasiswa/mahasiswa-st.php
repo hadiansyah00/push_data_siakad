@@ -45,6 +45,7 @@ $this->load->view('admin-st/dist/header');
                                             <th data-field="jurusan">Prog. Studi</th>
                                             <th data-field="status">Status</th>
                                             <th data-field="nama_dosen">Dospem</th>
+                                            <th>Reset</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -85,6 +86,11 @@ $this->load->view('admin-st/dist/header');
                                             </td>
 
                                             <td> <?php echo $row->nama_dosen; ?></td>
+                                            <td> <button type="button" class="btn btn-primary btn-sm btn-set-password2"
+                                                    data-nim="<?php echo $row->nim; ?>">
+                                                    Set Password
+                                                </button></td>
+
                                             <td>
                                                 <!-- Tambahkan data-nilai pada tombol Edit -->
                                                 <button type="button" class="btn btn-primary btn-sm btn-edit"
@@ -100,18 +106,14 @@ $this->load->view('admin-st/dist/header');
                                                     Edit
                                                 </button>
 
-                                                <button type="button" class="btn btn-primary btn-sm btn-set-password"
-                                                    data-nim="<?php echo $row->nim; ?>">
-                                                    Set Password
-                                                </button>
+
                                                 <button type="button" class="btn btn-danger btn-sm btn-delete"
                                                     data-id="<?php echo $row->id_mahasiswa; ?>">
                                                     Delete
                                                 </button>
-                                            <td>
+                                            </td>
 
-                                            </td>
-                                            </td>
+
                                         </tr>
                                         <?php } ?>
                                     </tbody>
@@ -605,8 +607,10 @@ $(document).ready(function() {
 </script>
 <script>
 $(document).ready(function() {
-    // Menangani klik pada tombol Set Password
-    $(".btn-set-password").click(function() {
+    $(document).on('click', '.btn-set-password2', function() {
+        // $(document).ready(function() {
+        //     // Menangani klik pada tombol Set Password
+        //     $(".btn-set-password2").click(function() {
         // Mendapatkan NIM dari tombol yang diklik
         var nim = $(this).data('nim');
 
