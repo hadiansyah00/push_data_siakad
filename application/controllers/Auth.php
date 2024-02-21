@@ -63,7 +63,49 @@ class Auth extends CI_Controller
         echo json_encode($response);
     }
 }
-	
+		public function AuthAdmin()
+{
+    // Validate CSRF token
+    if ($this->input->post($this->security->get_csrf_token_name()) !== $this->security->get_csrf_hash()) {
+        // CSRF token tidak valid, handle sesuai kebutuhan
+        echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+        return;
+    }
+
+    // Set rules validasi form
+    $this->form_validation->set_rules('username', 'Username', 'required', ['required' => 'Kode DOSEN wajib diisi']);
+    $this->form_validation->set_rules('password', 'Password', 'required', ['required' => 'Password wajib diisi']);
+
+    if ($this->form_validation->run() == FALSE) {
+        // Validasi form gagal, tampilkan kembali halaman login dengan pesan error
+        $this->load->view('auth_admin-st');
+    } else {
+        // Validasi form berhasil
+        $username = $this->input->post('username', TRUE);
+        $password = $this->input->post('password', TRUE);
+
+        $response = [];
+
+        // Cek login ke database
+        $user = $this->UserModel->getUserByUsernameAdmin($username);
+
+        if ($user && password_verify($password, $user->password)) {
+            // Jika login berhasil, set session
+            $this->session->set_userdata('username', $user->username);
+            $this->session->set_userdata('sess_nama', $user->email);
+
+            // Sertakan token CSRF dalam respons
+            $response = ['status' => 'success', 'redirect' => 'admin/dashboard', 'csrf_token' => $this->security->get_csrf_hash()];
+        } else {
+            // Jika login gagal, kirim pesan error
+            $response = ['status' => 'error', 'message' => 'Invalid username or password.'];
+        }
+
+        // Kirim respons dalam format JSON
+        echo json_encode($response);
+    }
+}
+
 		public function AuthDosen()
 {
     // Validate CSRF token
