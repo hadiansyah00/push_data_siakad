@@ -29,6 +29,10 @@ $this->load->view('admin-st/dist/header');
                             <a href="#" target="_blank" class="btn btn-sm btn-primary" data-toggle="modal"
                                 data-target="#tambahMahasiswa"><i class="fa fa-plus"></i>Tambah
                             </a>
+                            <button type="button" class="btn btn-primary btn-sm btn-set-all-passwords">
+                                Set All Passwords
+                            </button>
+
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -96,12 +100,17 @@ $this->load->view('admin-st/dist/header');
                                                     Edit
                                                 </button>
 
-
+                                                <button type="button" class="btn btn-primary btn-sm btn-set-password"
+                                                    data-nim="<?php echo $row->nim; ?>">
+                                                    Set Password
+                                                </button>
                                                 <button type="button" class="btn btn-danger btn-sm btn-delete"
                                                     data-id="<?php echo $row->id_mahasiswa; ?>">
                                                     Delete
                                                 </button>
+                                            <td>
 
+                                            </td>
                                             </td>
                                         </tr>
                                         <?php } ?>
@@ -528,6 +537,151 @@ $(document).on('click', '.btn-delete', function() {
                 }
             });
         }
+    });
+});
+</script>
+<script>
+$(document).ready(function() {
+    $('#btnResetPassword').click(function() {
+        // Mengambil NIM dari input dengan id 'nim'
+        var nim = $('#nim').val();
+
+        // Mengambil token CSRF dari input dengan name 'csrf_token'
+        var csrfToken = $('[name="csrf_token"]').val();
+
+        // Tampilkan konfirmasi menggunakan SweetAlert
+        Swal.fire({
+            title: 'Apakah Anda yakin akan mereset password untuk mahasiswa dengan NIM ' + nim +
+                '?',
+            text: 'Tindakan ini tidak dapat dibatalkan!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Reset!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Jika pengguna mengonfirmasi, lakukan panggilan AJAX untuk mereset password
+                $.ajax({
+                    url: '<?php echo base_url('admin/settings/reset_passwords'); ?>',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        nim: nim,
+                        csrf_token: csrfToken // Mengirim token CSRF
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Jika sukses, tampilkan pesan sukses
+                            Swal.fire(
+                                'Sukses!',
+                                'Password berhasil direset.',
+                                'success'
+                            );
+
+                        } else {
+                            // Jika terjadi kesalahan, tampilkan pesan kesalahan secara eksplisit
+                            Swal.fire(
+                                'Gagal!',
+                                response.message,
+                                'error'
+                            );
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Jika terjadi kesalahan AJAX, tampilkan pesan kesalahan secara eksplisit
+                        Swal.fire(
+                            'Error!',
+                            'Terjadi kesalahan saat melakukan permintaan.',
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
+    });
+});
+</script>
+<script>
+$(document).ready(function() {
+    // Menangani klik pada tombol Set Password
+    $(".btn-set-password").click(function() {
+        // Mendapatkan NIM dari tombol yang diklik
+        var nim = $(this).data('nim');
+
+        // Mendapatkan token CSRF
+        var csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>';
+        var csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
+
+        // Kirim permintaan AJAX untuk mengatur password
+        $.ajax({
+            url: "<?php echo base_url('admin/settings/setpassword'); ?>", // URL controller dan metode yang dituju
+            type: "POST",
+            data: {
+                nim: nim,
+                [csrfName]: csrfHash // Sertakan token CSRF dalam data POST
+            },
+            success: function(response) {
+                // Tindakan yang diambil jika permintaan berhasil
+                Swal.fire(
+                    'Success!',
+                    response,
+                    'success'
+                );
+            },
+            error: function(xhr, status, error) {
+                // Tindakan yang diambil jika terjadi kesalahan
+                Swal.fire(
+                    'Error!',
+                    'Gagal mengatur password untuk mahasiswa dengan NIM: ' + nim,
+                    'error'
+                );
+            }
+        });
+    });
+});
+</script>
+<script>
+
+</script>
+<script>
+$(document).ready(function() {
+    // Menangani klik pada tombol Set All Passwords
+    $(".btn-set-all-passwords").click(function() {
+        // Mendapatkan token CSRF
+        var csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>';
+        var csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
+
+        // Lakukan iterasi untuk setiap baris dalam tabel
+        $("table tbody tr").each(function() {
+            // Dapatkan NIM dari baris saat ini
+            var nim = $(this).find("td:eq(1)")
+                .text(); // Anggap kolom kedua adalah NIM, sesuaikan sesuai kebutuhan Anda
+
+            // Kirim permintaan AJAX untuk mengatur password
+            $.ajax({
+                url: "<?php echo base_url('admin/settings/setpassword'); ?>", // URL controller dan metode yang dituju
+                type: "POST",
+                data: {
+                    nim: nim,
+                    [csrfName]: csrfHash // Sertakan token CSRF dalam data POST
+                },
+                success: function(response) {
+                    // Tindakan yang diambil jika permintaan berhasil
+                    console.log(
+                        "Password berhasil diatur untuk mahasiswa dengan NIM: " +
+                        nim);
+                },
+                error: function(xhr, status, error) {
+                    // Tindakan yang diambil jika terjadi kesalahan
+                    console.error(
+                        "Gagal mengatur password untuk mahasiswa dengan NIM: " +
+                        nim + ". Kesalahan: " + xhr.responseText);
+                }
+
+            });
+        });
     });
 });
 </script>

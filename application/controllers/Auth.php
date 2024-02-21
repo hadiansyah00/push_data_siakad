@@ -42,17 +42,17 @@ class Auth extends CI_Controller
     } else {
         $username = $this->input->post('username', TRUE);
         $password = $this->input->post('password', TRUE);
-        $pass = md5($password);
+      
 
         $response = [];
 
-        // Proceed with login
-        $cek_mhs = $this->UserModel->loginMhs($username, $pass);
+        // Cek login ke database
+        $user = $this->UserModel->getUserByUsernameMahasiswa($username);
 
-        if ($cek_mhs) {
-            $this->session->set_userdata('level', 'mahasiswa');
-            $this->session->set_userdata('username', $cek_mhs->nim);
-            $this->session->set_userdata('sess_nama', $cek_mhs->nama_mhs);
+        if ($user && password_verify($password, $user->password)) {
+            // Jika login berhasil, set session
+            $this->session->set_userdata('username', $user->nim);
+            $this->session->set_userdata('sess_nama', $user->nama_mhs);
 
             // Include CSRF token in the response
             $response = ['status' => 'success', 'redirect' => 'mhs/home', 'csrf_token' => $this->security->get_csrf_hash()];
@@ -63,6 +63,7 @@ class Auth extends CI_Controller
         echo json_encode($response);
     }
 }
+	
 		public function AuthAdmin()
 {
     // Validate CSRF token

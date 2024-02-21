@@ -2,7 +2,16 @@
 
 class MahasiswaModel extends CI_Model
 {
-	
+	public function setPassword($nim) {
+    // Menghash NIM untuk digunakan sebagai password
+    $password_hash = password_hash($nim, PASSWORD_DEFAULT);
+
+    // Perbarui password dalam database hanya untuk mahasiswa dengan NIM yang diberikan
+    $this->db->set('password', $password_hash);
+    $this->db->where('nim', $nim);
+    $this->db->update('mahasiswa');
+}
+
 	public function updateStatus($id_mahasiswa,$updateData)
     {
     
@@ -590,7 +599,7 @@ class MahasiswaModel extends CI_Model
 	}
 	// Di dalam model MahasiswaModel atau model yang sesuai
 
-public function resetPasswords($nim) {
+public function resetPasswords() {
    
     $hashedPassword = password_hash($nim, PASSWORD_DEFAULT);
 

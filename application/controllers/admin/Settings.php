@@ -250,5 +250,19 @@ public function updateStatus()
 				$response['message'] = 'Semua status berhasil direset.';
 				echo json_encode($response);
 		}
+		 public function setpassword() {
+        // Mendapatkan NIM dari POST data
+        $nim = $this->input->post('nim');
+
+        // Mengatur password untuk mahasiswa dengan NIM yang diberikan
+        $result = $this->MahasiswaModel->setPassword($nim);
+
+        // Menanggapi hasil operasi
+        if($result) {
+            echo "Password berhasil diatur untuk mahasiswa dengan NIM: $nim";
+        } else {
+            echo "Gagal mengatur password untuk mahasiswa dengan NIM: $nim";
+        }
+    }
 				
 }

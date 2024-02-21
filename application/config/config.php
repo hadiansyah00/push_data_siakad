@@ -491,7 +491,7 @@ $config['csrf_exclude_uris'] = array(
 	'admin/evaluasi/insert',
 	'admin/evaluasi/delete',
 
-	'admin/settings/resetPasswords',
+	'admin/settings/setPassword',
 	'admin/settings/set_all_status_zero',
 	'admin/settings/updateStatus',
 	'admin/settings/insert',
