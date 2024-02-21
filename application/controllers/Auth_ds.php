@@ -5,7 +5,7 @@ class Auth_ds extends CI_Controller
 
 	public function index()
 	{
-				$this->load->view('auth_login_dosen-st');
+		$this->load->view('auth_login_dosen-st');
 		// $this->load->view('login_baak');
 		//    $this->ModelSecurity->getCsrf();
 		$this->load->library('form_validation');

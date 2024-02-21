@@ -51,7 +51,7 @@
                         <h2 class="text-center">LOGIN SIAKAD</h2>
                         <div class="card card-warning">
                             <div class="card-header text-center">
-                                <h4 class="text-center"> Mahasiswa / <strong><i>Student</i></strong></h4>
+                                <h4 class="text-center"><strong><i>Administrator</i></strong></h4>
 
                             </div>
 
@@ -59,11 +59,11 @@
                                 <form method="POST" action="<?php echo base_url(); ?>auth/getLogin"
                                     class="needs-validation" novalidate="">
                                     <div class="form-group">
-                                        <label for="email">NIM</label>
+                                        <label for="email">Username</label>
                                         <input name="username" id="username" class="form-control" type="text"
                                             tabindex="1" required autofocus>
                                         <div class="invalid-feedback">
-                                            Please fill in your NIM
+                                            Please fill in your Username
                                         </div>
                                     </div>
 
@@ -148,7 +148,7 @@
             // Send AJAX request
             $.ajax({
                 type: 'POST',
-                url: '<?php echo base_url('auth/getLogin'); ?>',
+                url: '<?php echo base_url('auth/AuthAdmin'); ?>',
                 data: formData,
                 dataType: 'json',
                 success: function(response) {

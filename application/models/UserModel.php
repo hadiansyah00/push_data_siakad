@@ -38,10 +38,36 @@ class UserModel extends CI_Model
 			return array();
 		}
 	}
+	public function getUserByUsernameAdmin($username) {
+    // Lakukan query ke database untuk mengambil data pengguna berdasarkan username
+    $this->db->where('username', $username);
+    $query = $this->db->get('users');
+
+    // Jika data pengguna ditemukan, kembalikan data dalam bentuk objek
+    if ($query->num_rows() == 1) {
+        return $query->row();
+    }
+
+    // Jika data pengguna tidak ditemukan, kembalikan null
+    return null;
+}
 	public function getUserByUsername($username) {
     // Lakukan query ke database untuk mengambil data pengguna berdasarkan username
     $this->db->where('kd_dosen', $username);
     $query = $this->db->get('dosen');
+
+    // Jika data pengguna ditemukan, kembalikan data dalam bentuk objek
+    if ($query->num_rows() == 1) {
+        return $query->row();
+    }
+
+    // Jika data pengguna tidak ditemukan, kembalikan null
+    return null;
+}
+public function getUserByUsernameMahasiswa($username) {
+    // Lakukan query ke database untuk mengambil data pengguna berdasarkan username
+    $this->db->where('nim', $username);
+    $query = $this->db->get('mahasiswa');
 
     // Jika data pengguna ditemukan, kembalikan data dalam bentuk objek
     if ($query->num_rows() == 1) {

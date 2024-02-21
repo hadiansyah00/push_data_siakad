@@ -466,9 +466,10 @@ $config['csrf_expire'] = 7200; // Waktu kedaluwarsa CSRF token
 $config['csrf_regenerate'] = TRUE;
 $config['csrf_exclude_uris'] = array(
 	
-	'Auth/updatePasswordHash',
+	
 	'Auth/getLogin',
 	'Auth/AuthDosen',
+	'Auth/AuthAdmin',
 	'Auth_ds/getLogin_dosen',
 	'lecture',
 	'admin/mahasiswa/insert',
@@ -490,6 +491,7 @@ $config['csrf_exclude_uris'] = array(
 	'admin/evaluasi/insert',
 	'admin/evaluasi/delete',
 
+	'admin/settings/resetPasswords',
 	'admin/settings/set_all_status_zero',
 	'admin/settings/updateStatus',
 	'admin/settings/insert',

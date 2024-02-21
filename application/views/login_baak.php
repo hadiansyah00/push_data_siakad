@@ -60,7 +60,7 @@
                                 <?php echo $this->session->flashdata('pesan'); ?>
                                 <form method="post" action="<?php echo base_url(); ?>auth/baak"
                                     onsubmit="return cekform();">
-                                    <input type="text" name="<?= $this->security->get_csrf_token_name(); ?>"
+                                    <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
                                         value="<?= $this->security->get_csrf_hash(); ?>">
                                     <div class="controls">
                                         <div class="row">

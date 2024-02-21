@@ -588,5 +588,17 @@ class MahasiswaModel extends CI_Model
         // Misalnya, return nilai untuk memberikan informasi ke kontroler
         return true;
 	}
-	
+	// Di dalam model MahasiswaModel atau model yang sesuai
+
+public function resetPasswords($nim) {
+   
+    $hashedPassword = password_hash($nim, PASSWORD_DEFAULT);
+
+    // Update password berdasarkan NIM
+    $this->db->set('password', $hashedPassword);
+    $this->db->where('nim', $nim);
+    $this->db->update('mahasiswa');
+}
+
+
 }

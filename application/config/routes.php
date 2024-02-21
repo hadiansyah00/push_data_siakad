@@ -53,7 +53,7 @@ $route['default_controller'] = 'auth';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['boda'] = 'auth/admin';
+$route['boda'] = 'Auth_admin';
 $route['dosen'] = 'auth_ds';
 // Grup Rute untuk Admin
 $route['admin'] = 'admin/dashboard';

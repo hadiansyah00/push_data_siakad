@@ -1,69 +1,19 @@
 <?php
 
-class Auth extends CI_Controller
+class Auth_admin extends CI_Controller
 {
 
 	public function index()
 	{
-		$this->load->view('auth_login-st');
+		$this->load->view('auth_admin-st');
 		// $this->load->view('login_baak');
 		//    $this->ModelSecurity->getCsrf();
 		$this->load->library('form_validation');
 	
-		
-
-	}
-	public function dosen()
-	{
-		$this->load->view('auth_login_dosen-st');
-		// $this->load->view('login_baak');
-		//    $this->ModelSecurity->getCsrf();
-		$this->load->library('form_validation');
 	
 		
 
 	}
-
-
-		
-	public function getLogin()
-{
-    // Validate CSRF token
-    if ($this->input->post($this->security->get_csrf_token_name()) !== $this->security->get_csrf_hash()) {
-        // CSRF token tidak valid, handle sesuai kebutuhan
-        echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
-        return;
-    }
-
-    $this->form_validation->set_rules('username', 'Username', 'required', ['required' => 'NIM wajib diisi']);
-    $this->form_validation->set_rules('password', 'Password', 'required', ['required' => 'Password wajib diisi']);
-
-    if ($this->form_validation->run() == FALSE) {
-        $this->load->view('auth_login-st');
-    } else {
-        $username = $this->input->post('username', TRUE);
-        $password = $this->input->post('password', TRUE);
-      
-
-        $response = [];
-
-        // Cek login ke database
-        $user = $this->UserModel->getUserByUsernameMahasiswa($username);
-
-        if ($user && password_verify($password, $user->password)) {
-            // Jika login berhasil, set session
-            $this->session->set_userdata('username', $user->nim);
-            $this->session->set_userdata('sess_nama', $user->nama_mhs);
-
-            // Include CSRF token in the response
-            $response = ['status' => 'success', 'redirect' => 'mhs/home', 'csrf_token' => $this->security->get_csrf_hash()];
-        } else {
-            $response = ['status' => 'error', 'message' => 'Invalid username or password.'];
-        }
-
-        echo json_encode($response);
-    }
-}
 	
 		public function AuthDosen()
 {
@@ -108,53 +58,9 @@ class Auth extends CI_Controller
     }
 }
 
-	public function AuthAdmin()
-{
-    // Validate CSRF token
-    if ($this->input->post($this->security->get_csrf_token_name()) !== $this->security->get_csrf_hash()) {
-        // CSRF token tidak valid, handle sesuai kebutuhan
-        echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
-        return;
-    }
-
-    // Set rules validasi form
-    $this->form_validation->set_rules('username', 'Username', 'required', ['required' => 'Kode DOSEN wajib diisi']);
-    $this->form_validation->set_rules('password', 'Password', 'required', ['required' => 'Password wajib diisi']);
-
-    if ($this->form_validation->run() == FALSE) {
-        // Validasi form gagal, tampilkan kembali halaman login dengan pesan error
-        $this->load->view('auth_admin-st');
-    } else {
-        // Validasi form berhasil
-        $username = $this->input->post('username', TRUE);
-        $password = $this->input->post('password', TRUE);
-
-        $response = [];
-
-        // Cek login ke database
-        $user = $this->UserModel->getUserByUsernameAdmin($username);
-
-        if ($user && password_verify($password, $user->password)) {
-            // Jika login berhasil, set session
-            $this->session->set_userdata('username', $user->username);
-            $this->session->set_userdata('sess_nama', $user->email);
-
-            // Sertakan token CSRF dalam respons
-            $response = ['status' => 'success', 'redirect' => 'admin/dashboard', 'csrf_token' => $this->security->get_csrf_hash()];
-        } else {
-            // Jika login gagal, kirim pesan error
-            $response = ['status' => 'error', 'message' => 'Invalid username or password.'];
-        }
-
-        // Kirim respons dalam format JSON
-        echo json_encode($response);
-    }
-}
-
-
 	public function admin()
 	{
-		$this->load->view('auth_admin-st');
+		$this->load->view('login_baak');
 	}
 	public function bauk()
 	{
@@ -262,42 +168,7 @@ class Auth extends CI_Controller
 	public function logout()
 	{
 		$this->session->sess_destroy();
-		redirect('auth');
-		$this->session->set_flashdata(
-			'pesan',
-			'<div class="alert alert-block alert-success">
-	<button type="button" class="close" data-dismiss="alert">
-		<i class="ace-icon fa fa-times"></i>
-	</button>
-
-	<i class="ace-icon fa fa-check red"></i>
-
-	
-	<strong class="red">
-		Anda Berhasil Logout
-	</strong>
-</div>'
-		);
+		redirect('dosen');
+		
 	}
-	public function logout_admin()
-	{
-		$this->session->sess_destroy();
-		redirect('boda');
-		$this->session->set_flashdata(
-			'pesan',
-			'<div class="alert alert-block alert-success">
-	<button type="button" class="close" data-dismiss="alert">
-		<i class="ace-icon fa fa-times"></i>
-	</button>
-
-	<i class="ace-icon fa fa-check red"></i>
-
-	
-	<strong class="red">
-		Anda Berhasil Logout
-	</strong>
-</div>'
-		);
-	}
-			
 }
