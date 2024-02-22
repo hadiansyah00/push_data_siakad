@@ -35,7 +35,7 @@ $this->load->view('mhs/dist/header');
                     <h5>List Pembaharuan</h5>
                     <ul>
 
-                        <li>Tampilan UI</li>
+                        <li>Tampilan UI (user Interface)</li>
                         <li>Input KRS (Centang Matakuliah yang dipilih kemudian disimpan)</li>
                         <li>Pengisian EDOM Mahasiswa</li>
                     </ul>
