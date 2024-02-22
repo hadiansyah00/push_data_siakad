@@ -14,11 +14,15 @@ class Profil extends CI_Controller
 
 	public function index()
 	{
-		$data['title'] = 'Profil Mahasiswa STIKES BOGOR';
-		$data['judul'] = 'Profil Mahasiswa';
+		 if (!$this->session->userdata('logged_in')) {
+            redirect('auth'); // Redirect ke halaman login jika belum login
+        }
+		$user_id = $this->session->userdata('username');
+		$data['login_history'] = $this->UserModel->get_login_history($user_id);
 		//setting krs
 		$data['setting_krs'] = $this->db->get('set_krs')->row_array();
 		$data['setting'] = $this->db->get('mahasiswa')->row_array();
+
 		//get data dari session
 		$data['mhs'] = $this->KrsModel->getDataMhs();
 		// $this->load->view('mhs/templates/header', $data);
@@ -285,26 +289,29 @@ public function updatePhoto()
 
 public function updateAksiProfilMhs()
 {
-	
-     	$this->form_validation->set_rules('nama_mhs', 'Nama Lengkap', 'required');
-        $this->form_validation->set_rules('tempat_lahir', 'Tempat Lahir', 'required');
-		$this->form_validation->set_rules('email', 'Email', 'required');
-		$this->form_validation->set_rules('hp', 'No Hp / WA', 'required');
-		$this->form_validation->set_rules('alamat', 'Alamat', 'required');
-		$this->form_validation->set_rules('kota', 'Kota', 'required');
-        $this->form_validation->set_rules('jk', 'Jenis Kelamin', 'required');
-        // Cek apakah ada perubahan password
+    // Lakukan validasi form
+    $this->form_validation->set_rules('nama_mhs', 'Nama Lengkap', 'required');
+    $this->form_validation->set_rules('tempat_lahir', 'Tempat Lahir', 'required');
+    $this->form_validation->set_rules('email', 'Email', 'required');
+    $this->form_validation->set_rules('hp', 'No Hp / WA', 'required');
+    $this->form_validation->set_rules('alamat', 'Alamat', 'required');
+    $this->form_validation->set_rules('kota', 'Kota', 'required');
+    $this->form_validation->set_rules('jk', 'Jenis Kelamin', 'required');
+    
+    // Cek apakah ada perubahan password
     if (!empty($this->input->post('password'))) {
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[5]');
         $this->form_validation->set_rules('confirm_password', 'Konfirmasi Password', 'required|matches[password]');
     }
-	   // Cek apakah ada perubahan foto profil
-    if (!empty($_FILES['photo']['name'])) {
-        $config['upload_path']          = './assets/images/uploads/';
-        $config['allowed_types']        = 'jpg|jpeg|png|gif';
-        $config['max_size']             = 2048; // 2MB
-        $config['file_name']            = 'profile_' . time();
 
+    // Cek apakah ada perubahan foto profil
+    if (!empty($_FILES['photo']['name'])) {
+
+		$config['upload_path'] = FCPATH . 'assets/images/uploads/';
+        $config['allowed_types'] = 'jpg|jpeg|png|gif|png';
+        $config['max_size']      = 2048; // 2MB
+        $config['file_name']     = 'profile_' . time();
+		$this->upload->initialize($config);
         $this->load->library('upload', $config);
 
         if (!$this->upload->do_upload('photo')) {
@@ -320,6 +327,7 @@ public function updateAksiProfilMhs()
         }
     }
     
+    // Validasi form
     if ($this->form_validation->run() == FALSE) {
         // Jika validasi form gagal
         $response['status'] = 'error';
@@ -329,41 +337,60 @@ public function updateAksiProfilMhs()
         $id = $this->input->post('id_mahasiswa');
 
         // Buat array data baru
-         $data = array(
-                'nama_mhs' => $this->input->post('nama_mhs'),
-                'agama' => $this->input->post('agama'),
-                'jk' => $this->input->post('jk'),
-				'tgl_lahir' => $this->input->post('tgl_lahir'),
-                'tempat_lahir' => $this->input->post('tempat_lahir'),
-                'email' => $this->input->post('email'),
-                'hp' => $this->input->post('hp'),
-                'alamat' => $this->input->post('alamat'),
-                'kota' => $this->input->post('kota')
-                // Add more fields as needed
-            );
-  		// Perbarui password jika ada perubahan
+        $data = array(
+            'nama_mhs'     => $this->input->post('nama_mhs'),
+            'agama'        => $this->input->post('agama'),
+            'jk'           => $this->input->post('jk'),
+            'tgl_lahir'    => $this->input->post('tgl_lahir'),
+            'tempat_lahir' => $this->input->post('tempat_lahir'),
+            'email'        => $this->input->post('email'),
+            'hp'           => $this->input->post('hp'),
+            'alamat'       => $this->input->post('alamat'),
+            'kota'         => $this->input->post('kota')
+            // Tambahkan bidang lain jika diperlukan
+        );
+
+        // Perbarui password jika ada perubahan
         if (!empty($this->input->post('password'))) {
             $data['password'] = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
         }
- 			// Perbarui foto profil jika ada perubahan
-        if (isset($photo)) {
-            $data['photo'] = $photo;
+
+        // Perbarui foto profil jika ada perubahan
+        if ($this->upload->do_upload('photo')) {
+        // Get the uploaded file data
+        $photo = $this->upload->data('file_name');
+        // Hapus file lama jika ada
+        $item = $this->db->get_where('mahasiswa', array('id_mahasiswa' => $id))->row();
+        if ($item->photo != null) {
+            $target_file = './assets/images/uploads/' . $item->photo;
+            if (file_exists($target_file)) {
+                unlink($target_file);
+            }
         }
+	}
+        // Update database
+        $data = array(
+            'photo'      => $photo,
+            'tgl_update' => date('y-m-d')
+        );
+
         // Lakukan update data di database
         $this->db->where('id_mahasiswa', $id);
         if ($this->db->update('mahasiswa', $data)) {
+            // Jika update berhasil
             $response['status'] = 'success';
             $response['message'] = 'Data mahasiswa berhasil diperbarui!';
         } else {
-            // Jika update data gagal
+            // Jika update gagal
             $response['status'] = 'error';
             $response['message'] = 'Gagal memperbarui data mahasiswa.';
         }
     }
 
-    // Return the response as JSON
+    // Kembalikan respons dalam bentuk JSON
     header('Content-Type: application/json');
     echo json_encode($response);
 }
+
 
 }

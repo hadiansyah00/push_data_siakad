@@ -23,10 +23,7 @@ $this->load->view('mhs/dist/header');
                                     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
                                         aria-controls="home" aria-selected="true">Profile Mahasiswa</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                                        aria-controls="profile" aria-selected="false">Informasi Mahasiswa</a>
-                                </li>
+
                                 <li class="nav-item">
                                     <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
                                         aria-controls="contact" aria-selected="false">Informasi Akademik</a>
@@ -38,17 +35,12 @@ $this->load->view('mhs/dist/header');
                                 <!-- Start Ini Tab untuk Setting Akun -->
                                 <div class="tab-pane fade show active" id="home" role="tabpanel"
                                     aria-labelledby="home-tab">
-
-
                                     <div class="col-12 col-md-12 col-lg-12">
                                         <div class="card">
                                             <form id="updateProfileForm" class="needs-validation" method="post"
                                                 action="<?php echo base_url('mhs/profil/updateAksiProfilMhs') ?>"
                                                 enctype="multipart/form-data" novalidate>
-
                                                 <div class="card-body">
-
-
                                                     <div class="row">
                                                         <div class="form-group col-md-6 col-12">
                                                             <label>NIM</label>
@@ -181,6 +173,26 @@ $this->load->view('mhs/dist/header');
                                                     </div>
                                                 </div>
 
+                                                <div class="form-row">
+                                                    <div class="form-group col-3">
+                                                        <?php if ($mhs['photo'] == NULL) { ?>
+                                                        <img src="<?php echo base_url('assets/images/default.jpg'); ?>"
+                                                            id="prevAvatar" class="rounded-circle" width="200"
+                                                            height="200">
+                                                        <?php } else { ?>
+                                                        <img src="<?php echo base_url('assets/images/uploads/' . $mhs['photo']); ?>"
+                                                            id="prevAvatar" class="rounded-circle" width="200"
+                                                            height="200">
+                                                        <?php } ?>
+
+                                                    </div>
+                                                    <div class="form-group col-9">
+
+                                                        <input type="file" class="form-control" id="photo" name="photo">
+
+                                                    </div>
+
+                                                </div>
                                                 <div class="card-footer">
                                                     <button type="button" id="saveChangesBtn"
                                                         class="btn btn-primary">Save Changes</button>
@@ -193,38 +205,36 @@ $this->load->view('mhs/dist/header');
                                 </div>
                                 <!-- End Untuk tab panel Setting Akun -->
                                 <!-- Tab informasi Akademik -->
-                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+
+                                <!-- EndTab informasi Akademik -->
+                                <!-- Tab Identitas Sekolah -->
+                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                                     <div class="card-body">
-                                        <h3 class="card-header"> Informasi Mahasiswa</h3>
+                                        <h3 class="card-header"> Informasi Akademik</h3>
                                         <div class="row">
                                             <div class="col-12 col-md-12">
                                                 <div class="card">
-                                                    <form class="needs-validation" method="post"
-                                                        action="<?= base_url('mhs/profil/infoMhs') ?>" novalidate>
+                                                    <form class="form-horizontal form" method="post"
+                                                        action="<?php echo base_url('mhs/profil/updateAksiSemester') ?>">
                                                         <input type="hidden" name="id_mahasiswa"
-                                                            value="<?= $mhs['id_mahasiswa']; ?>">
-                                                        <input type="hidden"
-                                                            name="<?= $this->security->get_csrf_token_name(); ?>"
-                                                            value="<?= $this->security->get_csrf_hash(); ?>">
-
+                                                            value="<?php echo $mhs['id_mahasiswa']; ?>">
                                                         <div class="card-body">
                                                             <div class="row">
                                                                 <div class="col-md-6 col-lg-6">
                                                                     <div class="form-group">
-                                                                        <label>Asala Sekolah</label>
-                                                                        <input type="text" name="asal_sekolah"
-                                                                            class="form-control"
-                                                                            value="<?php echo $mhs['asal_sekolah'] ?>"
-                                                                            required="">
+                                                                        <label>NIM</label>
+                                                                        <input type="text" class="form-control"
+                                                                            value="<?php echo $mhs['nim'] ?>"
+                                                                            required="" disabled>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-6 col-lg-6">
                                                                     <div class="form-group">
-                                                                        <label>NISN</label>
-                                                                        <input type="text" name="nisn"
-                                                                            class="form-control"
-                                                                            value="<?php echo $mhs['nisn'] ?>"
-                                                                            required="">
+                                                                        <label>Nama Mahasiswa</label>
+                                                                        <input type="text" class="form-control"
+                                                                            value="<?php echo $mhs['nama_mhs'] ?>"
+                                                                            required="" disabled>
 
                                                                     </div>
                                                                 </div>
@@ -232,19 +242,18 @@ $this->load->view('mhs/dist/header');
                                                             <div class="row">
                                                                 <div class="col-md-6 col-lg-6">
                                                                     <div class="form-group">
-                                                                        <label>Nama Ayah</label>
-                                                                        <input type="text" name="nama_ayah"
-                                                                            class="form-control"
-                                                                            value="<?php echo $mhs['nama_ayah'] ?>">
-
+                                                                        <label>Tahun Masuk</label>
+                                                                        <input type="text" class="form-control"
+                                                                            value="<?php echo $mhs['tahun_masuk'] ?>"
+                                                                            required="" disabled>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-6 col-lg-6">
                                                                     <div class="form-group">
-                                                                        <label>Nama Ibu</label>
-                                                                        <input type="text" name="nama_ibu"
-                                                                            class="form-control"
-                                                                            value="<?php echo $mhs['nama_ibu'] ?>">
+                                                                        <label>Kelas</label>
+                                                                        <input type="text" class="form-control"
+                                                                            value="<?php echo ($mhs['kelas_mhs'] == '0') ? 'Kelas Pagi' : 'Kelas Sore'; ?>"
+                                                                            required="" disabled>
 
                                                                     </div>
                                                                 </div>
@@ -252,58 +261,81 @@ $this->load->view('mhs/dist/header');
                                                             <div class="row">
                                                                 <div class="col-md-6 col-lg-6">
                                                                     <div class="form-group">
-                                                                        <label>Nama Wali</label>
-                                                                        <input type="text" name="nama_wali"
-                                                                            class="form-control"
-                                                                            value="<?php echo $mhs['nama_wali'] ?>">
+                                                                        <label>Program Studi</label>
+                                                                        <input type="text" class="form-control"
+                                                                            value="<?php echo $mhs['jurusan'] ?>"
+                                                                            required="" disabled>
 
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-6 col-lg-6">
                                                                     <div class="form-group">
-                                                                        <label>No Telp Wali/Ortu</label>
-                                                                        <input type="number" name="hp_ortu"
-                                                                            class="form-control"
-                                                                            value="<?php echo $mhs['hp_ortu'] ?>"
-                                                                            required="">
+                                                                        <label>Semester</label>
+                                                                        <?php $p = $mhs['semester'] ?>
+                                                                        <select class="custom-select" name="semester"
+                                                                            class="form-control">
+                                                                            <option
+                                                                                <?php echo ($p == '1') ? "selected" : "" ?>>
+                                                                                1</option>
+                                                                            <option
+                                                                                <?php echo ($p == '2') ? "selected" : "" ?>>
+                                                                                2</option>
+                                                                            <option
+                                                                                <?php echo ($p == '3') ? "selected" : "" ?>>
+                                                                                3</option>
+                                                                            <option
+                                                                                <?php echo ($p == '4') ? "selected" : "" ?>>
+                                                                                4</option>
+                                                                            <option
+                                                                                <?php echo ($p == '5') ? "selected" : "" ?>>
+                                                                                5</option>
+                                                                            <option
+                                                                                <?php echo ($p == '6') ? "selected" : "" ?>>
+                                                                                6</option>
+                                                                            <option
+                                                                                <?php echo ($p == '7') ? "selected" : "" ?>>
+                                                                                7</option>
+                                                                            <option
+                                                                                <?php echo ($p == '8') ? "selected" : "" ?>>
+                                                                                8</option>
+                                                                            <option
+                                                                                <?php echo ($p == '7') ? "selected" : "" ?>>
+                                                                                7</option>
+                                                                            <option
+                                                                                <?php echo ($p == '8') ? "selected" : "" ?>>
+                                                                                8</option>
+                                                                            <option
+                                                                                <?php echo ($p == '7') ? "selected" : "" ?>>
+                                                                                9</option>
+                                                                            <option
+                                                                                <?php echo ($p == '8') ? "selected" : "" ?>>
+                                                                                10</option>
+                                                                            <option
+                                                                                <?php echo ($p == '7') ? "selected" : "" ?>>
+                                                                                11</option>
+                                                                            <option
+                                                                                <?php echo ($p == '8') ? "selected" : "" ?>>
+                                                                                12</option>
+                                                                            <option
+                                                                                <?php echo ($p == '7') ? "selected" : "" ?>>
+                                                                                13</option>
+                                                                            <option
+                                                                                <?php echo ($p == '8') ? "selected" : "" ?>>
+                                                                                14</option>
+
+
+                                                                        </select>
 
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label>Alamat Ortu</label>
-                                                                <input type="textarea" name="alamat_ortu"
-                                                                    class="form-control"
-                                                                    value="<?php echo $mhs['alamat_ortu'] ?>"
-                                                                    required=""></input>
+                                                                <label>Dosen Pembimbing</label>
+                                                                <input type="text" class="form-control"
+                                                                    value="<?php echo $mhs['nama_dosen'] ?>" required=""
+                                                                    disabled>
 
                                                             </div>
-                                                            <div class="form-group">
-                                                                <label>Kisaran Pendapatan</label> <br>
-                                                                <?php $pd = $mhs['pendapatan_ortu']; ?>
-                                                                <label><input type="radio" name="pendapatan_ortu"
-                                                                        value="Rp 500.000,00 - Rp 1.000.000,00"
-                                                                        <?php echo ($pd == 'Rp 500.000,00 - Rp 1.000.000,00') ? "checked" : ""  ?>>
-                                                                    >Rp
-                                                                    500.000,00 - Rp 1.000.000,00</label> ||
-                                                                <label><input type="radio" name="pendapatan_ortu"
-                                                                        value="Rp 1.000.000,00 - Rp 2.000.000,00"
-                                                                        <?php echo ($pd == 'Rp 1.000.000,00 - Rp 2.000.000,00') ? "checked" : "" ?>>
-                                                                    >Rp
-                                                                    1.000.000,00 - Rp 2.000.000,00</label> ||
-                                                                <label><input type="radio" name="pendapatan_ortu"
-                                                                        value="Rp 2.000.000,00 - Rp 3.500.000,00"
-                                                                        <?php echo ($pd == 'Rp 2.000.000,00 - Rp 3.500.000,00') ? "checked" : ""  ?>>
-                                                                    >Rp
-                                                                    2.000.000,00 - Rp 3.500.000,00</label> ||
-                                                                <label><input type="radio" name="pendapatan_ortu"
-                                                                        value="Rp 3.500.000,00"
-                                                                        <?php echo ($pd == 'Rp 3.500.000,00') ? "checked" : ""  ?>>
-                                                                    > Rp
-                                                                    3.500.000,00</label> ||
-
-                                                            </div>
-
 
                                                             <div class="card-footer text-right">
                                                                 <button type="submit"
@@ -316,155 +348,14 @@ $this->load->view('mhs/dist/header');
                                     </div>
                                 </div>
                             </div>
-                            <!-- EndTab informasi Akademik -->
-                            <!-- Tab Identitas Sekolah -->
-                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                                <div class="card-body">
-                                    <h3 class="card-header"> Informasi Akademik</h3>
-                                    <div class="row">
-                                        <div class="col-12 col-md-12">
-                                            <div class="card">
-                                                <form class="form-horizontal form" method="post"
-                                                    action="<?php echo base_url('mhs/profil/updateAksiSemester') ?>">
-                                                    <input type="hidden" name="id_mahasiswa"
-                                                        value="<?php echo $mhs['id_mahasiswa']; ?>">
-                                                    <div class="card-body">
-                                                        <div class="row">
-                                                            <div class="col-md-6 col-lg-6">
-                                                                <div class="form-group">
-                                                                    <label>NIM</label>
-                                                                    <input type="text" class="form-control"
-                                                                        value="<?php echo $mhs['nim'] ?>" required=""
-                                                                        disabled>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6 col-lg-6">
-                                                                <div class="form-group">
-                                                                    <label>Nama Mahasiswa</label>
-                                                                    <input type="text" class="form-control"
-                                                                        value="<?php echo $mhs['nama_mhs'] ?>"
-                                                                        required="" disabled>
 
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-6 col-lg-6">
-                                                                <div class="form-group">
-                                                                    <label>Tahun Masuk</label>
-                                                                    <input type="text" class="form-control"
-                                                                        value="<?php echo $mhs['tahun_masuk'] ?>"
-                                                                        required="" disabled>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6 col-lg-6">
-                                                                <div class="form-group">
-                                                                    <label>Kelas</label>
-                                                                    <input type="text" class="form-control"
-                                                                        value="<?php echo ($mhs['kelas_mhs'] == '0') ? 'Kelas Pagi' : 'Kelas Sore'; ?>"
-                                                                        required="" disabled>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-6 col-lg-6">
-                                                                <div class="form-group">
-                                                                    <label>Program Studi</label>
-                                                                    <input type="text" class="form-control"
-                                                                        value="<?php echo $mhs['jurusan'] ?>"
-                                                                        required="" disabled>
-
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6 col-lg-6">
-                                                                <div class="form-group">
-                                                                    <label>Semester</label>
-                                                                    <?php $p = $mhs['semester'] ?>
-                                                                    <select class="custom-select" name="semester"
-                                                                        class="form-control">
-                                                                        <option
-                                                                            <?php echo ($p == '1') ? "selected" : "" ?>>
-                                                                            1</option>
-                                                                        <option
-                                                                            <?php echo ($p == '2') ? "selected" : "" ?>>
-                                                                            2</option>
-                                                                        <option
-                                                                            <?php echo ($p == '3') ? "selected" : "" ?>>
-                                                                            3</option>
-                                                                        <option
-                                                                            <?php echo ($p == '4') ? "selected" : "" ?>>
-                                                                            4</option>
-                                                                        <option
-                                                                            <?php echo ($p == '5') ? "selected" : "" ?>>
-                                                                            5</option>
-                                                                        <option
-                                                                            <?php echo ($p == '6') ? "selected" : "" ?>>
-                                                                            6</option>
-                                                                        <option
-                                                                            <?php echo ($p == '7') ? "selected" : "" ?>>
-                                                                            7</option>
-                                                                        <option
-                                                                            <?php echo ($p == '8') ? "selected" : "" ?>>
-                                                                            8</option>
-                                                                        <option
-                                                                            <?php echo ($p == '7') ? "selected" : "" ?>>
-                                                                            7</option>
-                                                                        <option
-                                                                            <?php echo ($p == '8') ? "selected" : "" ?>>
-                                                                            8</option>
-                                                                        <option
-                                                                            <?php echo ($p == '7') ? "selected" : "" ?>>
-                                                                            9</option>
-                                                                        <option
-                                                                            <?php echo ($p == '8') ? "selected" : "" ?>>
-                                                                            10</option>
-                                                                        <option
-                                                                            <?php echo ($p == '7') ? "selected" : "" ?>>
-                                                                            11</option>
-                                                                        <option
-                                                                            <?php echo ($p == '8') ? "selected" : "" ?>>
-                                                                            12</option>
-                                                                        <option
-                                                                            <?php echo ($p == '7') ? "selected" : "" ?>>
-                                                                            13</option>
-                                                                        <option
-                                                                            <?php echo ($p == '8') ? "selected" : "" ?>>
-                                                                            14</option>
-
-
-                                                                    </select>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Dosen Pembimbing</label>
-                                                            <input type="text" class="form-control"
-                                                                value="<?php echo $mhs['nama_dosen'] ?>" required=""
-                                                                disabled>
-
-                                                        </div>
-
-                                                        <div class="card-footer text-right">
-                                                            <button type="submit"
-                                                                class="btn btn-primary">Simpan</button>
-                                                        </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                     </div>
 
                 </div>
-
             </div>
         </div>
-</div>
 </div>
 </div>
 </div>
@@ -506,40 +397,68 @@ $(document).ready(function() {
 <script>
 $(document).ready(function() {
     $('#saveChangesBtn').click(function() {
+        var formData = new FormData($('#updateProfileForm')[
+            0]); // Menggunakan FormData untuk mengirim data form dan file
+
         $.ajax({
             type: "POST",
             url: $('#updateProfileForm').attr('action'),
-            data: $('#updateProfileForm').serialize(),
+            data: formData,
             dataType: 'json',
+            contentType: false,
+            processData: false,
             success: function(response) {
-                console.log('Response:', response); // Tambahkan pesan log ini
+                console.log('Response:', response);
                 if (response.status == 'success') {
-                    console.log('Success message:',
-                        'Data berhasil diperbarui!'); // Tambahkan pesan log ini
-                    // Tampilkan pesan sukses menggunakan SweetAlert
+                    console.log('Success message:', 'Data berhasil diperbarui!');
                     Swal.fire({
                         icon: 'success',
                         title: 'Success',
                         text: 'Data berhasil diperbarui!'
                     }).then(function() {
-                        // Lakukan tindakan lain setelah pengguna menekan tombol "OK"
-                        // Misalnya, redirect ke halaman lain atau refresh halaman saat ini
-                        window.location
-                            .reload(); // Contoh: refresh halaman saat ini
+                        window.location.reload();
                     });
                 } else {
                     console.log('Error message:', 'Gagal memperbarui data:', response
-                        .message); // Tambahkan pesan log ini
-                    // Tampilkan pesan error menggunakan SweetAlert
+                        .message);
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
                         text: 'Gagal memperbarui data: ' + response.message
                     });
                 }
-
+            },
+            error: function(xhr, status, error) {
+                console.error('Upload failed:',
+                    error); // Tampilkan pesan error jika upload gagal
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Gagal mengunggah foto: ' + error
+                });
             }
         });
     });
+});
+
+
+$(document).ready(function() {
+    // Function to display preview of selected photo
+    $('#photo').change(function() {
+        var input = this;
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#prevAvatar').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    });
+
+    $('#updateProfileForm').submit(function(e) {
+        // Your existing Ajax code goes here...
+    });
+
+
 });
 </script>

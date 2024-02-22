@@ -17,11 +17,11 @@ $this->load->view('mhs/dist/header');
                     <h1>Selamat Datang, <?php echo $mhs['nama_mhs']?></h1>
                     <h4> Tahun Akademik <?php echo $tahun['ta'] ?> /
                         <?php echo$tahun['semester']?></h4>
+
                     <p class="lead"><strong>SISTEM INFORMASI AKADEMIK | STIKES BOGOR HUSADA</strong></p></br>
 
-
-
                     <div class="mt-4">
+
                         <a href="<?php echo base_url(); ?>mhs/profil"
                             class="btn btn-outline-white btn-lg btn-icon icon-left"><i class="far fa-user"></i>
                             Pengaturan Profile</a>
@@ -34,6 +34,7 @@ $this->load->view('mhs/dist/header');
                     <h2 class="text-center">Informasi <i>SIAKAD SBH</i> </h2>
                     <h5>List Pembaharuan</h5>
                     <ul>
+
                         <li>Tampilan UI</li>
                         <li>Input KRS (Centang Matakuliah yang dipilih kemudian disimpan)</li>
                         <li>Pengisian EDOM Mahasiswa</li>
@@ -48,6 +49,7 @@ $this->load->view('mhs/dist/header');
                     <h4>Catatan</h4>
                     <p><strong><i>Untuk Mengganti Semester yang sedang di tempuh berada di Menu Pengaturan Profile /
                                 Setting kemudian Pilih tab Informasi Akademik</i></strong></p>
+
                 </div>
             </div>
         </div>

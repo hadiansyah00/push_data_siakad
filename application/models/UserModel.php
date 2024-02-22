@@ -16,6 +16,37 @@ class UserModel extends CI_Model
     return $this->db->update('mahasiswa', $data);
 }
 
+	public function get_login_history($user_id) {
+			$user_id =  $this->session->userdata('username');
+			$this->db->select('login_time, ip_address');
+			$this->db->from('mahasiswa');
+			$this->db->where('id_mahasiswa', $user_id);
+			$query = $this->db->get();
+			return $query->result_array(); // Mengembalikan hasil dalam bentuk array
+		}
+	// Contoh kode untuk update login_time dan ip_address pada model atau controller
+
+		public function updateLoginInfo($user_id, $ip_address) {
+    // Set zona waktu menjadi GMT+7 (Waktu Indonesia Barat)
+    date_default_timezone_set('Asia/Jakarta');
+
+    // Hitung offset waktu dari UTC (GMT)
+    $offset_in_seconds = 7 * 60 * 60; // 7 jam * 60 menit * 60 detik
+
+    // Tambahkan offset waktu ke tanggal dan waktu saat ini
+    $current_time_gmt7 = gmdate('Y-m-d H:i:s', time() + $offset_in_seconds);
+
+    // Update login_time dan ip_address dalam tabel pengguna
+    $data = array(
+        'login_time' => $current_time_gmt7,
+        'ip_address' => $ip_address
+    );
+
+    $this->db->where('id_mahasiswa', $user_id);
+    $this->db->update('mahasiswa', $data);
+}
+
+
 	//Cek username dan password admin
 	public function loginUser($username, $pass)
 	{

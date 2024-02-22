@@ -43,7 +43,6 @@ class Auth extends CI_Controller
         $username = $this->input->post('username', TRUE);
         $password = $this->input->post('password', TRUE);
       
-
         $response = [];
 
         // Cek login ke database
@@ -53,6 +52,10 @@ class Auth extends CI_Controller
             // Jika login berhasil, set session
             $this->session->set_userdata('username', $user->nim);
             $this->session->set_userdata('sess_nama', $user->nama_mhs);
+            
+            // Perbarui informasi login, tambahkan fungsi updateLoginInfo ke dalam model Anda
+            $ip_address = $this->input->ip_address();
+            $this->UserModel->updateLoginInfo($user->id_mahasiswa, $ip_address);
 
             // Include CSRF token in the response
             $response = ['status' => 'success', 'redirect' => 'mhs/home', 'csrf_token' => $this->security->get_csrf_hash()];
@@ -63,6 +66,7 @@ class Auth extends CI_Controller
         echo json_encode($response);
     }
 }
+
 	
 		public function AuthAdmin()
 {

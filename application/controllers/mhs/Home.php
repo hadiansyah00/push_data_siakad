@@ -31,10 +31,13 @@ class Home extends CI_Controller
 		);
 
 		$this->input->set_cookie($cookie_data);
-
+		$this->load->helper('date'); // Memuat helper date
+		$elapsed_time = time_elapsed_string($login_time);
 		$data['title'] = 'Dasboard Mahasiswa SBH ';
 		$data['judul'] = 'Dasboard Mahasiswa SBH ';
 		//get data from session
+		 $user_id = $this->session->userdata('username');
+		 $data['login_history'] = $this->UserModel->get_login_history($user_id);
 		$data['mhs'] = $this->KrsModel->getDataMhs();
 		$data['setting'] = $this->db->get('mahasiswa')->row_array();
 		$data['setting_krs'] = $this->db->get('set_krs')->row_array();
