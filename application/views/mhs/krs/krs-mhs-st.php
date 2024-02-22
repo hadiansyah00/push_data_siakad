@@ -46,7 +46,7 @@ $this->load->view('mhs/dist/header');
                                         <th>Matakuliah</th>
                                         <th>Semester</th>
                                         <th>SKS</th>
-                                        <th>TA</th>
+
                                     </tr>
                                     <tbody>
                                         <?php
@@ -68,7 +68,7 @@ $this->load->view('mhs/dist/header');
                                             <td><?php echo $krs->matakuliah; ?></td>
                                             <td><?php echo $krs->smt; ?></td>
                                             <td><?php echo $krs->sks; ?></td>
-                                            <td><?php echo $krs->status; ?></td>
+
                                         </tr>
                                         <?php } ?>
                                         <?php } ?>
