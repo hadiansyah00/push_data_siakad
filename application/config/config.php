@@ -529,7 +529,7 @@ $config['csrf_exclude_uris'] = array(
 	'mhs/profil',
 	'mhs/profil/updatePass',
 	'mhs/profil/infoMhs',
-	'mhs/profil/updateAksiProfil',
+	'mhs/profil/updateAksiProfilMhs',
 	'mhs/profil/updateAksi',
 	'mhs/profil/updatePhoto',
 	'mhs/profil/updateAksiSemester',

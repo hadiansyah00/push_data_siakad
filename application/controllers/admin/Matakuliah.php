@@ -117,8 +117,6 @@ public function update()
     if (!$this->input->is_ajax_request()) {
         show_404();
     }
-
-
 		$smt = $this->input->post('smt');
 		if ($smt == 1) {
 			$s = "Ganjil";
@@ -135,20 +133,17 @@ public function update()
 		}
 		$semester = $s;
 
-    $kdMk = $this->input->post('kd_mk');
-    // $kdJurusan = $this->input->post('kd_jurusan');
+    $kdMk 		= $this->input->post('kd_mk');
     $matakuliah = $this->input->post('matakuliah');
-    $smts = $semester;
-    $sks    = $this->input->post('sks');
+    $smts 		= $semester;
+    $sks    	= $this->input->post('sks');
 	$mk_pilihan    = $this->input->post('mk_pilihan');
-    // Check if the password is empty, set a default password
-   
-    // Update data matakuliah
+    
     $data = array(
-		'kd_mk' 		=> $kdMk,
+		'kd_mk' 			=> $kdMk,
         // 'kd_jurusan' 	=> $kdJurusan,
         'matakuliah' 		=> $matakuliah,
-        'smt'		=> $smts,
+        // 'smt'				=> $smts,
 		'sks'			=> $sks,
         'mk_pilihan' 	=> $mk_pilihan,
     );

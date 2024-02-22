@@ -94,11 +94,9 @@ $this->load->view('mhs/dist/header');
                                         <tbody>
                                             <?php
 									$i = 1;
-									foreach ($getKrs as $krs) { ?>
+									foreach ($getKrsMkPil as $krs) { ?>
                                             <?php if ($krs->smt == $mhs['semester']) { ?>
                                             <?php if ($krs->semester == $tahun['semester']) { ?>
-
-                                            <?php if ($krs->mk_pilihan == $mk['mk_pilihan']) { ?>
                                             <tr>
                                                 <td><?php echo $i++; ?></td>
                                                 <td>
@@ -112,7 +110,6 @@ $this->load->view('mhs/dist/header');
                                                 <td><?php echo $krs->smt; ?></td>
                                                 <td><?php echo $krs->sks; ?></td>
                                             </tr>
-                                            <?php } ?>
                                             <?php } ?>
                                             <?php } ?>
 

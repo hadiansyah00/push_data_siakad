@@ -21,7 +21,7 @@ $this->load->view('mhs/dist/header');
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
-                                        aria-controls="home" aria-selected="true">Akun</a>
+                                        aria-controls="home" aria-selected="true">Profile Mahasiswa</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
@@ -32,232 +32,161 @@ $this->load->view('mhs/dist/header');
                                         aria-controls="contact" aria-selected="false">Informasi Akademik</a>
                                 </li>
 
+
                             </ul>
                             <div class="tab-content" id="myTabContent">
                                 <!-- Start Ini Tab untuk Setting Akun -->
                                 <div class="tab-pane fade show active" id="home" role="tabpanel"
                                     aria-labelledby="home-tab">
-                                    <?php echo $this->session->flashdata('pesan'); ?>
-                                    <div class="row mt-sm-4">
-                                        <div class="col-12 col-md-12 col-lg-5">
-                                            <div class="card profile-widget">
-                                                <?php if ($this->session->flashdata('error')): ?>
-                                                <div class="alert alert-danger" role="alert">
-                                                    <strong>Error:</strong>
-                                                    <?php echo $this->session->flashdata('error'); ?>
-                                                </div>
-                                                <?php endif; ?>
-                                                <div class="profile-widget-header">
-                                                    <?php if ($mhs['photo'] == NULL) { ?>
-                                                    <img src="<?php echo base_url('assets/images/default.jpg'); ?>"
-                                                        alt="" class="rounded-circle profile-widget-picture">
-                                                    <?php } else { ?>
-                                                    <img src="<?php echo base_url('assets/images/uploads/' . $mhs['photo']); ?>"
-                                                        alt="" class="rounded-circle profile-widget-picture">
-                                                    <?php } ?>
-                                                </div>
-                                                <form class="form-horizontal" method="post"
-                                                    action="<?= site_url('mhs/profil/updatePhoto'); ?>"
-                                                    enctype="multipart/form-data">
-                                                    <div class="card-default custom-file">
-                                                        <input type="hidden" name="id_mahasiswa"
-                                                            value="<?= $mhs['id_mahasiswa']; ?>">
-                                                        <input type="hidden"
-                                                            name="<?= $this->security->get_csrf_token_name(); ?>"
-                                                            value="<?= $this->security->get_csrf_hash(); ?>">
-                                                        <input type="file" class="custom-file-input" id="upload_file"
-                                                            name="photo" required="">
-                                                        <label class="custom-file-label" for="customFile">Choose
-                                                            file</label>
+
+
+                                    <div class="col-12 col-md-12 col-lg-12">
+                                        <div class="card">
+                                            <form id="updateProfileForm" class="needs-validation" method="post"
+                                                action="<?php echo base_url('mhs/profil/updateAksiProfilMhs') ?>"
+                                                enctype="multipart/form-data" novalidate>
+
+                                                <div class="card-body">
+
+
+                                                    <div class="row">
+                                                        <div class="form-group col-md-6 col-12">
+                                                            <label>NIM</label>
+                                                            <input type="hidden" name="id_mahasiswa"
+                                                                value="<?php echo $mhs['id_mahasiswa']; ?>">
+                                                            <input type="hidden"
+                                                                name="<?= $this->security->get_csrf_token_name(); ?>"
+                                                                value="<?= $this->security->get_csrf_hash(); ?>">
+                                                            <input type="text" class="form-control"
+                                                                value="<?php echo $mhs['nim'] ?>" required="" disabled>
+                                                            <div class="invalid-feedback">Please fill in the first
+                                                                name</div>
+                                                        </div>
+                                                        <div class="form-group col-md-6 col-12">
+                                                            <label>Nama Lengkap</label>
+                                                            <input name="nama_mhs" type="text" class="form-control"
+                                                                value="<?php echo $mhs['nama_mhs'] ?>" required="">
+                                                            <div class="invalid-feedback">Please fill in the last
+                                                                name</div>
+                                                        </div>
                                                     </div>
-                                                    <div class="card-footer text-left">
-                                                        <button type="submit" class="btn btn-primary">Upload
-                                                            Foto</button>
+
+                                                    <div class="row">
+                                                        <div class="form-group col-md-6 col-12">
+                                                            <label>Agama</label>
+                                                            <?php $ag = $mhs['agama']; ?>
+                                                            <select name="agama" class="form-control">
+                                                                <option value=""></option>
+                                                                <option value="Islam"
+                                                                    <?php echo ($ag == 'Islam') ? 'selected' : ''; ?>>
+                                                                    Islam
+                                                                </option>
+                                                                <option value="Kristen"
+                                                                    <?php echo ($ag == 'Kristen') ? 'selected' : ''; ?>>
+                                                                    Kristen
+                                                                </option>
+                                                                <option value="Katolik"
+                                                                    <?php echo ($ag == 'Katolik' ) ? 'selected' : ''; ?>>
+                                                                    Katolik
+                                                                </option>
+                                                                <option value="Konghucu"
+                                                                    <?php echo ($ag == 'Konghucu') ? 'selected' : ''; ?>>
+                                                                    Konghucu
+                                                                </option>
+                                                                <option value="Budha"
+                                                                    <?php echo ($ag == 'Budha') ? 'selected' : ''; ?>>
+                                                                    Budha
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group col-md-6 col-12">
+                                                            <label>Jenis Kelamin</label>
+                                                            <?php $jk = $mhs['jk']; ?>
+                                                            <select name="jk" class="form-control">
+                                                                <option value=""></option>
+                                                                <option value="Laki-Laki"
+                                                                    <?php echo ($jk == 'Laki-Laki') ? 'selected' : ''; ?>>
+                                                                    Laki-Laki
+                                                                </option>
+                                                                <option value="Perempuan"
+                                                                    <?php echo ($jk == 'Perempuan') ? 'selected' : ''; ?>>
+                                                                    Perempuan
+                                                                </option>
+                                                            </select>
+                                                        </div>
                                                     </div>
-                                                </form>
-                                            </div>
-                                            <div class="card card-primary">
-                                                <div class="card-header">
-                                                    <h4>Reset Password</h4>
 
-                                                </div>
-                                                <!-- Flash Messages -->
+                                                    <div class="row">
+
+                                                        <div class="form-group col-md-6 col-12">
+                                                            <label>Tanggal Lahir</label>
+                                                            <input type="date" name="tgl_lahir"
+                                                                value="<?php echo $mhs['tgl_lahir']; ?>"
+                                                                class="form-control">
+                                                        </div>
 
 
-                                                <!-- User Profile Form -->
-                                                <form method="POST"
-                                                    action="<?php echo base_url('mhs/profil/updatePass'); ?>">
-                                                    <input type="hidden" name="id_mahasiswa"
-                                                        value="<?= $mhs['id_mahasiswa']; ?>">
-                                                    <input type="hidden"
-                                                        name="<?= $this->security->get_csrf_token_name(); ?>"
-                                                        value="<?= $this->security->get_csrf_hash(); ?>">
+                                                        <div class="form-group col-md-6 col-12">
+                                                            <label>Tempat Lahir</label>
+                                                            <input type="text" name="tempat_lahir"
+                                                                value="<?php echo $mhs['tempat_lahir']; ?>"
+                                                                class="form-control">
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="form-group col-md-7 col-12">
+                                                            <label>Email</label>
+                                                            <input type="email" name="email" class="form-control"
+                                                                value="<?php echo $mhs['email'] ?>" required="">
+                                                            <div class="invalid-feedback">Please fill in the email
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-5 col-12">
+                                                            <label>No Hp / WA</label>
+                                                            <input name="hp" type="tel" class="form-control"
+                                                                value="<?php echo $mhs['hp'] ?>">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="form-group col-12">
+                                                            <label>Alamat</label>
+                                                            <textarea name="alamat"
+                                                                class="form-control"><?php echo $mhs['alamat']; ?></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="form-group col-12">
+                                                            <label>Kota</label>
+                                                            <input type="text" name="kota"
+                                                                value="<?php echo $mhs['kota']; ?>" class="form-control"
+                                                                required="">
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Form field for password -->
                                                     <div class="form-group">
-                                                        <label for="password">New Password</label>
-                                                        <input id="password" type="password"
-                                                            class="form-control pwstrength" data-indicator="pwindicator"
-                                                            name="password" tabindex="2" required>
-                                                        <div id="pwindicator" class="pwindicator">
-                                                            <div class="bar"></div>
-                                                            <div class="label"></div>
-                                                        </div>
+                                                        <label for="password">Password Baru</label>
+                                                        <input type="password" class="form-control" id="password"
+                                                            name="password" minlength="5">
                                                     </div>
-
                                                     <div class="form-group">
-                                                        <label for="password-confirm">Confirm Password</label>
-                                                        <input id="password-confirm" type="password"
-                                                            class="form-control" name="u_password" tabindex="2"
-                                                            required>
+                                                        <label for="confirm_password">Konfirmasi
+                                                            Password</label>
+                                                        <input type="password" class="form-control"
+                                                            id="confirm_password" name="confirm_password" minlength="5">
                                                     </div>
-
-                                                    <div class="form-group">
-                                                        <button type="submit" class="btn btn-primary btn-lg btn-block"
-                                                            tabindex="4">
-                                                            Reset Password
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="col-12 col-md-12 col-lg-7">
-                                            <div class="card">
-                                                <?php if ($this->session->flashdata('success')): ?>
-                                                <div class="alert alert-success" role="alert">
-                                                    <?php echo $this->session->flashdata('success'); ?>
                                                 </div>
-                                                <?php endif; ?>
 
-                                                <form class="needs-validation" method="post"
-                                                    action="<?php echo base_url('mhs/profil/updateAksiProfil') ?>"
-                                                    novalidate>
+                                                <div class="card-footer">
+                                                    <button type="button" id="saveChangesBtn"
+                                                        class="btn btn-primary">Save Changes</button>
 
-                                                    <div class="card-body">
-                                                        <div class="row">
-                                                            <div class="form-group col-md-6 col-12">
-                                                                <label>NIM</label>
-                                                                <input type="hidden" name="id_mahasiswa"
-                                                                    value="<?php echo $mhs['id_mahasiswa']; ?>">
-                                                                <input type="hidden"
-                                                                    name="<?= $this->security->get_csrf_token_name(); ?>"
-                                                                    value="<?= $this->security->get_csrf_hash(); ?>">
-                                                                <input type="text" class="form-control"
-                                                                    value="<?php echo $mhs['nim'] ?>" required=""
-                                                                    disabled>
-                                                                <div class="invalid-feedback">Please fill in the first
-                                                                    name</div>
-                                                            </div>
-                                                            <div class="form-group col-md-6 col-12">
-                                                                <label>Nama Lengkap</label>
-                                                                <input name="nama_mhs" type="text" class="form-control"
-                                                                    value="<?php echo $mhs['nama_mhs'] ?>" required="">
-                                                                <div class="invalid-feedback">Please fill in the last
-                                                                    name</div>
-                                                            </div>
-                                                        </div>
+                                                </div>
 
-                                                        <div class="row">
-                                                            <div class="form-group col-md-6 col-12">
-                                                                <label>Agama</label>
-                                                                <?php $ag = $mhs['agama']; ?>
-                                                                <select name="agama" class="form-control">
-                                                                    <option value=""></option>
-                                                                    <option value="Islam"
-                                                                        <?php echo ($ag == 'Islam') ? 'selected' : ''; ?>>
-                                                                        Islam
-                                                                    </option>
-                                                                    <option value="Kristen"
-                                                                        <?php echo ($ag == 'Kristen') ? 'selected' : ''; ?>>
-                                                                        Kristen
-                                                                    </option>
-                                                                    <option value="Katolik"
-                                                                        <?php echo ($ag == 'Katolik' ) ? 'selected' : ''; ?>>
-                                                                        Katolik
-                                                                    </option>
-                                                                    <option value="Konghucu"
-                                                                        <?php echo ($ag == 'Konghucu') ? 'selected' : ''; ?>>
-                                                                        Konghucu
-                                                                    </option>
-                                                                    <option value="Budha"
-                                                                        <?php echo ($ag == 'Budha') ? 'selected' : ''; ?>>
-                                                                        Budha
-                                                                    </option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group col-md-6 col-12">
-                                                                <label>Jenis Kelamin</label>
-                                                                <?php $jk = $mhs['jk']; ?>
-                                                                <select name="jk" class="form-control">
-                                                                    <option value=""></option>
-                                                                    <option value="Laki-Laki"
-                                                                        <?php echo ($jk == 'Laki-Laki') ? 'selected' : ''; ?>>
-                                                                        Laki-Laki
-                                                                    </option>
-                                                                    <option value="Perempuan"
-                                                                        <?php echo ($jk == 'Perempuan') ? 'selected' : ''; ?>>
-                                                                        Perempuan
-                                                                    </option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="row">
-
-                                                            <div class="form-group col-md-6 col-12">
-                                                                <label>Tanggal Lahir</label>
-                                                                <input type="date" name="tgl_lahir"
-                                                                    value="<?php echo $mhs['tgl_lahir']; ?>"
-                                                                    class="form-control">
-                                                            </div>
-
-
-                                                            <div class="form-group col-md-6 col-12">
-                                                                <label>Tempat Lahir</label>
-                                                                <input type="text" name="tempat_lahir"
-                                                                    value="<?php echo $mhs['tempat_lahir']; ?>"
-                                                                    class="form-control">
-                                                            </div>
-
-                                                        </div>
-
-                                                        <div class="row">
-                                                            <div class="form-group col-md-7 col-12">
-                                                                <label>Email</label>
-                                                                <input type="email" name="email" class="form-control"
-                                                                    value="<?php echo $mhs['email'] ?>" required="">
-                                                                <div class="invalid-feedback">Please fill in the email
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group col-md-5 col-12">
-                                                                <label>No Hp / WA</label>
-                                                                <input name="hp" type="tel" class="form-control"
-                                                                    value="<?php echo $mhs['hp'] ?>">
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="row">
-                                                            <div class="form-group col-12">
-                                                                <label>Alamat</label>
-                                                                <textarea name="alamat"
-                                                                    class="form-control"><?php echo $mhs['alamat']; ?></textarea>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="row">
-                                                            <div class="form-group col-12">
-                                                                <label>Kota</label>
-                                                                <input type="text" name="kota"
-                                                                    value="<?php echo $mhs['kota']; ?>"
-                                                                    class="form-control" required="">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-footer">
-                                                        <button type="submit" class="btn btn-primary">Save
-                                                            Changes</button>
-                                                    </div>
-                                            </div>
                                             </form>
                                         </div>
                                     </div>
@@ -374,6 +303,7 @@ $this->load->view('mhs/dist/header');
                                                                     3.500.000,00</label> ||
 
                                                             </div>
+
 
                                                             <div class="card-footer text-right">
                                                                 <button type="submit"
@@ -568,3 +498,48 @@ $(document).ready(function() {
 });
 </script>
 <?php $this->load->view('mhs/dist/footer'); ?>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="<?php echo base_url(); ?>assets-new-look/modules/sweetalert/sweetalert.min.js">
+</script>
+<script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-sweetalert.js"></script>
+<script>
+$(document).ready(function() {
+    $('#saveChangesBtn').click(function() {
+        $.ajax({
+            type: "POST",
+            url: $('#updateProfileForm').attr('action'),
+            data: $('#updateProfileForm').serialize(),
+            dataType: 'json',
+            success: function(response) {
+                console.log('Response:', response); // Tambahkan pesan log ini
+                if (response.status == 'success') {
+                    console.log('Success message:',
+                        'Data berhasil diperbarui!'); // Tambahkan pesan log ini
+                    // Tampilkan pesan sukses menggunakan SweetAlert
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Data berhasil diperbarui!'
+                    }).then(function() {
+                        // Lakukan tindakan lain setelah pengguna menekan tombol "OK"
+                        // Misalnya, redirect ke halaman lain atau refresh halaman saat ini
+                        window.location
+                            .reload(); // Contoh: refresh halaman saat ini
+                    });
+                } else {
+                    console.log('Error message:', 'Gagal memperbarui data:', response
+                        .message); // Tambahkan pesan log ini
+                    // Tampilkan pesan error menggunakan SweetAlert
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Gagal memperbarui data: ' + response.message
+                    });
+                }
+
+            }
+        });
+    });
+});
+</script>

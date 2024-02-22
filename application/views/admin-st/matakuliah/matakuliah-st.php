@@ -155,9 +155,9 @@ $this->load->view('admin-st/dist/header');
                 <div class="modal-body">
                     <div class="modal-body">
                         <div class="form-row">
-                            <input type="text" name="<?= $this->security->get_csrf_token_name(); ?>"
+                            <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
                                 value="<?= $this->security->get_csrf_hash(); ?>">
-                            <input type="text" name="kd_jurusan" value="<?php echo $kd_jurusan; ?>">
+                            <input type="hidden" name="kd_jurusan" value="<?php echo $kd_jurusan; ?>">
 
                             <div class="form-group col-md-6">
                                 <label>Kode Matakuliah</label>
@@ -210,13 +210,13 @@ $this->load->view('admin-st/dist/header');
                     </div>
 
                 </div>
+
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
         </div>
-        <div class="modal-footer bg-whitesmoke br">
-            <button type="submit" class="btn btn-primary">Simpan</button>
-        </div>
-        </form>
     </div>
-</div>
 </div>
 <!-- Modal Edit data Program Studi -->
 <div class="modal fade" id="editMatakuliahModal" tabindex="-1" role="dialog" aria-labelledby="editMatakuliahModalLabel"
@@ -235,7 +235,10 @@ $this->load->view('admin-st/dist/header');
                     <!-- Add your form fields here -->
                     <div class="form-row">
                         <div class="form-group col-md-6">
+
                             <label for="editkdmk">Kode Matakuliah</label>
+                            <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
+                                value="<?= $this->security->get_csrf_hash(); ?>">
                             <input type="text" class="form-control" id="editkdmk" name="kd_mk" disabled required>
                             <!-- <input type="hidden" class="form-control" id="editJurs" name="kd_jurusan" disabled required> -->
                         </div>
@@ -356,24 +359,26 @@ $(document).ready(function() {
 
 <script>
 $(document).ready(function() {
-    // Fungsi untuk menampilkan nilai pada form modal saat tombol Edit diklik
     $(document).on('click', '.btn-edit', function() {
         var kdMk = $(this).data('kd-mk')
-        // var jurs = $(this).data('jurusan');
         var matkul = $(this).data('matakuliah');
         var sks = $(this).data('sks');
         var smt = $(this).data('smt');
         var mkpil = $(this).data('mkpilihan');
 
-
         // Isikan nilai ke dalam form modal
         $('#editkdmk').val(kdMk);
-        // $('#editJurs').val(jurs);
         $('#editMatkul').val(matkul);
         $('#editSks').val(sks);
         $('#editSmt').val(smt);
         $('#editMkpil').val(mkpil);
 
+        // Debug: Check values
+        console.log('kdMk:', kdMk);
+        console.log('matkul:', matkul);
+        console.log('sks:', sks);
+        console.log('smt:', smt);
+        console.log('mkpil:', mkpil);
     });
 
     $('#editMatakuliahForm').submit(function(e) {
@@ -384,6 +389,9 @@ $(document).ready(function() {
         formData +=
             '&<?php echo $this->security->get_csrf_token_name(); ?>=<?php echo $this->security->get_csrf_hash(); ?>';
 
+        // Debug: Check form data
+        console.log('formData:', formData);
+
         // Send AJAX request
         $.ajax({
             type: 'POST',
@@ -391,6 +399,7 @@ $(document).ready(function() {
             data: formData,
             dataType: 'json',
             success: function(response) {
+                console.log('AJAX Success:', response);
                 if (response.status === 'success') {
                     // Display success message using SweetAlert
                     Swal.fire({

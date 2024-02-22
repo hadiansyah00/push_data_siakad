@@ -246,37 +246,124 @@ public function updatePhoto()
 	public function updatePass()
 {
     // Form validation rules
-    $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[5]|matches[u_password]', [
+    $this->form_validation->set_rules('password_new', 'Password', 'required|trim|min_length[5]|matches[u_password]', [
         'matches' => 'Password tidak sama!',
         'min_length' => 'Password terlalu pendek!'
     ]);
     $this->form_validation->set_rules('u_password', 'Confirm Password', 'required|trim|matches[password]');
 
     if ($this->form_validation->run() == FALSE) {
-        // Validation failed, reload the form or redirect as needed
-        $this->session->set_flashdata('pesan', '<div class="alert alert-danger">Validation error</div>');
-        redirect('mhs/profil'); // Adjust the URL as needed
+        // Validation failed
+        $response['status'] = 'error';
+        $response['message'] = validation_errors();
     } else {
         // Validation passed, update the password in the database
         $id = $this->input->post('id_mahasiswa');
 
         $data = array(
-            'password' => password_hash($this->input->post('password')),
+            'password_new' => password_hash($this->input->post('password_new')),
             'tgl_update' => date('Y-m-d') // Fixed date format
         );
 
         $where = array('id_mahasiswa' => $id);
-        $this->db->update('mahasiswa', $data, $where);
 
-        $this->session->set_flashdata(
-            'pesan',
-            '<div class="alert alert-success">
-                <strong>Password</strong> Berhasil di Update!
-            </div>'
-        );
-
-        redirect('mhs/profil'); // Adjust the URL as needed
+        // Attempt to update the database
+        if ($this->db->update('mahasiswa', $data, $where)) {
+            $response['status'] = 'success';
+            $response['message'] = 'Password berhasil diupdate!';
+        } else {
+            // Update failed
+            $response['status'] = 'error';
+            $response['message'] = 'Gagal memperbarui password. Terjadi kesalahan dalam database.';
+        }
     }
+
+    // Return the response as JSON
+    header('Content-Type: application/json');
+    echo json_encode($response);
+}
+
+public function updateAksiProfilMhs()
+{
+	
+     	$this->form_validation->set_rules('nama_mhs', 'Nama Lengkap', 'required');
+        $this->form_validation->set_rules('tempat_lahir', 'Tempat Lahir', 'required');
+		$this->form_validation->set_rules('email', 'Email', 'required');
+		$this->form_validation->set_rules('hp', 'No Hp / WA', 'required');
+		$this->form_validation->set_rules('alamat', 'Alamat', 'required');
+		$this->form_validation->set_rules('kota', 'Kota', 'required');
+        $this->form_validation->set_rules('jk', 'Jenis Kelamin', 'required');
+        // Cek apakah ada perubahan password
+    if (!empty($this->input->post('password'))) {
+        $this->form_validation->set_rules('password', 'Password', 'required|min_length[5]');
+        $this->form_validation->set_rules('confirm_password', 'Konfirmasi Password', 'required|matches[password]');
+    }
+	   // Cek apakah ada perubahan foto profil
+    if (!empty($_FILES['photo']['name'])) {
+        $config['upload_path']          = './assets/images/uploads/';
+        $config['allowed_types']        = 'jpg|jpeg|png|gif';
+        $config['max_size']             = 2048; // 2MB
+        $config['file_name']            = 'profile_' . time();
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('photo')) {
+            // Jika gagal mengunggah foto
+            $response['status'] = 'error';
+            $response['message'] = $this->upload->display_errors();
+            echo json_encode($response);
+            return;
+        } else {
+            // Jika berhasil mengunggah foto, simpan nama file foto baru
+            $data = $this->upload->data();
+            $photo = $data['file_name'];
+        }
+    }
+    
+    if ($this->form_validation->run() == FALSE) {
+        // Jika validasi form gagal
+        $response['status'] = 'error';
+        $response['message'] = validation_errors();
+    } else {
+        // Validasi berhasil, update data mahasiswa
+        $id = $this->input->post('id_mahasiswa');
+
+        // Buat array data baru
+         $data = array(
+                'nama_mhs' => $this->input->post('nama_mhs'),
+                'agama' => $this->input->post('agama'),
+                'jk' => $this->input->post('jk'),
+				'tgl_lahir' => $this->input->post('tgl_lahir'),
+                'tempat_lahir' => $this->input->post('tempat_lahir'),
+                'email' => $this->input->post('email'),
+                'hp' => $this->input->post('hp'),
+                'alamat' => $this->input->post('alamat'),
+                'kota' => $this->input->post('kota')
+                // Add more fields as needed
+            );
+  		// Perbarui password jika ada perubahan
+        if (!empty($this->input->post('password'))) {
+            $data['password'] = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+        }
+ 			// Perbarui foto profil jika ada perubahan
+        if (isset($photo)) {
+            $data['photo'] = $photo;
+        }
+        // Lakukan update data di database
+        $this->db->where('id_mahasiswa', $id);
+        if ($this->db->update('mahasiswa', $data)) {
+            $response['status'] = 'success';
+            $response['message'] = 'Data mahasiswa berhasil diperbarui!';
+        } else {
+            // Jika update data gagal
+            $response['status'] = 'error';
+            $response['message'] = 'Gagal memperbarui data mahasiswa.';
+        }
+    }
+
+    // Return the response as JSON
+    header('Content-Type: application/json');
+    echo json_encode($response);
 }
 
 }
