@@ -33,6 +33,7 @@ class Krs extends CI_Controller
 		//form get KRS for mhs
 		$data['getKrs'] = $this->KrsModel->getMatkul_KRS($mhs['kd_jurusan'], $ta['id_ta']);
 		$data['getKrsMkPil'] = $this->KrsModel->getMatkul_KRS_mk_pilihan($mhs['kd_jurusan'], $ta['id_ta']);
+		
 		//form get KRS filter berdasarkan tahun akademik aktif
 // 		$data['getKrs'] = $this->KrsModel->getMatkul_KRS($ta['id_ta'], $mhs['kd_jurusan'],);
 		$data['semester'] = $this->db->get('matakuliah')->row_array();

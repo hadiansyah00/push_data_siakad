@@ -88,22 +88,19 @@ class KrsModel extends CI_Model
 			$query = $this->db->get()->result();
 			return $query;
 		}
-		public function getMatkul_KRS_mk_pilihan($kd_jurusan)
-		{
-			$this->db->select('*');
-			$this->db->from('kurikulum');
-			$this->db->join('ta', 'ta.id_ta = kurikulum.id_ta', 'left');
-			$this->db->join('peran_dosen', 'peran_dosen.id_peran = kurikulum.id_peran', 'left');
-			$this->db->join('perdos', 'perdos.id_perdos = kurikulum.id_perdos', 'left');
-			$this->db->join('matakuliah', 'matakuliah.kd_mk = kurikulum.kd_mk', 'left');
-			$this->db->join('jurusan', 'jurusan.kd_jurusan = kurikulum.kd_jurusan', 'left');
-			$this->db->where('kurikulum.kd_jurusan', $kd_jurusan);
-			$this->db->where('matakuliah.mk_pilihan', 1);
-			$this->db->order_by('id_kurikulum', 'DESC');
-			$this->db->order_by('smt', 'ASC');
-			$query = $this->db->get()->result();
-			return $query;
-		}
+		
+		 public function getMatkul_KRS_mk_pilihan($kd_jurusan)
+			{
+				$this->db->select('*');
+				$this->db->from('kurikulum');
+				$this->db->join('matakuliah', 'matakuliah.kd_mk = kurikulum.kd_mk', 'left');
+				$this->db->where('kurikulum.kd_jurusan', $kd_jurusan);
+				$this->db->where('matakuliah.mk_pilihan', 1);
+				$this->db->order_by('id_kurikulum', 'DESC');
+				$this->db->order_by('smt', 'ASC');
+				$query = $this->db->get();
+				return $query->result(); // Mengembalikan hasil dalam bentuk array
+			}
 
 
 		

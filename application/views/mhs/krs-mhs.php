@@ -114,8 +114,8 @@
                     </thead>
                     <tbody>
                         <?php
-            $i = 1;
-            foreach ($getKrs as $krs) { ?>
+					$i = 1;
+					foreach ($getKrs as $krs) { ?>
                         <?php if ($krs->smt == $mhs['semester']) { ?>
                         <?php if ($krs->semester == $tahun['semester']) { ?>
                         <?php if ($krs->status == $tahun['status']) { ?>
@@ -123,9 +123,9 @@
                         <tr>
                             <td><?php echo $i++; ?></td>
                             <td>
-                                <?php if ($sks < 24) { ?>
+
                                 <input type="checkbox" name="krs[]" value="<?php echo $krs->id_kurikulum; ?>">
-                                <?php } ?>
+
                             </td>
                             <td><?php echo $krs->kd_mk; ?></td>
                             <td><?php echo $krs->matakuliah; ?></td>

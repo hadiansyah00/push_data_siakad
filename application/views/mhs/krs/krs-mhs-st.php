@@ -2,6 +2,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 $this->load->view('mhs/dist/header');
 ?>
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets-new-look/modules/datatables/datatables.min.css">
+<link rel="stylesheet"
+    href="<?php echo base_url(); ?>assets-new-look/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet"
+    href="<?php echo base_url(); ?>assets-new-look/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css">
 <!-- Main Content -->
 <div class="main-content">
     <section class="section">
@@ -39,12 +44,13 @@ $this->load->view('mhs/dist/header');
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
-                                <table class="table table-striped">
+                                <table class="table table-striped" id="table-1">
                                     <tr>
+                                        <th>#</th>
                                         <th>Aksi</th>
                                         <th>Kode MK</th>
                                         <th>Matakuliah</th>
-                                        <th>Semester</th>
+
                                         <th>SKS</th>
 
                                     </tr>
@@ -57,8 +63,10 @@ $this->load->view('mhs/dist/header');
                                         <?php if ($krs->status == $tahun['status']) { ?>
                                         <?php if ($krs->mk_pilihan == $mk_2['mk_pilihan']) { ?>
                                         <tr>
-                                            <td>
 
+                                            <td><?php echo $i++; ?></td>
+                                            </td>
+                                            <td>
                                                 <?php if ($sks < 24) { ?>
                                                 <input type="checkbox" name="krs[]"
                                                     value="<?php echo $krs->id_kurikulum; ?>">
@@ -66,7 +74,44 @@ $this->load->view('mhs/dist/header');
                                             </td>
                                             <td><?php echo $krs->kd_mk; ?></td>
                                             <td><?php echo $krs->matakuliah; ?></td>
-                                            <td><?php echo $krs->smt; ?></td>
+
+                                            <td><?php echo $krs->sks; ?></td>
+
+                                        </tr>
+                                        <?php } ?>
+                                        <?php } ?>
+                                        <?php } ?>
+                                        <?php } ?>
+                                        <?php } ?>
+
+                                    </tbody>
+
+                                    <tr>
+                                        <th colspan="5" class="text-center">
+                                            <h3>Matakuliah Pilihan</h3>
+                                        </th>
+                                    </tr>
+                                    <tbody>
+                                        <?php
+										$i = 1;
+										foreach ($getKrs as $krs) { ?>
+                                        <?php if ($krs->smt == $mhs['semester']) { ?>
+                                        <?php if ($krs->semester == $tahun['semester']) { ?>
+                                        <?php if ($krs->status == $tahun['status']) { ?>
+                                        <?php if ($krs->mk_pilihan == $mk['mk_pilihan']) { ?>
+                                        <tr>
+
+                                            <td><?php echo $i++; ?></td>
+                                            </td>
+                                            <td>
+                                                <?php if ($sks < 24) { ?>
+                                                <input type="checkbox" name="krs[]"
+                                                    value="<?php echo $krs->id_kurikulum; ?>">
+                                                <?php } ?>
+                                            </td>
+                                            <td><?php echo $krs->kd_mk; ?></td>
+                                            <td><?php echo $krs->matakuliah; ?></td>
+
                                             <td><?php echo $krs->sks; ?></td>
 
                                         </tr>
@@ -78,60 +123,39 @@ $this->load->view('mhs/dist/header');
 
                                     </tbody>
                                 </table>
-                                <h4 style="text-center ">Matakuliah Pilihan</h4>
-                                <div class="table-responsive">
-                                    <table class="table table-striped">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Aksi</th>
-                                                <th>Kode MK</th>
-                                                <th>Matakuliah</th>
-                                                <th>Semester</th>
-                                                <th>SKS</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-									$i = 1;
-									foreach ($getKrsMkPil as $krs) { ?>
-                                            <?php if ($krs->smt == $mhs['semester']) { ?>
-                                            <?php if ($krs->semester == $tahun['semester']) { ?>
-                                            <tr>
-                                                <td><?php echo $i++; ?></td>
-                                                <td>
-                                                    <?php if ($sks < 24) { ?>
-                                                    <input type="checkbox" name="krs[]"
-                                                        value="<?php echo $krs->id_kurikulum; ?>">
-                                                    <?php } ?>
-                                                </td>
-                                                <td><?php echo $krs->kd_mk; ?></td>
-                                                <td><?php echo $krs->matakuliah; ?></td>
-                                                <td><?php echo $krs->smt; ?></td>
-                                                <td><?php echo $krs->sks; ?></td>
-                                            </tr>
-                                            <?php } ?>
-                                            <?php } ?>
+                                <!-- Tombol Simpan KRS -->
+                                <button type="button" id="simpanKrs" class="btn btn-primary">Simpan KRS</button>
+                                </form>
 
-                                            <?php } ?>
-                                        </tbody>
-                                    </table>
-
-                                    <!-- Tombol Simpan KRS -->
-                                    <button type="button" id="simpanKrs" class="btn btn-primary">Simpan KRS</button>
-                                    </form>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+</div>
 
 </div>
 </section>
 </div>
 <?php $this->load->view('mhs/dist/footer'); ?>
+<script src="<?php echo base_url(); ?>assets-new-look/modules/datatables/datatables.min.js"></script>
+<script
+    src="<?php echo base_url(); ?>assets-new-look/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js">
+</script>
+
+<script src="<?php echo base_url(); ?>assets-new-look/modules/datatables/Select-1.2.4/js/dataTables.select.min.js">
+</script>
+
+
+<script src="<?php echo base_url(); ?>assets-new-look/modules/jquery-ui/jquery-ui.min.js"></script>
+<script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-datatables.js"></script>
+
+<script src="<?php echo base_url(); ?>assets-new-look/modules/sweetalert/sweetalert.min.js">
+</script>
+
+
+<script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-sweetalert.js"></script>
 <script>
 $(document).ready(function() {
     $("#simpanKrs").click(function() {
@@ -167,5 +191,6 @@ $(document).ready(function() {
             });
         }
     });
+
 });
 </script>
