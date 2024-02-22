@@ -14,11 +14,7 @@ class Profil extends CI_Controller
 
 	public function index()
 	{
-		 if (!$this->session->userdata('logged_in')) {
-            redirect('auth'); // Redirect ke halaman login jika belum login
-        }
-		$user_id = $this->session->userdata('username');
-		$data['login_history'] = $this->UserModel->get_login_history($user_id);
+		
 		//setting krs
 		$data['setting_krs'] = $this->db->get('set_krs')->row_array();
 		$data['setting'] = $this->db->get('mahasiswa')->row_array();
