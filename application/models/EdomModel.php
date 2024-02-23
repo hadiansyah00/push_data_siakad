@@ -10,6 +10,12 @@ class EdomModel extends CI_Model
 		$query = $this->db->get('evaluasi');
 		return $query;
 	}
+	public function getData_Aktivitas()
+	{
+		$this->db->order_by('id_aktivitas', 'ASC');
+		$query = $this->db->get('aktivitas');
+		return $query;
+	}
 	public function getMk()
 	{
 		$this->db->select('*');

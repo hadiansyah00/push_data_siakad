@@ -10,7 +10,7 @@ $this->load->view('mhs/dist/header');
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
                 <div class="breadcrumb-item"><a href="#">Akademik</a></div>
-                <div class="breadcrumb-item">Ceta KRS</div>
+                <div class="breadcrumb-item">Cetak KRS</div>
             </div>
         </div>
 

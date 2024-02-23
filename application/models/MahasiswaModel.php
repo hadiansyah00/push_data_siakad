@@ -11,6 +11,13 @@ class MahasiswaModel extends CI_Model
     $this->db->where('nim', $nim);
     $this->db->update('mahasiswa');
 }
+ 
+
+	public function updatePassword($id_mahasiswa, $data) {
+        $this->db->where('id_mahasiswa', $id_mahasiswa);
+        $this->db->update('mahasiswa', $data); // Ganti 'nama_tabel_mahasiswa' dengan nama tabel yang sesuai
+        return $this->db->affected_rows() > 0; // Mengembalikan true jika ada baris yang terpengaruh (password berhasil diperbarui)
+    }
 
 	public function updateStatus($id_mahasiswa,$updateData)
     {

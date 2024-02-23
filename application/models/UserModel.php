@@ -26,7 +26,7 @@ class UserModel extends CI_Model
 		}
 	// Contoh kode untuk update login_time dan ip_address pada model atau controller
 
-		public function updateLoginInfo($user_id, $ip_address) {
+	public function updateLoginInfo($user_id, $ip_address) {
     // Set zona waktu menjadi GMT+7 (Waktu Indonesia Barat)
     date_default_timezone_set('Asia/Jakarta');
 

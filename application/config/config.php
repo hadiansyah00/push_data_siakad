@@ -518,6 +518,11 @@ $config['csrf_exclude_uris'] = array(
 	'admin/jadwal_uap/insert',
 	'admin/jadwal_uap/update',
 	'admin/jadwal_uap/deleteJadwal',
+
+	'admin/aktivitas/insert',
+	'admin/aktivitas/update',
+	'admin/aktivitas/deleteJadwal',
+
 	'admin/nilai/input',
 	// 'mhs/Home',
 	'mhs/krs/simpan_krs',

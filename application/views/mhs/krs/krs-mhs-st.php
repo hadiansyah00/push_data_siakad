@@ -50,42 +50,36 @@ $this->load->view('mhs/dist/header');
                                         <th>Aksi</th>
                                         <th>Kode MK</th>
                                         <th>Matakuliah</th>
-
                                         <th>SKS</th>
-
                                     </tr>
                                     <tbody>
                                         <?php
 										$i = 1;
-										foreach ($getKrs as $krs) { ?>
-                                        <?php if ($krs->smt == $mhs['semester']) { ?>
-                                        <?php if ($krs->semester == $tahun['semester']) { ?>
-                                        <?php if ($krs->status == $tahun['status']) { ?>
-                                        <?php if ($krs->mk_pilihan == $mk_2['mk_pilihan']) { ?>
+										$sks1 = 0;
+										foreach ($getKrs as $krs) { 
+											?>
+                                        <?php if ($krs->smt == $mhs['semester'] && $krs->semester == $tahun['semester'] && $krs->status == $tahun['status'] && $krs->mk_pilihan == $mk_2['mk_pilihan']) { 
+												// Tambahkan nilai SKS dari setiap mata kuliah ke dalam variabel $sks2
+														$sks1 += $krs->sks;
+														?>
                                         <tr>
-
                                             <td><?php echo $i++; ?></td>
-                                            </td>
                                             <td>
-                                                <?php if ($sks < 24) { ?>
                                                 <input type="checkbox" name="krs[]"
                                                     value="<?php echo $krs->id_kurikulum; ?>">
-                                                <?php } ?>
                                             </td>
                                             <td><?php echo $krs->kd_mk; ?></td>
                                             <td><?php echo $krs->matakuliah; ?></td>
-
                                             <td><?php echo $krs->sks; ?></td>
-
                                         </tr>
                                         <?php } ?>
                                         <?php } ?>
-                                        <?php } ?>
-                                        <?php } ?>
-                                        <?php } ?>
-
                                     </tbody>
+                                    <tr>
+                                        <th class="text-center" colspan="4">Jumlah SKS </th>
 
+                                        <th><?php echo $sks1; ?></th>
+                                    </tr>
                                     <tr>
                                         <th colspan="5" class="text-center">
                                             <h3>Matakuliah Pilihan</h3>
@@ -93,38 +87,43 @@ $this->load->view('mhs/dist/header');
                                     </tr>
                                     <tbody>
                                         <?php
-										$i = 1;
-										foreach ($getKrs as $krs) { ?>
-                                        <?php if ($krs->smt == $mhs['semester']) { ?>
-                                        <?php if ($krs->semester == $tahun['semester']) { ?>
-                                        <?php if ($krs->status == $tahun['status']) { ?>
-                                        <?php if ($krs->mk_pilihan == $mk['mk_pilihan']) { ?>
+											$i = 1;
+											$sks2 = 0;
+											foreach ($getKrs as $krs) {
+												if ($krs->smt == $mhs['semester'] && 
+													$krs->semester == $tahun['semester'] && 
+													$krs->status == $tahun['status'] && 
+													$krs->mk_pilihan == $mk['mk_pilihan']) { 
+														
+														// Tambahkan nilai SKS dari setiap mata kuliah ke dalam variabel $sks2
+														$sks2 += $krs->sks;
+											?>
                                         <tr>
-
                                             <td><?php echo $i++; ?></td>
-                                            </td>
                                             <td>
-                                                <?php if ($sks < 24) { ?>
                                                 <input type="checkbox" name="krs[]"
                                                     value="<?php echo $krs->id_kurikulum; ?>">
-                                                <?php } ?>
                                             </td>
                                             <td><?php echo $krs->kd_mk; ?></td>
                                             <td><?php echo $krs->matakuliah; ?></td>
-
                                             <td><?php echo $krs->sks; ?></td>
-
                                         </tr>
-                                        <?php } ?>
-                                        <?php } ?>
-                                        <?php } ?>
-                                        <?php } ?>
-                                        <?php } ?>
-
+                                        <?php 
+									}
+								} 
+								?>
                                     </tbody>
+
+                                    <tr>
+                                        <th class="text-center" colspan="4">Jumlah SKS Matakuliah Pilihan</th>
+
+                                        <th><?php echo $sks2; ?></th>
+                                    </tr>
+
                                 </table>
                                 <!-- Tombol Simpan KRS -->
                                 <button type="button" id="simpanKrs" class="btn btn-primary">Simpan KRS</button>
+
                                 </form>
 
                             </div>

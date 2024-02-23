@@ -161,6 +161,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <li class="<?php echo $this->uri->segment(2) == 'administrasi' ? 'active' : ''; ?>"><a class="nav-link"
                 href="<?php echo base_url(); ?>mhs/administrasi"><i class="fas fa-pencil-ruler"></i>
                 <span>Administrasi</span></a></li>
+        <li class="<?php echo $this->uri->segment(2) == 'profil' ? 'active' : ''; ?>"><a class="nav-link"
+                href="<?php echo base_url(); ?>mhs/profil"><i class="fas fa-cog"></i>
+                <span>Pengaturan</span></a></li>
         </ul>
 
 

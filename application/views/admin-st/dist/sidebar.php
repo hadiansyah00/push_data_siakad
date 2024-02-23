@@ -113,10 +113,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     class="fas fa-pencil-ruler"></i>
                 <span>Aktivasi Mahasiswa</span></a>
         </li>
-        <li class="menu-header">Setting Tahun Ajaran</li>
+        <li class="menu-header">Admin</li>
+
         <li class="<?php echo $this->uri->segment(2) == 'settings' ? 'active' : ''; ?>"><a class="nav-link"
                 href="<?php echo base_url(); ?>admin/settings"><i class="fas fa-pencil-ruler"></i>
                 <span>Pengaturan</span></a></li>
+        <li class="<?php echo $this->uri->segment(2) == 'aktivitas' ? 'active' : ''; ?>"><a class="nav-link"
+                href="<?php echo base_url(); ?>admin/aktivitas"><i class="fas fa-pencil-ruler"></i>
+                <span>Aktivitas</span></a></li>
+
 
         </ul>
 

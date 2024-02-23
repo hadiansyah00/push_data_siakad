@@ -12,10 +12,10 @@ $this->load->view('mhs/dist/header');
         </div>
         <div class="col-12 mb-4">
             <div class="hero text-white hero-bg-image hero-bg-parallax"
-                style="background-image: url('<?php echo base_url(); ?>assets-new-look/img/bag-hero-1.jpg');">
+                style="background-image: url('<?php echo base_url(); ?>assets/img/bg-orange-sbh.jpg');">
                 <div class="hero-inner">
                     <h1>Selamat Datang, <?php echo $mhs['nama_mhs']?></h1>
-                    <h4> Tahun Akademik <?php echo $tahun['ta'] ?> /
+                    <h4> Tahun Akademik <?php echo $tahun['ta'] ?>
                         <?php echo$tahun['semester']?></h4>
 
                     <p class="lead"><strong>SISTEM INFORMASI AKADEMIK | STIKES BOGOR HUSADA</strong></p></br>
