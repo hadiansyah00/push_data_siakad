@@ -26,9 +26,9 @@ class Aktivitas extends CI_Controller
 	// $this->load->view('admin/template/footer');
 	
 	}
-	public function DataPerbaikan (){
+	public function DataPerbaikan ()
+	{
 	
-		
 	$data['title'] = 'List Update Perbaikan Website';
 	$data['judul'] = 'Update Website';
 	$data['subJudul'] = 'Update-SBH';

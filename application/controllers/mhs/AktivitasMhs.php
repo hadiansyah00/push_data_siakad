@@ -18,12 +18,10 @@ class AktivitasMhs extends CI_Controller
 	$data['title'] = 'List Update Perbaikan Website';
 	$data['judul'] = 'Update Website';
 	$data['subJudul'] = 'Update-SBH';
-	$data['perbaikan'] = $this->EdomModel->getData_Aktivitas('aktivitas')->result();
+	$data['list'] = $this->EdomModel->getData_Aktivitas('aktivitas')->result();
 	// $data['tahun'] = $this->TaModel->getAktif()->result();
-	// $this->load->view('admin/template/header', $da	ta);
+	// $this->load->view('admin/template/header', $data);
 	// $this->load->view('admin/template/sidebar', $data);
 	$this->load->view('mhs/acktivitas-mhs-st', $data);
-	// $this->load->view('admin/template/footer');
-	
 	}
 }
