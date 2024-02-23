@@ -14,9 +14,7 @@ class Profil extends CI_Controller
 
 	public function index()
 	{
-		 if (!$this->session->userdata('logged_in')) {
-            redirect('auth'); // Redirect ke halaman login jika belum login
-        }
+		
 		$user_id = $this->session->userdata('username');
 		$data['login_history'] = $this->UserModel->get_login_history($user_id);
 		//setting krs
@@ -290,6 +288,12 @@ public function updatePhoto()
 public function updateAksiProfilMhs()
 {
     // Lakukan validasi form
+	if ($this->input->post($this->security->get_csrf_token_name()) !== $this->security->get_csrf_hash()) {
+            // CSRF token tidak valid, handle sesuai kebutuhan
+            echo "CSRF Token Mismatch";
+            return;
+        }
+
     $this->form_validation->set_rules('nama_mhs', 'Nama Lengkap', 'required');
     $this->form_validation->set_rules('tempat_lahir', 'Tempat Lahir', 'required');
     $this->form_validation->set_rules('email', 'Email', 'required');

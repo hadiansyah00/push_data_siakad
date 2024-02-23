@@ -24,13 +24,7 @@ class Home extends CI_Controller
 	public function index()
 	{
 	
-		$cookie_data = array(
-			'name'   => 'user_data',
-			'value'  => json_encode($user_data), // Gantilah dengan data pengguna yang sesuai
-			'expire' => 60 * 60 * 24 * 365, // Cookie berlaku selama 1 tahun (sesuaikan sesuai kebutuhan)
-		);
-
-		$this->input->set_cookie($cookie_data);
+		
 		$this->load->helper('date'); // Memuat helper date
 		$elapsed_time = time_elapsed_string($login_time);
 		$data['title'] = 'Dasboard Mahasiswa SBH ';
