@@ -120,9 +120,6 @@ $this->load->view('mhs/dist/header');
 										}
 										?>
                                             </td>
-
-
-
                                             <?php
 										$pengajar_1 = $this->KurikulumModel->getIdDosenById($row->id_peran);
 										$pengajar_2 = $this->KurikulumModel->getIdDosenById_peran($row->id_perdos);
@@ -205,19 +202,19 @@ $this->load->view('mhs/dist/header');
                                     <tr>
                                         <th colspan="9" align="center">Predikat</th>
                                         <th><strong><?php
-								if ($hasil >= 3.51 && $hasil <= 4.00) {
-									echo "Dengan Pujian";
-								} elseif ($hasil >= 3.01 && $hasil <= 3.50) {
-									echo "Sangat Memuaskan";
-								} elseif ($hasil >= 2.76 && $hasil <= 3.00) {
-									echo "Memuaskan";
-								} elseif ($hasil >= 2.00 && $hasil <= 2.75) {
-									echo "Kurang Memuaskan";
-								} elseif ($hasil >= 1 && $hasil <= 1.99) {
-									echo "Gagal";
-								} else {
-									echo "Null";
-								}
+										if ($hasil >= 3.51 && $hasil <= 4.00) {
+											echo "Dengan Pujian";
+										} elseif ($hasil >= 3.01 && $hasil <= 3.50) {
+											echo "Sangat Memuaskan";
+										} elseif ($hasil >= 2.76 && $hasil <= 3.00) {
+											echo "Memuaskan";
+										} elseif ($hasil >= 2.00 && $hasil <= 2.75) {
+											echo "Kurang Memuaskan";
+										} elseif ($hasil >= 1 && $hasil <= 1.99) {
+											echo "Gagal";
+										} else {
+											echo "Null";
+										}
 								?></strong></th>
                                     </tr>
                                 </table>

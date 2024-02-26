@@ -36,8 +36,7 @@ class Aktivitas extends CI_Controller
 	// $data['tahun'] = $this->TaModel->getAktif()->result();
 	// $this->load->view('admin/template/header', $data);
 	// $this->load->view('admin/template/sidebar', $data);
-	$this->load->view('mhs/acktivitas-mhs-st', $data);
-
+	$this->load->view('admin-st/aktivitas/list_perbaikan', $data);
 	}
 	
    public function insert()

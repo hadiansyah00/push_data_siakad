@@ -282,6 +282,8 @@ $this->load->view('admin-st/dist/header');
                                     <option> --Pilih Role-- </option>
                                     <option value="admin">Admin</option>
                                     <option value="bauk">BAUK</option>
+                                    <option value="baak">BAAk</option>
+                                    <option value="upmi">upmi</option>
                                     <!-- <option value="bauk"> Dosen </option> -->
                                 </select>
                             </div>

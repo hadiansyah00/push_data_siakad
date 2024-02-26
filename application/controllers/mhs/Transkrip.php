@@ -35,23 +35,62 @@ class Transkrip extends CI_Controller
 		//$data['viewKrs2'] = $this->KrsModel->viewAll($mhs['id_mahasiswa']);
 
 		// $this->load->view('mhs/templates/header', $data);
-		$this->load->view('mhs/under_construction',$data);
+		$this->load->view('mhs/transkrip/transkrip_mhs-st',$data);
 		// $this->load->view('mhs/khs/transkrip-st', $data);
 		// $this->load->view('mhs/templates/footer');
 	}
+public function calculateAndSaveResults() {
+    try {
+        // Menginisialisasi total nilai sks dan total bobot2
+        $totalBobot2 = 0;
+        $totalSks = 0;
 
-// 	public function print($id_mhs)
-// 	{
-// 		//$where = array('id_mahasiswa' => $id_mhs);
-// 		$ta = $this->TaModel->getTa()->row_array();
-// 		//$data['jrs'] = $this->db->get('jurusan')->row_array();
+        // Melakukan perhitungan total bobot2 dan sks
+        foreach ($viewKrs as $row) { 
+            // Menambahkan nilai sks ke total sks
+            $totalSks += $row->sks;
 
-// 		//$data['mhs'] = $this->db->get_where('mahasiswa', $where)->row_array();
-// 		$data['mhs'] = $this->MahasiswaModel->mhsId($id_mhs)->row_array();
-// 		$data['viewKrs'] = $this->KrsModel->viewAll($id_mhs, $ta['id_ta']);
+            // Menghitung bobot2
+            if ($row->nilai == 'A') {
+                $bobot2 = $row->sks * 4.00;
+            } elseif ($row->nilai == 'AB') {
+                $bobot2 = $row->sks * 3.75;
+            } elseif ($row->nilai == 'BA') {
+                $bobot2 = $row->sks * 3.50;
+            } elseif ($row->nilai == 'B') {
+                $bobot2 = $row->sks * 3.00;
+            } elseif ($row->nilai == 'BC') {
+                $bobot2 = $row->sks * 2.75;
+            } elseif ($row->nilai == 'C') {
+                $bobot2 = $row->sks * 2.00;
+            } elseif ($row->nilai == 'D') {
+                $bobot2 = $row->sks * 1.00;
+            } elseif ($row->nilai == 'E') {
+                $bobot2 = $row->sks * 0;
+            } else {
+                $bobot2 = 0;
+            }
 
-// 		$this->load->view('admin/print/print', $data);
-// 	}
+            // Menambahkan bobot2 ke total bobot2
+            $totalBobot2 += $bobot2;
+        }
+
+        // Simpan hasil perhitungan ke dalam tabel Mahasiswa
+        $this->load->model('MahasiswaModel');
+        $this->MahasiswaModel->saveResultsToMahasiswa($totalBobot2, $totalSks);
+
+        // Output untuk AJAX
+        $response['success'] = true;
+        $response['message'] = 'Hasil perhitungan berhasil disimpan.';
+        echo json_encode($response);
+    } catch (Exception $e) {
+        // Tangani kesalahan
+        $response['success'] = false;
+        $response['message'] = 'Gagal menyimpan hasil perhitungan: ' . $e->getMessage();
+        echo json_encode($response);
+    }
+}
+
 
 
 	public function printKHS($id_mhs)

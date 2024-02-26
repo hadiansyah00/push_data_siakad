@@ -15,6 +15,16 @@ class UserModel extends CI_Model
     $this->db->where('id_mahasiswa', $userId);
     return $this->db->update('mahasiswa', $data);
 }
+public function getDataUser()
+{
+    $username = $this->session->userdata('username');
+    $this->db->select('*');
+    $this->db->from('users');
+    $this->db->where('username', $username);
+    $query = $this->db->get()->row_array();
+    return $query;
+}
+
 
 	public function get_login_history($user_id) {
 			$user_id =  $this->session->userdata('username');
@@ -189,5 +199,10 @@ public function getUserByUsernameMahasiswa($username) {
 	 public function get_users() {
         $query = $this->db->get('users');
         return $query->result_array();
+    }
+	public function updatePassword($id, $data) {
+        $this->db->where('id', $id);
+        $this->db->update('users', $data); // Ganti 'nama_tabel_mahasiswa' dengan nama tabel yang sesuai
+        return $this->db->affected_rows() > 0; // Mengembalikan true jika ada baris yang terpengaruh (password berhasil diperbarui)
     }
 }

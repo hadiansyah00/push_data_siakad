@@ -497,6 +497,8 @@ $config['csrf_exclude_uris'] = array(
 	'admin/settings/insert',
 	'admin/settings/AddUsers',
 	'admin/settings/UpdateUsers',
+	'admin/settings/updateAksiProfilAdmin',
+	'admin/settings/updatePassword',
 	// 'mhs/Home',
 	'admin/settings/delete',
 
@@ -541,6 +543,10 @@ $config['csrf_exclude_uris'] = array(
 	'admin/kurikulum/insert',
 	'admin/kurikulum/insert/{kd_jurusan}',
 
+	//Dosen
+	'dosen/profil/updateAksiProfilDosen',
+	'dosen/profil/updatePassword',
+	'dosen/profil/updateProfileDosen',
 
 
 	// BAUK

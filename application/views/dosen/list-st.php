@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-$this->load->view('mhs/dist/header-st');
+$this->load->view('dosen/dist/header');
 ?>
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets-new-look/modules/datatables/datatables.min.css">
 <link rel="stylesheet"
@@ -60,4 +60,4 @@ $this->load->view('mhs/dist/header-st');
 </div>
 </section>
 </div>
-<?php $this->load->view('mhs/dist/footer'); ?>
+<?php $this->load->view('dosen/dist/footer'); ?>

@@ -16,7 +16,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 </div>
 
-
-
-
 <?php $this->load->view('mhs/dist/js'); ?>

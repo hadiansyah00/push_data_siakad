@@ -84,7 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                     </div> -->
                 </form>
-                <ul class="navbar-nav navbar-right">
+                <div class="navbar-nav navbar-right">
                     <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
                             class="nav-link nav-link-lg message-toggle beep"><i class="far fa-envelope"></i></a>
                         <div class="dropdown-menu dropdown-list dropdown-menu-right">
@@ -230,7 +230,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <!-- <div class="dropdown-title">Logged in 5 min ago</div> -->
-                            <a href="#" class="dropdown-item has-icon">
+                            <a href="<?php echo base_url ('admin/Settings/setProfil') ?>"
+                                class="dropdown-item has-icon">
                                 <i class="fas fa-cog"></i> Settings
                             </a>
                             <!-- <a href="<?php echo base_url(); ?>dist/features_activities" class="dropdown-item has-icon">
@@ -246,5 +247,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </a>
                         </div>
                     </li>
-                </ul>
+                    </ ul>
             </nav>

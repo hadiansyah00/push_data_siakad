@@ -68,8 +68,10 @@ $this->load->view('mhs/dist/header');
                                                 <?php echo $row->jenjang ?><strong><?php echo $row->jurusan ?></strong>
                                             </td>
                                             <td>
-                                                <a
-                                                    href="<?php echo base_url('admin/UploadJadwal/download_file/' . $row->id_jadwal_pdf); ?>">Download</a>
+                                                <embed
+                                                    src="<?php echo base_url('./assets/images/uploads/' . $row->nama_berkas); ?>"
+                                                    width="400" height="300" type="application/pdf">
+
                                             </td>
                                         </tr>
                                         <?php

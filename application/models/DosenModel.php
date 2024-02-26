@@ -17,6 +17,11 @@ class DosenModel extends CI_Model
 		$query = $this->db->get();
 		return $query;
 	}
+	public function updatePassword($id_dosen, $data) {
+        $this->db->where('id_dosen', $id_dosen);
+        $this->db->update('dosen', $data); // Ganti 'nama_tabel_mahasiswa' dengan nama tabel yang sesuai
+        return $this->db->affected_rows() > 0; // Mengembalikan true jika ada baris yang terpengaruh (password berhasil diperbarui)
+    }
  public function deleteData($table, $where)
     {
         // Delete data from the specified table based on the given conditions

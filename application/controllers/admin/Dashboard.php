@@ -27,7 +27,7 @@ class Dashboard extends CI_Controller
 		// 	'username'	=> $data->username,
 		// 	'level'		=> $data->level
 		// );
-		
+		$data['users'] = $this->UserModel->getDataUser();
 		//status mahasiswa sbh
 		$data['total_mhs'] = $this->MahasiswaModel->totalMhs();
 		$data['total_tidak'] = $this->MahasiswaModel->TotalTidakAktif();

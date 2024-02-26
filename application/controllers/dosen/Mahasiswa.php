@@ -15,6 +15,7 @@ class Mahasiswa extends CI_Controller
 		//var_dump($where);die();
         $data['dsn'] = $this->KrsModel->getDataDosen();
 		$data['mhs'] = $this->MahasiswaModel->mhsId($id_mhs)->row_array();
+		$data['viewKrs'] = $this->KrsModel->viewAll($id_mhs, $ta['id_ta']);
 		//$data['mahasiswa'] = $this->MahasiswaModel->getMhsId($where)->result();
 		// $this->load->view('dosen/templates/header', $data);
 		$this->load->view('dosen/mahasiswa/view_mhs-st', $data);
@@ -31,8 +32,8 @@ class Mahasiswa extends CI_Controller
 		$data['title'] = 'Detail View Mahasiswa SBH';
 		$data['judul'] = 'Nilai Mahasiswa';
 		$data['subJudul'] = 'Detail Nilai Mahasiswa';
-//Session login Dosen
-$data['dsn'] = $this->KrsModel->getDataDosen();
+		//Session login Dosen
+		$data['dsn'] = $this->KrsModel->getDataDosen();
 		//tampil seluruh data KRS yang diambil mahasiswa 
 		$data['mhs'] = $this->MahasiswaModel->mhsId($id_mhs)->row_array();
 		$data['viewKrs'] = $this->KrsModel->viewAll($id_mhs, $ta['id_ta']);

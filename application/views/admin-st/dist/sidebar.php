@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
+<?php
+$users_sessions = $this->UserModel->getDataUser();
+?>
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
@@ -28,6 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </li>
                 </ul>
             </li> -->
+            <?php if ($users_sessions['role'] == 'admin' || $users_sessions['role'] == 'baak') { ?>
             <li class="menu-header">Data Master</li>
             <li
                 class="dropdown <?php echo $this->uri->segment(2) == 'mahasiswa' || $this->uri->segment(2) == 'dosen' || $this->uri->segment(2) == 'jurusan' || $this->uri->segment(2) == 'matakuliah' || $this->uri->segment(2) == 'kurikulum'  ? 'active' : ''; ?>">
@@ -49,18 +53,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <li class="<?php echo $this->uri->segment(2) == 'kurikulum' ? 'active' : ''; ?>"><a class="nav-link"
                             href="<?php echo base_url(); ?>admin/kurikulum">Data Matakuliah</a>
                     </li>
-
-
-
             </li>
-
-
-
         </ul>
         </li>
+        <?php } else  {  ?>
+
+        <?php } ?>
 
 
         <li class="menu-header">Informasi Akademik</li>
+        <?php if ($users_sessions['role'] == 'admin' || $users_sessions['role'] == 'upmi') { ?>
         <li
             class="dropdown <?php echo $this->uri->segment(2) == 'KusionerEdom' || $this->uri->segment(2) == 'evaluasi' || $this->uri->segment(3) == 'getEdom'  ? 'active' : ''; ?>">
             <a href="#" class="nav-link has-dropdown"><i class="far fa-file-alt"></i> <span>Data Evaluasi
@@ -77,6 +79,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             </ul>
         </li>
+        <?php } else  {  ?>
+
+        <?php } ?>
+        <?php if ($users_sessions['role'] == 'admin' || $users_sessions['role'] == 'baak') { ?>
         <li
             class="dropdown <?php echo $this->uri->segment(2) == 'jadwal' || $this->uri->segment(2) == 'jadwaluts' || $this->uri->segment(2) == 'jadwaluas'|| $this->uri->segment(2) == 'Jadwal_pra_uap'|| $this->uri->segment(2) == 'Jadwal_uap'|| $this->uri->segment(2) == 'nilai_akhir'  ? 'active' : ''; ?>">
             <a href="#" class="nav-link has-dropdown"><i class="far fa-file-alt"></i> <span>Data Jadwal</span></a>
@@ -94,6 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         href="<?php echo base_url(); ?>admin/Jadwal_uap"> Jadwal UAP</a></li>
             </ul>
         </li>
+
         <li
             class="dropdown <?php echo $this->uri->segment(2) == 'Krs' || $this->uri->segment(2) == 'KrsView' || $this->uri->segment(2) == 'Khs'|| $this->uri->segment(2) == 'NilaiUts'|| $this->uri->segment(2) == 'NilaiUas'|| $this->uri->segment(2) == 'nilai_akhir' ? 'active' : ''; ?>">
             <a href="#" class="nav-link has-dropdown"><i class="far fa-file-alt"></i> <span>Data Nilai</span></a>
@@ -106,13 +113,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             </ul>
         </li>
+        <?php } else  {  ?>
 
+        <?php } ?>
+        <?php if ($users_sessions['role'] == 'admin' || $users_sessions['role'] == 'bauk') { ?>
         <li class="menu-header">Administrasi</li>
         <li class="<?php echo $this->uri->segment(2) == 'B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab' ? 'active' : ''; ?>">
             <a class="nav-link" href="<?php echo base_url(); ?>bauk/B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab"><i
                     class="fas fa-pencil-ruler"></i>
                 <span>Aktivasi Mahasiswa</span></a>
         </li>
+        <?php } else  {  ?>
+
+        <?php } ?>
+        <?php if ($users_sessions['role'] == 'admin')  { ?>
         <li class="menu-header">Admin</li>
 
         <li class="<?php echo $this->uri->segment(2) == 'settings' ? 'active' : ''; ?>"><a class="nav-link"
@@ -121,7 +135,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <li class="<?php echo $this->uri->segment(2) == 'aktivitas' ? 'active' : ''; ?>"><a class="nav-link"
                 href="<?php echo base_url(); ?>admin/aktivitas"><i class="fas fa-pencil-ruler"></i>
                 <span>Aktivitas</span></a></li>
+        <?php } else  {  ?>
 
+        <?php } ?>
 
         </ul>
 

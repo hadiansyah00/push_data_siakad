@@ -616,5 +616,28 @@ public function resetPasswords() {
     $this->db->update('mahasiswa');
 }
 
+public function saveResultsToMahasiswa($totalBobot2, $totalSks) {
+    // Mengambil data mahasiswa (misalnya berdasarkan ID mahasiswa yang sedang aktif)
+    $id_mahasiswa = $this->session->userdata('id_mahasiswa');
+    $mahasiswa = $this->db->get_where('mahasiswa', ['id_mahasiswa' => $id_mahasiswa])->row();
+
+    // Jika data mahasiswa ditemukan
+    if ($mahasiswa) {
+        // Simpan hasil perhitungan ke dalam tabel Mahasiswa
+        $data = [
+            'totalBobot' => $totalBobot2,
+            'totalSks' => $totalSks
+        ];
+
+        $this->db->where('id_mahasiswa', $id_mahasiswa);
+        $this->db->update('mahasiswa', $data);
+
+        // Jika berhasil disimpan
+        return true;
+    } else {
+        // Jika data mahasiswa tidak ditemukan
+        return false;
+    }
+}
 
 }

@@ -219,11 +219,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </li>
                     <li class="dropdown"><a href="#" data-toggle="dropdown"
                             class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            <?php if ($dsn['photoo'] == NULL) { ?>
+                            <?php if ($dsn['photo'] == NULL) { ?>
                             <img src="<?php echo base_url('assets/images/default.jpg'); ?>" alt=""
                                 class="rounded-circle mr-1">
                             <?php } else { ?>
-                            <img src="<?php echo base_url('assets/images/uploads/' . $dsn['photoo']); ?>" alt=""
+                            <img src="<?php echo base_url('assets/images/uploads/' . $dsn['photo']); ?>" alt=""
                                 class="rounded-circle mr-1">
                             <?php } ?>
                             <div class="d-sm-none d-lg-inline-block"><?php echo $dsn['nama_dosen'] ?></div>

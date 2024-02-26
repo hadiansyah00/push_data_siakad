@@ -172,7 +172,111 @@ $this->load->view('dosen/dist/header');
                              </div>
                          </div>
 
+                         <div class="row">
+                             <div class="col-md-12 col-lg-12">
+                                 <div class="card-header section-title">
+                                     Trankrip Nilai Mahasiswa
+                                 </div>
+                                 <div class="table-responsive">
+                                     <table class="table table-striped">
+                                         <tr>
+                                             <th>No</th>
+                                             <th>Kode Matakuliah</th>
+                                             <th>Nama Matakuliah</th>
+                                             <th>SKS</td>
+                                             <th>HM</th>
+                                             <th>AM</th>
+                                             <th rowspan=" 2"> SKS X AM </th>
+                                         </tr>
+                                         <tbody>
+                                             <?php
+												$sks = 0;
+												$totalBobot2 = 0;
+												$i = 1;
+												foreach ($viewKrs as $row) {
+													$sks += $row->sks;
+													$bobot = 0;
+													if ($row->nilai == 'A') {
+														$bobot = 4.00;
+													} elseif ($row->nilai == 'AB') {
+														$bobot = 3.75;
+													} elseif ($row->nilai == 'BA') {
+														$bobot = 3.50;
+													} elseif ($row->nilai == 'B') {
+														$bobot = 3.00;
+													} elseif ($row->nilai == 'BC') {
+														$bobot = 2.75;
+													} elseif ($row->nilai == 'C') {
+														$bobot = 2.00;
+													} elseif ($row->nilai == 'D') {
+														$bobot = 1.00;
+													} elseif ($row->nilai == 'E') {
+														$bobot = 0;
+													}
 
+													$bobot2 = $bobot * $row->sks;
+													$totalBobot2 += $bobot2;
+													?>
+                                             <tr>
+                                                 <td><?php echo $i++; ?></td>
+                                                 <td><?php echo $row->kd_mk; ?></td>
+                                                 <td><?php echo $row->matakuliah; ?></td>
+                                                 <td><?php echo $row->sks; ?></td>
+                                                 <td><?php echo $row->nilai; ?></td>
+                                                 <td><?php echo $bobot; ?></td>
+                                                 <td><?php echo $bobot2; ?></td>
+                                             </tr>
+                                             <?php } ?>
+                                         </tbody>
+
+                                         <tr>
+                                             <th colspan="6" align="center">Jumlah SKS</th>
+                                             <th><strong><?php echo $sks; ?></strong></th>
+                                         </tr>
+
+                                         <tr>
+                                             <th colspan="6" align="center">Jumlah SKS x AM </th>
+                                             <th><strong><?php echo $totalBobot2; ?></strong></th>
+                                         </tr>
+                                         <tr>
+                                             <th colspan="6" align="center">IPK (Indeks Prestasi Kumulatif) </th>
+                                             <th><strong>
+                                                     <?php echo number_format($hasil = $totalBobot2 / $sks, 2); ?></strong>
+                                             </th>
+
+                                         </tr>
+
+
+                                         <tr>
+                                             <th colspan="6" align="center">Predikat</th>
+                                             <th><strong><?php
+											if ($hasil >= 3.51 && $hasil <= 4.00) {
+												echo "Dengan Pujian";
+											} elseif ($hasil >= 3.01 && $hasil <= 3.50) {
+												echo "Sangat Memuaskan";
+											} elseif ($hasil >= 2.76 && $hasil <= 3.00) {
+												echo "Memuaskan";
+											} elseif ($hasil >= 2.00 && $hasil <= 2.75) {
+												echo "Kurang Memuaskan";
+											} elseif ($hasil >= 1 && $hasil <= 1.99) {
+												echo "Gagal";
+											} else {
+												echo "Null";
+											}
+											?></strong>
+                                             </th>
+
+                                         </tr>
+                                         <tr>
+                                             <th colspan="6"></th>
+                                         </tr>
+                                     </table>
+
+                                 </div>
+
+                             </div>
+
+                         </div>
                      </div>
                  </div>
 

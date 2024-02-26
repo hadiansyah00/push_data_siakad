@@ -19,7 +19,7 @@ class KrsModel extends CI_Model
 	{
 		$this->db->select('*');
 		$this->db->from('dosen');
-		$this->db->join('mahasiswa', 'mahasiswa.id_dosen = dosen.id_dosen', 'left');
+		// $this->db->join('mahasiswa', 'mahasiswa.id_dosen = dosen.id_dosen', 'left');
 		$this->db->join('jurusan', 'jurusan.kd_jurusan = dosen.kd_jurusan', 'left');
 		$this->db->where('dosen.kd_dosen', $this->session->userdata('username'));
 		$query = $this->db->get()->row_array();
@@ -230,19 +230,35 @@ public function addKrs($data)
 	}
 
 	public function viewAll($id_mahasiswa)
-	{
-		$this->db->select('*');
-		$this->db->from('krs');
-		$this->db->join('kurikulum', 'kurikulum.id_kurikulum = krs.id_kurikulum', 'left');
-		$this->db->join('matakuliah', 'matakuliah.kd_mk = kurikulum.kd_mk', 'left');
-		$this->db->join('ta', 'ta.id_ta = krs.id_ta', 'left');
-		//$this->db->join('mahasiswa', 'mahasiswa.id_mahasiswa = krs.id_mahasiswa', 'left');
-		$this->db->where('id_mahasiswa', $id_mahasiswa);
-		$this->db->order_by('smt', 'ASC');
-		//$this->db->where('krs.id_ta', $id_ta);
-		$query = $this->db->get()->result();
-		return $query;
-	}
+{
+    $this->db->select('*');
+    $this->db->from('krs');
+    $this->db->join('kurikulum', 'kurikulum.id_kurikulum = krs.id_kurikulum', 'left');
+    $this->db->join('matakuliah', 'matakuliah.kd_mk = kurikulum.kd_mk', 'left');
+    $this->db->join('ta', 'ta.id_ta = krs.id_ta', 'left');
+    //$this->db->join('mahasiswa', 'mahasiswa.id_mahasiswa = krs.id_mahasiswa', 'left');
+    $this->db->where('id_mahasiswa', $id_mahasiswa);
+	$this->db->where_not_in('nilai', array(''));
+    $this->db->order_by('smt', 'ASC');
+    //$this->db->where('krs.id_ta', $id_ta);
+    $query = $this->db->get()->result();
+    return $query;
+}
+public function viewAllDosen($id_mahasiswa)
+{
+    $this->db->select('*');
+    $this->db->from('krs');
+    $this->db->join('kurikulum', 'kurikulum.id_kurikulum = krs.id_kurikulum', 'left');
+    $this->db->join('matakuliah', 'matakuliah.kd_mk = kurikulum.kd_mk', 'left');
+    $this->db->join('ta', 'ta.id_ta = krs.id_ta', 'left');
+    //$this->db->join('mahasiswa', 'mahasiswa.id_mahasiswa = krs.id_mahasiswa', 'left');
+    $this->db->where('id_mahasiswa', $id_mahasiswa);
+	$this->db->where_not_in('nilai', array(''));
+    $this->db->order_by('smt', 'ASC');
+    //$this->db->where('krs.id_ta', $id_ta);
+    $query = $this->db->get()->result();
+    return $query;
+}
 
 
 	// SELECT nim, nama_mhs, status_verfikasi,id_kurikulum from mahasiswa INNER JOIN krs ON 

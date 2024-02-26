@@ -12,7 +12,7 @@ $this->load->view('dosen/dist/header');
         </div>
         <div class="col-12 mb-4">
             <div class="hero text-white hero-bg-image hero-bg-parallax"
-                style="background-image: url('<?php echo base_url(); ?>assets-new-look/img/bag-hero-1.jpg');">
+                style="background-image: url('<?php echo base_url(); ?>assets/img/bg-orange-sbh.jpg');">
                 <div class="hero-inner">
                     <h1>Selamat Datang, <?php echo $dsn['nama_dosen']?></h1>
                     <h4> Tahun Akademik <?php echo $tahun['ta'] ?> /
@@ -22,7 +22,8 @@ $this->load->view('dosen/dist/header');
 
 
                     <div class="mt-4">
-                        <a href="#" class="btn btn-outline-white btn-lg btn-icon icon-left"><i class="far fa-user"></i>
+                        <a href="<?php echo base_url('dosen/profil') ?>"
+                            class="btn btn-outline-white btn-lg btn-icon icon-left"><i class="far fa-user"></i>
                             Pengaturan Profile</a>
                     </div>
                 </div>
@@ -44,5 +45,6 @@ $this->load->view('dosen/dist/header');
 <?php $this->load->view('dosen/dist/footer'); ?>
 
 <!-- Page Specific JS File -->
+
 
 <script src="http://localhost/stisla-codeigniter-master/assets/js/page/bootstrap-modal.js"></script>

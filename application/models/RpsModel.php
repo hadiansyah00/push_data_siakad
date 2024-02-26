@@ -9,8 +9,8 @@ class RpsModel extends CI_Model
 		$this->db->from('jadwal_pdf');
 		$this->db->join('ta', 'ta.id_ta = jadwal_pdf.id_ta', 'left');
 		$this->db->join('jurusan', 'jurusan.kd_jurusan = jadwal_pdf.kd_jurusan', 'left');
-
-	
+		$this->db->where('ta.status', 1);
+		$this->db->order_by('smt', ASC);
 		$query = $this->db->get()->result();
 		return $query;
 	}
@@ -31,6 +31,8 @@ class RpsModel extends CI_Model
 		$this->db->join('dosen', 'dosen.id_dosen = tb_berkas.id_dosen', 'left');
 		// $this->db->join('matakuliah', 'matakuliah.kd_mk = tb_berkas.kd_mk', 'left');
 		$this->db->where('tb_berkas.kd_jurusan', $kd_jurusan);
+		$this->db->where('ta.status', 1);
+		$this->db->order_by('smt', ASC);
 		// $this->db->order_by('kd_berkas', 'ASC');
 		$query = $this->db->get()->result();
 		return $query;
