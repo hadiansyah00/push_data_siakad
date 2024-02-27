@@ -12,7 +12,7 @@ class EdomModel extends CI_Model
 	}
 	public function getData_Aktivitas()
 	{
-		$this->db->order_by('id_aktivitas', 'ASC');
+		$this->db->order_by('id_aktivitas', 'DESC');
 		$query = $this->db->get('aktivitas');
 		return $query;
 	}
