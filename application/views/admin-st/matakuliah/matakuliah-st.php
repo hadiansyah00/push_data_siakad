@@ -229,8 +229,9 @@ $this->load->view('admin-st/dist/header');
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="editMatakuliahForm" method="POST" action="<?php echo base_url('admin/matakuliah/update'); ?>"
+            <form id="editFormMatkul" method="POST" action="<?php echo base_url('admin/matakuliah/updateMatkul'); ?>"
                 class="needs-validation" novalidate>
+
                 <div class="modal-body">
                     <!-- Add your form fields here -->
                     <div class="form-row">
@@ -240,7 +241,7 @@ $this->load->view('admin-st/dist/header');
                             <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
                                 value="<?= $this->security->get_csrf_hash(); ?>">
                             <input type="text" class="form-control" id="editkdmk" name="kd_mk" disabled required>
-                            <!-- <input type="hidden" class="form-control" id="editJurs" name="kd_jurusan" disabled required> -->
+                            <input type="hidden" class="form-control" id="editJurs" name="kd_jurusan" disabled required>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="editMatkul">Nama Matakuliah</label>
@@ -359,29 +360,26 @@ $(document).ready(function() {
 
 <script>
 $(document).ready(function() {
+    // Fungsi untuk menampilkan nilai pada form modal saat tombol Edit diklik
     $(document).on('click', '.btn-edit', function() {
-        var kdMk = $(this).data('kd-mk')
-        var matkul = $(this).data('matakuliah');
+        var kdMk = $(this).data('kd-mk');
+        var matklul = $(this).data('matakuliah');
         var sks = $(this).data('sks');
         var smt = $(this).data('smt');
-        var mkpil = $(this).data('mkpilihan');
+        var mkPil = $(this).data('mkpilihan');
+
 
         // Isikan nilai ke dalam form modal
         $('#editkdmk').val(kdMk);
-        $('#editMatkul').val(matkul);
+        $('#editMatkul').val(matklul);
         $('#editSks').val(sks);
         $('#editSmt').val(smt);
-        $('#editMkpil').val(mkpil);
+        $('#editMkpil').val(mkPil);
 
-        // Debug: Check values
-        console.log('kdMk:', kdMk);
-        console.log('matkul:', matkul);
-        console.log('sks:', sks);
-        console.log('smt:', smt);
-        console.log('mkpil:', mkpil);
+        // $('#editPassword').val(password);
     });
 
-    $('#editMatakuliahForm').submit(function(e) {
+    $('#editFormMatkul').submit(function(e) {
         e.preventDefault();
 
         // Get form data and append CSRF token
@@ -389,17 +387,13 @@ $(document).ready(function() {
         formData +=
             '&<?php echo $this->security->get_csrf_token_name(); ?>=<?php echo $this->security->get_csrf_hash(); ?>';
 
-        // Debug: Check form data
-        console.log('formData:', formData);
-
         // Send AJAX request
         $.ajax({
             type: 'POST',
-            url: '<?php echo base_url('admin/matakuliah/update'); ?>',
+            url: '<?php echo base_url('admin/matakuliah/updateMatkul'); ?>',
             data: formData,
             dataType: 'json',
             success: function(response) {
-                console.log('AJAX Success:', response);
                 if (response.status === 'success') {
                     // Display success message using SweetAlert
                     Swal.fire({
@@ -427,6 +421,7 @@ $(document).ready(function() {
         });
     });
 });
+</script>
 </script>
 <script>
 // Fungsi untuk menampilkan nilai pada form modal saat tombol Delete diklik

@@ -482,7 +482,7 @@ $config['csrf_exclude_uris'] = array(
 	'admin/matakuliah/insert',
 	'admin/matakuliah/detil/insert',
 	'admin/matakuliah/delete',
-	'admin/matakuliah/update',
+	'admin/matakuliah/updateMatkul',
 	
 	'admin/kurikulum/insert',
 	'admin/kurikulum/delete',

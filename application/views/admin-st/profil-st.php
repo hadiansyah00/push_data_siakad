@@ -106,7 +106,7 @@ $this->load->view('admin-st/dist/header');
                                                 <div class="card-body">
                                                     <div class="row">
                                                         <div class="form-group col-md-6 col-12">
-                                                            <input type="text" name="id"
+                                                            <input type="hidden" name="id"
                                                                 value="<?php echo $admin['id']; ?>">
                                                             <input type="hidden"
                                                                 name="<?= $this->security->get_csrf_token_name(); ?>"

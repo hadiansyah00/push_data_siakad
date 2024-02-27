@@ -112,6 +112,57 @@ class Matakuliah extends CI_Controller
 }
 
 
+public function updateMatkul()
+{
+    if (!$this->input->is_ajax_request()) {
+        show_404();
+    }
+		$smt = $this->input->post('smt');
+		if ($smt == 1) {
+			$s = "Ganjil";
+		} elseif ($smt == 3) {
+			$s = "Ganjil";
+		} elseif ($smt == 5) {
+			$s = "Ganjil";
+		} elseif ($smt == 7) {
+			$s = "Ganjil";
+		} elseif ($smt == 9) {
+			$s = "Ganjil";
+		} else {
+			$s = "Genap";
+		}
+		$semester = $s;
+    
+    $kdMk 		= $this->input->post('kd_mk');
+    $matakuliah = $this->input->post('matakuliah');
+    $smts 		= $semester;
+    $sks    	= $this->input->post('sks');
+	$mk_pilihan    = $this->input->post('mk_pilihan');
+    
+    $data = array(
+		'kd_mk' 			=> $kdMk,
+        // 'kd_jurusan' 	=> $kdJurusan,
+        'matakuliah' 		=> $matakuliah,
+        'smt'				=> $smts,
+		'sks'				=> $sks,
+        'mk_pilihan' 		=> $mk_pilihan,
+    );
+    // Validate CSRF token
+    if ($this->input->post($this->security->get_csrf_token_name()) !== $this->security->get_csrf_hash()) {
+        echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+        return;
+    }
+
+    // Update the data in the database
+    $result = $this->MahasiswaModel->updateData('matakuliah', $data, ['kd_mk' => $kdMk]);
+
+    if ($result) {
+        echo json_encode(['status' => 'success', 'message' => 'Data Mahasiswa updated successfully']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Failed to update data Mahasiswa']);
+    }
+}
+
 public function update()
 {
     if (!$this->input->is_ajax_request()) {
