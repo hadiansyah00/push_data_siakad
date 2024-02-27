@@ -64,13 +64,21 @@ $this->load->view('mhs/dist/header');
                                             <td><?php echo $row->matakuliah; ?></td>
                                             <td><?php echo $row->sks; ?></td>
                                             <td><?php echo $row->smt; ?></td>
-                                            <?php echo 
-											$dosen1 = $this->KurikulumModel->getDosenNameById_peran($row->id_perdos);
-										// Di sini kita dapat menambahkan kode untuk mengambil nama dosen berdasarkan $row->id_peran
-										$dosen2 = $this->KurikulumModel->getDosenNameById($row->id_peran);
-											?>
-                                            <td><?php echo $dosen1 ?></td>
-                                            <td><?php echo $dosen2 ?></td>
+                                            <td>
+                                                <?php
+                     								   // Di sini kita dapat menambahkan kode untuk mengambil nama dosen berdasarkan $row->id_dosen
+														$dosen = $this->KurikulumModel->getDosenNameById_peran($row->id_perdos);
+														echo $dosen;
+														?>
+                                            </td>
+                                            <td>
+                                                <?php
+                     								   // Di sini kita dapat menambahkan kode untuk mengambil nama dosen berdasarkan $row->id_dosen
+														$dosen = $this->KurikulumModel->getDosenNameById($row->id_peran);
+														echo $dosen;
+														?>
+
+                                            </td>
                                             <td><a href="<?php echo base_url('mhs/krs/delete/' . $row->id_krs); ?>"
                                                     class="btn btn-sm btn-sm btn-danger"
                                                     onclick="return confirm('Yakin akan dihapus?')">
