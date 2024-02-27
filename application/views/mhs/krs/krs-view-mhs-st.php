@@ -48,10 +48,15 @@ $this->load->view('mhs/dist/header');
                                         <th>Matakuliah</th>
                                         <th>SKS</td>
                                         <th>Semester</td>
+                                        <th>Dosen 1</th>
+                                        <th>Dosen 2</th>
                                         <th>Aksi KRS</td>
                                     </tr>
                                     <tbody>
                                         <?php
+										$dosen1 = $this->KurikulumModel->getDosenNameById_peran($row->id_perdos);
+										// Di sini kita dapat menambahkan kode untuk mengambil nama dosen berdasarkan $row->id_peran
+										$dosen2 = $this->KurikulumModel->getDosenNameById($row->id_peran);
 										$i = 1;
 										foreach ($viewKrs as $row) { ?>
                                         <?php if ($row->semester == $tahun['semester']) { ?>
@@ -61,10 +66,13 @@ $this->load->view('mhs/dist/header');
                                             <td><?php echo $row->matakuliah; ?></td>
                                             <td><?php echo $row->sks; ?></td>
                                             <td><?php echo $row->smt; ?></td>
+                                            <td><?php echo $dosen1 ?></td>
+                                            <td><?php echo $dosen2 ?></td>
                                             <td><a href="<?php echo base_url('mhs/krs/delete/' . $row->id_krs); ?>"
                                                     class="btn btn-sm btn-sm btn-danger"
                                                     onclick="return confirm('Yakin akan dihapus?')">
                                                     <i class="fa fa-trash-alt"></i></a></td>
+
 
                                         </tr>
                                     </tbody>
