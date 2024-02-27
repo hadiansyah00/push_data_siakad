@@ -56,11 +56,7 @@ $this->load->view('mhs/dist/header');
                                     </tr>
                                     <tbody>
                                         <?php
-										// Di sini kita dapat menambahkan kode untuk mengambil nama dosen berdasarkan $row->id_perdos
-										$dosen1 = $this->KurikulumModel->getDosenNameById_peran($row->id_perdos);
-										// Di sini kita dapat menambahkan kode untuk mengambil nama dosen berdasarkan $row->id_peran
-										$dosen2 = $this->KurikulumModel->getDosenNameById($row->id_peran);
-										
+											
 										$i = 1;
 										$sks1 = 0;
 										foreach ($getKrs as $krs) { 
@@ -78,6 +74,11 @@ $this->load->view('mhs/dist/header');
                                             <td><?php echo $krs->kd_mk; ?></td>
                                             <td><?php echo $krs->matakuliah; ?></td>
                                             <td><?php echo $krs->sks; ?></td>
+                                            <?php echo 
+											$dosen1 = $this->KurikulumModel->getDosenNameById_peran($row->id_perdos);
+											// Di sini kita dapat menambahkan kode untuk mengambil nama dosen berdasarkan $row->id_peran
+											$dosen2 = $this->KurikulumModel->getDosenNameById($row->id_peran);
+											?>
                                             <td><?php echo $dosen1 ?></td>
                                             <td><?php echo $dosen2 ?></td>
                                         </tr>
