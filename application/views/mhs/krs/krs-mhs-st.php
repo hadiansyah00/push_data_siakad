@@ -78,15 +78,15 @@ $this->load->view('mhs/dist/header');
                                             <td>
                                                 <?php
                      								   // Di sini kita dapat menambahkan kode untuk mengambil nama dosen berdasarkan $row->id_dosen
-														$dosen = $this->KurikulumModel->getDosenNameById_peran($row->id_perdos);
+														$dosen = $this->KurikulumModel->getDosenNameById_peran($krs->id_perdos);
 														echo $dosen;
 														?>
                                             </td>
                                             <td>
                                                 <?php
                      								   // Di sini kita dapat menambahkan kode untuk mengambil nama dosen berdasarkan $row->id_dosen
-														$dosen = $this->KurikulumModel->getDosenNameById($row->id_peran);
-														echo $dosen;
+														$dosen2 = $this->KurikulumModel->getDosenNameById($krs->id_peran);
+														echo $dosen2;
 														?>
 
                                             </td>
