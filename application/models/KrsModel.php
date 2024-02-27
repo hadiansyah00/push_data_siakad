@@ -6,7 +6,7 @@ class KrsModel extends CI_Model
 	//Get Data Mahasiswa
 	public function getDataMhs()
 	{
-		$this->db->select('*');
+		$this->db->select('mahasiswa.id_mahasiswa, mahasiswa.kd_jurusan, mahasiswa.nisn, mahasiswa.nim, mahasiswa.nama_ibu, mahasiswa.nama_mhs, mahasiswa.nama_kepanjangan, mahasiswa.jk, mahasiswa.tempat_lahir, mahasiswa.tgl_lahir, mahasiswa.agama, mahasiswa.alamat, mahasiswa.kota, mahasiswa.hp, mahasiswa.email, mahasiswa.nama_ayah, mahasiswa.alamat_ortu, mahasiswa.hp_ortu, mahasiswa.photo, mahasiswa.status_mhs, mahasiswa.semester, mahasiswa.password, mahasiswa.asal_sekolah, mahasiswa.kelas, mahasiswa.kelas_mhs, mahasiswa.tahun_masuk, mahasiswa.pendapatan_ortu, mahasiswa.u_password, mahasiswa.id_dosen, mahasiswa.status, mahasiswa.status_uts, mahasiswa.status_uas, mahasiswa.status_nilai_uts, mahasiswa.status_nilai_uas, mahasiswa.status_nilai_khs, mahasiswa.status_uap, mahasiswa.status_pra_uap, mahasiswa.tgl_insert, mahasiswa.tgl_update, mahasiswa.total, mahasiswa.sisa, mahasiswa.smt_1, mahasiswa.smt_2, mahasiswa.smt_3, mahasiswa.smt_4, mahasiswa.smt_5, mahasiswa.smt_6, mahasiswa.smt_7, mahasiswa.smt_8, mahasiswa.status_edom, mahasiswa.password_hash, mahasiswa.login_time, mahasiswa.ip_address, jurusan.jurusan, dosen.nama_dosen');
 		$this->db->from('mahasiswa');
 		$this->db->join('dosen', 'dosen.id_dosen = mahasiswa.id_dosen', 'left');
 		$this->db->join('jurusan', 'jurusan.kd_jurusan = mahasiswa.kd_jurusan', 'left');
