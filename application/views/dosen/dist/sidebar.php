@@ -24,8 +24,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <span>Mahasiswa Didik</span></a>
                 <ul class="dropdown-menu">
 
-                    <li class="<?php echo $this->uri->segment(2) == 'mhskrs' ? 'active' : ''; ?>"><a class="nav-link"
-                            href="<?php echo base_url(); ?>dosen/mhskrs">Verfikasi Mahasiswa </a>
+                    <li class="<?php echo $this->uri->segment(2) == '#' ? 'active' : ''; ?>"><a class="nav-link"
+                            href="#">Verfikasi Mahasiswa </a>
                     </li>
 
                     <li class="<?php echo $this->uri->segment(2) == 'mhskrs' ? 'active' : ''; ?>"><a class="nav-link"

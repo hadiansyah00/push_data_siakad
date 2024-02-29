@@ -23,6 +23,16 @@ class Auth extends CI_Controller
 		
 
 	}
+	public function forgotPass()
+	{
+		$this->load->view('forgot_password');
+		// $this->load->view('login_baak');
+		//    $this->ModelSecurity->getCsrf();
+		$this->load->library('form_validation');
+	
+		
+
+	}
 
 
 	public function getLogin()
@@ -60,7 +70,7 @@ class Auth extends CI_Controller
             // Include CSRF token in the response
             $response = ['status' => 'success', 'redirect' => 'mhs/home', 'csrf_token' => $this->security->get_csrf_hash()];
         } else {
-            $response = ['status' => 'error', 'message' => 'Invalid username or password.'];
+            $response = ['status' => 'error', 'message' => 'User Name atau Password salah'];
         }
 
         echo json_encode($response);

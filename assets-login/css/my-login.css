@@ -1,0 +1,90 @@
+html,body {
+    height: 100%;
+    font-family: 'Poppins', sans-serif; /* Menggunakan font Poppins */
+}
+
+body.my-login-page {
+    background-color: #f7f9fb21;
+    font-size: 14px;
+}
+
+.my-login-page .brand {
+    background-color: #f7f9fb;
+    width: auto; /* Menggunakan auto agar lebar menyesuaikan gambar */
+    height: auto; /* Menggunakan auto agar tinggi menyesuaikan gambar */
+    max-width: 120px; /* Menentukan lebar maksimum */
+    max-height: 120px; /* Menentukan tinggi maksimum */
+    overflow: hidden;
+    border-radius: 70px; /* Menentukan sudut yang dibulatkan */
+    margin: 40px auto;
+    box-shadow: 0 4px 8px rgba(0,0,0,.05);
+    position: relative;
+    z-index: 1;
+}
+
+.my-login-page .brand img {
+    display: block;
+    width: 100%; /* Menyesuaikan lebar gambar dengan lebar .brand */
+    height: auto; /* Menyesuaikan tinggi gambar dengan lebar .brand */
+}
+
+.my-login-page .brand img {
+    width: 100%;
+}
+
+.my-login-page .card-wrapper {
+    width: 400px;
+}
+
+.my-login-page .card {
+    border-color: transparent; /* Mengubah border card menjadi transparan */
+    border-radius: 20px; /* Menambahkan radius sudut card */
+    box-shadow: 0 4px 8px rgba(0,0,0,.05);
+    background-color: rgba(255, 255, 255, 0.8); /* Memberikan transparansi pada card */
+}
+
+.my-login-page .card.fat {
+    padding: 10px;
+}
+
+.my-login-page .card .card-title {
+    margin-bottom: 30px;
+}
+
+.my-login-page .form-control {
+    border-width: 2.3px;
+}
+
+.my-login-page .form-group label {
+    width: 100%;
+}
+
+.my-login-page .btn.btn-block {
+    padding: 12px 10px;
+    background-color: orange; /* Mengubah warna tombol menjadi oranye */
+    border-color: orange; /* Mengubah warna border tombol menjadi oranye */
+    color: #fff; /* Mengubah warna teks tombol menjadi putih */
+}
+
+.my-login-page .footer {
+    margin: 40px 0;
+    color: #888;
+    text-align: center;
+}
+
+@media screen and (max-width: 425px) {
+    .my-login-page .card-wrapper {
+        width: 90%;
+        margin: 0 auto;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .my-login-page .card.fat {
+        padding: 0;
+    }
+
+    .my-login-page .card.fat .card-body {
+        padding: 15px;
+    }
+}

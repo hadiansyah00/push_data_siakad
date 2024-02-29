@@ -49,75 +49,49 @@
 </head>
 
 <body class="my-login-page" id="">
-
-    <body class="my-login-page" id="">
-        <div id="particles-js"></div>
-        <!-- Tambahkan kode HTML yang sudah ada di dalam body -->
-        <section class="h-100">
-            <div class="container h-100">
-                <div class="row justify-content-md-center h-100">
-                    <div class="card-wrapper">
-                        <div class="brand">
-                            <img src="<?php echo base_url() ?>assets-login/img/logo_sbh_bulet.png" alt="logo">
+    <div id="particles-js"></div>
+    <div class="container h-100">
+        <div class="row justify-content-md-center align-items-center h-100">
+            <div class="card-wrapper">
+                <div class="brand">
+                    <img src="<?php echo base_url() ?>assets-login/img/logo_sbh_bulet.png" alt="logo">
+                </div>
+                <div class="card fat">
+                    <div class="card-body">
+                        <div class="card-tittle text-center mb-4">
+                            <h5 class="text-center"> Lupa Password<strong><i> / Kata Sandi</i></strong></h5>
                         </div>
-                        <div class="card fat">
-                            <div class="card-body">
-                                <div class="card-tittle text-center">
-                                    <h4 class="text-center"> Login Mahasiswa / <strong><i>Student</i></strong></h4>
+                        <form method="POST" class="my-login-validation" novalidate="">
+                            <div class="form-group">
+                                <label for="email">E-Mail Address</label>
+                                <input id="email" type="email" class="form-control" name="email" value="" required
+                                    autofocus>
+                                <div class="invalid-feedback">
+                                    Email is invalid
+                                </div>
+                                <div class="form-text text-muted">
+                                    <i><strong> Email yang tertera di pada SIAKAD adalah email yang aktif</strong></i>
+
+                                    <hr>
 
                                 </div>
-                                <form method="POST" action="<?php echo base_url(); ?>auth/getLogin"
-                                    class="needs-validation" novalidate="">
-                                    <div class="form-group">
-                                        <label for="nim">NIM</label>
-                                        <input name="username" id="nim" class="form-control" type="text" tabindex="1"
-                                            required autofocus>
-                                        <div class="invalid-feedback">
-                                            NIM is invalid
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="password">Password
-                                            <a href="<?php echo base_url('auth/forgotPass') ?>" class="float-right">
-                                                Forgot Password?
-                                            </a>
-                                        </label>
-                                        <input id="password" type="password" class="form-control" name="password"
-                                            required data-eye>
-                                        <div class="invalid-feedback">
-                                            Password is required
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="custom-checkbox custom-control">
-                                            <input type="checkbox" name="remember" id="remember"
-                                                class="custom-control-input">
-                                            <label for="remember" class="custom-control-label">Remember Me</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group m-0">
-                                        <button type="submit" class="btn btn-primary btn-block">
-                                            Login
-                                        </button>
-                                    </div>
-                                    <!-- <div class="mt-4 text-center">
-									Don't have an account? <a href="register.html">Create One</a>
-								</div> -->
-                                    <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
-                                        value="<?= $this->security->get_csrf_hash(); ?>">
-                                </form>
                             </div>
-                        </div>
 
+                            <div class="form-group m-0">
+                                <button type="submit" class="btn btn-primary btn-block">
+                                    Reset Password
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
+                <div class="footer">
+                    Copyright &copy; 2017 &mdash; Your Company
+                </div>
             </div>
-        </section>
-    </body>
-
+        </div>
+    </div>
+    </section>
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -292,58 +266,6 @@
                 event.stopPropagation();
             }
             form.addClass('was-validated');
-        });
-    });
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-    $(document).ready(function() {
-        // Form submit event
-        $('form').submit(function(e) {
-            e.preventDefault();
-
-            // Get NIM and password input values
-            var nim = $('#nim').val();
-            var password = $('#password').val();
-
-            // Check if NIM and password are not empty
-            if (nim.trim() === '' || password.trim() === '') {
-                // Display SweetAlert error message for empty fields
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'NIM and password Wajib di isi.',
-                });
-                return; // Exit the function
-            }
-
-            // Get form data
-            var formData = $(this).serialize();
-
-            // Send AJAX request
-            $.ajax({
-                type: 'POST',
-                url: '<?php echo base_url('auth/getLogin'); ?>',
-                data: formData,
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status === 'success') {
-                        // Redirect to the specified URL
-                        window.location.href = response.redirect;
-                    } else {
-                        // Display SweetAlert error message
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: response.message,
-                        });
-                    }
-                },
-                error: function(error) {
-                    console.log('AJAX Error:', error);
-                }
-            });
         });
     });
     </script>

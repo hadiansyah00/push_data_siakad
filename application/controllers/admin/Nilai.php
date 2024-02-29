@@ -372,10 +372,10 @@ public function inputUas($id)
 		$data['judul'] = 'Akademik';
 		$data['subJudul'] = 'Transkrip Nilai Mahasiswa';
 		$data['mahasiswa'] = $this->MahasiswaModel->getData()->result();
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/nilai/transkrip', $data);
-		$this->load->view('admin/template/footer');
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/nilai/transkrip-st', $data);
+		// $this->load->view('admin/template/footer');
 	}
 
 	public function detil_transkrip($id_mhs)
@@ -394,10 +394,10 @@ public function inputUas($id)
 		$data['viewKrs'] = $this->KrsModel->viewAll($id_mhs, $ta['id_ta']);
 		//var_dump($data['viewKrs']);die();
 
-		$this->load->view('admin/template/header', $data);
-		$this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin/nilai/transkrip_detil', $data);
-		$this->load->view('admin/template/footer');
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/nilai/transkrip_detil-st', $data);
+		// $this->load->view('admin/template/footer');
 	}
 
 // 	public function print($id_mhs)

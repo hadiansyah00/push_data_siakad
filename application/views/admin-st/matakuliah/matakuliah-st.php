@@ -240,8 +240,8 @@ $this->load->view('admin-st/dist/header');
                             <label for="editkdmk">Kode Matakuliah</label>
                             <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
                                 value="<?= $this->security->get_csrf_hash(); ?>">
-                            <input type="text" class="form-control" id="editkdmk" name="kd_mk" disabled required>
-                            <input type="hidden" class="form-control" id="editJurs" name="kd_jurusan" disabled required>
+                            <input type="text" class="form-control" id="editkdmk" readonly name="kd_mk" required>
+                            <input type="hidden" class="form-control" id="editJurs" name="kd_jurusan" required>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="editMatkul">Nama Matakuliah</label>
@@ -255,16 +255,17 @@ $this->load->view('admin-st/dist/header');
                             <label for="editSmt">Semester</label>
                             <select id="editSmt" name="smt" class="form-control" required>
                                 <option value=""> --Pilih Semester-- </option>
-                                <option value="1" <?php echo ($semester == '1') ? 'selected' : ''; ?>>1</option>
-                                <option value="2" <?php echo ($semester == '2') ? 'selected' : ''; ?>>2</option>
-                                <option value="3" <?php echo ($semester == '3') ? 'selected' : ''; ?>>3</option>
-                                <option value="4" <?php echo ($semester == '4') ? 'selected' : ''; ?>>4</option>
-                                <option value="5" <?php echo ($semester == '5') ? 'selected' : ''; ?>>5</option>
-                                <option value="6" <?php echo ($semester == '6') ? 'selected' : ''; ?>>6</option>
-                                <option value="7" <?php echo ($semester == '7') ? 'selected' : ''; ?>>7</option>
-                                <option value="8" <?php echo ($semester == '8') ? 'selected' : ''; ?>>8</option>
-                                <option value="9" <?php echo ($semester == '9') ? 'selected' : ''; ?>>9</option>
+                                <option value="1" <?php echo ($smt == '1') ? 'selected' : ''; ?>>1</option>
+                                <option value="2" <?php echo ($smt == '2') ? 'selected' : ''; ?>>2</option>
+                                <option value="3" <?php echo ($smt == '3') ? 'selected' : ''; ?>>3</option>
+                                <option value="4" <?php echo ($smt == '4') ? 'selected' : ''; ?>>4</option>
+                                <option value="5" <?php echo ($smt == '5') ? 'selected' : ''; ?>>5</option>
+                                <option value="6" <?php echo ($smt == '6') ? 'selected' : ''; ?>>6</option>
+                                <option value="7" <?php echo ($smt == '7') ? 'selected' : ''; ?>>7</option>
+                                <option value="8" <?php echo ($smt == '8') ? 'selected' : ''; ?>>8</option>
+                                <option value="9" <?php echo ($smt == '9') ? 'selected' : ''; ?>>9</option>
                             </select>
+
                         </div>
                         <div class="form-group col-md-6">
                             <label for="editSks">SKS</label>
@@ -368,7 +369,6 @@ $(document).ready(function() {
         var smt = $(this).data('smt');
         var mkPil = $(this).data('mkpilihan');
 
-
         // Isikan nilai ke dalam form modal
         $('#editkdmk').val(kdMk);
         $('#editMatkul').val(matklul);
@@ -384,8 +384,7 @@ $(document).ready(function() {
 
         // Get form data and append CSRF token
         var formData = $(this).serialize();
-        formData +=
-            '&<?php echo $this->security->get_csrf_token_name(); ?>=<?php echo $this->security->get_csrf_hash(); ?>';
+        formData += '&kd_mk=' + $('#editkdmk').val(); // Tambahkan nilai kd_mk ke formData
 
         // Send AJAX request
         $.ajax({

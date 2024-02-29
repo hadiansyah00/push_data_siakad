@@ -37,13 +37,27 @@ class Matakuliah extends CI_Controller
 		$data['matkul'] = $this->MatkulModel->getData($kd_jurusan);
 		$data['tahun'] = $this->TaModel->getAktif()->result();
 		
-	
+		
 		$mkpilist = array(
 			'0' => 'Tidak',
 			'1' => 'Ya'
 		);
 		
 		$selekaja = $matkul->mk_pilihan; 
+
+		$semester = array(
+			'1' => '1',
+			'2' => '2',
+			'3' => '3',
+			'4' => '4',
+			'5' => '5',
+			'6' => '6',
+			'7' => '7',
+			'8' => '8',
+			'9' => '9'
+		);
+		
+		$selectsmt = $matkul->smt; 
 		//$data['matkul'] = $this->db->get_where('matakuliah',$where)->result();
 		// $this->load->view('admin/template/header', $data);
 		// $this->load->view('admin/template/sidebar', $data);
@@ -112,12 +126,12 @@ class Matakuliah extends CI_Controller
 }
 
 
-public function updateMatkul()
+	public function updateMatkul()
 {
     if (!$this->input->is_ajax_request()) {
         show_404();
     }
-		$smt = $this->input->post('smt');
+	$smts = $this->input->post('smt');
 		if ($smt == 1) {
 			$s = "Ganjil";
 		} elseif ($smt == 3) {
@@ -132,36 +146,101 @@ public function updateMatkul()
 			$s = "Genap";
 		}
 		$semester = $s;
-    
-    $kdMk 		= $this->input->post('kd_mk');
+    // Ambil nilai dari form
+    $kdMk = $this->input->post('kd_mk');
     $matakuliah = $this->input->post('matakuliah');
-    $smts 		= $semester;
-    $sks    	= $this->input->post('sks');
-	$mk_pilihan    = $this->input->post('mk_pilihan');
-    
-    $data = array(
-		'kd_mk' 			=> $kdMk,
-        // 'kd_jurusan' 	=> $kdJurusan,
-        'matakuliah' 		=> $matakuliah,
-        'smt'				=> $smts,
-		'sks'				=> $sks,
-        'mk_pilihan' 		=> $mk_pilihan,
-    );
-    // Validate CSRF token
-    if ($this->input->post($this->security->get_csrf_token_name()) !== $this->security->get_csrf_hash()) {
-        echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
-        return;
-    }
+    $smt = $smts;
+    $sks = $this->input->post('sks');
+    $mk_pilihan = $this->input->post('mk_pilihan');
 
-    // Update the data in the database
-    $result = $this->MahasiswaModel->updateData('matakuliah', $data, ['kd_mk' => $kdMk]);
+    // Validasi form
+    $this->form_validation->set_rules('kd_mk', 'Kode Mata Kuliah', 'required');
+    $this->form_validation->set_rules('matakuliah', 'Mata Kuliah', 'required');
+    $this->form_validation->set_rules('smt', 'Semester', 'required|numeric');
+    $this->form_validation->set_rules('sks', 'SKS', 'required|numeric');
+    $this->form_validation->set_rules('mk_pilihan', 'Mata Kuliah Pilihan', 'required');
 
-    if ($result) {
-        echo json_encode(['status' => 'success', 'message' => 'Data Mahasiswa updated successfully']);
+    if ($this->form_validation->run() == FALSE) {
+        // Jika validasi gagal, kirim pesan error
+        $response['status'] = 'error';
+        $response['message'] = validation_errors();
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'Failed to update data Mahasiswa']);
+	
+        // Data form valid, lakukan pembaruan di database
+        $data = array(
+            'matakuliah' => $matakuliah,
+            'smt' 				=> $smt,
+			'semester'			=> $semester,
+            'sks' => $sks,
+            'mk_pilihan' => $mk_pilihan
+        );
+
+        // Lakukan pembaruan di database
+        $result = $this->MahasiswaModel->updateData('matakuliah', $data, array('kd_mk' => $kdMk));
+
+        if ($result) {
+            // Pembaruan berhasil
+            $response['status'] = 'success';
+            $response['message'] = 'Data Mata Kuliah berhasil diperbarui';
+        } else {
+            // Pembaruan gagal
+            $response['status'] = 'error';
+            $response['message'] = 'Gagal memperbarui data Mata Kuliah';
+        }
     }
+
+    // Mengembalikan respons dalam bentuk JSON
+    echo json_encode($response);
 }
+
+    // if (!$this->input->is_ajax_request()) {
+    //     show_404();
+    // }
+	
+	// // Set aturan validasi form
+	// $this->form_validation->set_rules('kd_mk', 'Kode MK', 'required');
+	// $this->form_validation->set_rules('matakuliah', 'Matakuliah', 'required');
+	// $this->form_validation->set_rules('sks', 'SKS', 'required|numeric');
+	// $this->form_validation->set_rules('mk_pilihan', 'Mata Kuliah Pilihan', 'required');
+	
+	// // Jalankan validasi form
+	// if ($this->form_validation->run() == FALSE) {
+	// 	echo json_encode(['status' => 'error', 'message' => validation_errors()]);
+	// 	return;
+	// }
+	
+	// // Lakukan pengecekan semester dan set nilai semester sesuai aturan
+	// $smt = $this->input->post('smt');
+	// if ($smt == 1 || $smt == 3 || $smt == 5 || $smt == 7 || $smt == 9) {
+	// 	$semester = "Ganjil";
+	// } else {
+	// 	$semester = "Genap";
+	// }
+    
+    // $kdMk 		= $this->input->post('kd_mk');
+    // $matakuliah = $this->input->post('matakuliah');
+    // $smts 		= $semester;
+    // $sks    	= $this->input->post('sks');
+	// $mk_pilihan = $this->input->post('mk_pilihan');
+    
+    // $data = array(
+	// 	'kd_mk' 			=> $kdMk,
+    //     'matakuliah' 		=> $matakuliah,
+    //     'smt'				=> $smts,
+	// 	'sks'				=> $sks,
+    //     'mk_pilihan' 		=> $mk_pilihan,
+    // );
+    
+    // // Update data di database
+    // $result = $this->MahasiswaModel->updateData('matakuliah', $data, ['kd_mk' => $kdMk]);
+
+    // // Berikan respons sesuai hasil pembaruan
+    // if ($result) {
+    //     echo json_encode(['status' => 'success', 'message' => 'Data Mahasiswa berhasil diperbarui']);
+    // } else {
+    //     echo json_encode(['status' => 'error', 'message' => 'Gagal memperbarui data Mahasiswa']);
+    // }
+
 
 public function update()
 {

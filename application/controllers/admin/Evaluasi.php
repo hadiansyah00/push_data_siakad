@@ -22,7 +22,7 @@ class Evaluasi extends CI_Controller
 		$data['tahun'] = $this->TaModel->getAktif()->result();
 		// $this->load->view('admin/template/header', $data);
 		// $this->load->view('admin/template/sidebar', $data);
-		$this->load->view('admin-st/evaluasi/tambah-eval-st', $data);
+		$this->load->view('admin-st/evaluasi/list_eval-st', $data);
 		// $this->load->view('admin/template/footer');
 	}
 	
