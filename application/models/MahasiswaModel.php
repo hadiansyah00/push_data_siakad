@@ -216,6 +216,7 @@ class MahasiswaModel extends CI_Model
 		$this->db->select('*');
 		$this->db->from('mahasiswa');
 		$this->db->where('kd_jurusan', 15401);
+		$this->db->where('status_mhs', 'aktif');
 		$query = $this->db->get();
 		return $query;
 	}

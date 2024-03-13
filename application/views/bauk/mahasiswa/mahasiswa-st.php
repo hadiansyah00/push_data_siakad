@@ -42,7 +42,9 @@ $this->load->view('admin-st/dist/header');
                                             <th> Jadwal UAS</th>
                                             <th> Nilai UTS</th>
                                             <th> Nilai UAS</th>
-                                            <th> KHS </th>
+                                            <th> KHS </th> 
+											<th> Pra UAP</th>
+                                            <th> UAP </th>
 
                                         </tr>
                                     </thead>
@@ -137,7 +139,30 @@ $this->load->view('admin-st/dist/header');
                                                 </div>
                                             </td>
                                             <!--Tes Switch -->
-
+											<td>
+                                                <div class="custom-switches-stacked mt-2">
+                                                    <label class="custom-switch">
+                                                        <input type="checkbox"
+                                                            class="custom-switch-input toggle-switch-pra-uap"
+                                                            data-id-pra-uap="<?php echo $row->id_mahasiswa; ?>"
+                                                            <?php echo $row->status_pra_uap == 1 ? 'checked' : ''; ?>>
+                                                        <span class="custom-switch-indicator"></span>
+                                                        <span class="custom-switch-description">Aktifkan</span>
+                                                    </label>
+                                                </div>
+                                            </td>
+											<td>
+                                                <div class="custom-switches-stacked mt-2">
+                                                    <label class="custom-switch">
+                                                        <input type="checkbox"
+                                                            class="custom-switch-input toggle-switch-uap"
+                                                            data-id-uap="<?php echo $row->id_mahasiswa; ?>"
+                                                            <?php echo $row->status_uap == 1 ? 'checked' : ''; ?>>
+                                                        <span class="custom-switch-indicator"></span>
+                                                        <span class="custom-switch-description">Aktifkan</span>
+                                                    </label>
+                                                </div>
+                                            </td>
 
                                         </tr>
                                         <?php endforeach; ?>
@@ -514,6 +539,130 @@ $('.toggle-switch-khs').change(function() {
                 if (response.status === 'success') {
                     // Handle success response
                     alert('Status KRS diubah menjadi tidak aktif');
+                } else {
+                    // Handle error response
+                    alert('Gagal memperbarui status');
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle AJAX error
+                console.error('AJAX Error:', error);
+            }
+        });
+    }
+});
+
+$('.toggle-switch-pra-uap').change(function() {
+    var id_mahasiswa = $(this).data('id-pra-uap');
+    var status_pra_uap = $(this).prop('checked') ? 1 : 0; // Periksa apakah checkbox di-check atau tidak
+    var csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>';
+    var csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
+
+    // Kirim AJAX request
+    $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url("bauk/b1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab/updateStatusPraUap"); ?>',
+        data: {
+            id_mahasiswa: id_mahasiswa,
+            status_pra_uap: status_pra_uap, // Kirim status baru
+            <?php echo $this->security->get_csrf_token_name(); ?>: '<?php echo $this->security->get_csrf_hash(); ?>'
+        },
+        dataType: 'json',
+        success: function(response) {
+            if (response.status === 'success') {
+                // Handle success response
+                // alert('Status berhasil KRS diperbarui');
+                alert('Status berhasil diperbarui ');
+            } else {
+                // Handle error response
+                alert('Gagal memperbarui status');
+            }
+        },
+        error: function(xhr, status, error) {
+            // Handle AJAX error
+            console.error('AJAX Error:', error);
+        }
+    });
+
+    // Jika checkbox tidak dicentang dan status sebelumnya adalah 1, set status menjadi 0
+    if (!$(this).prop('checked') && status_pra_uap == 1) {
+        $(this).prop('checked', true); // Tandai checkbox untuk mencegah perubahan
+        // Kirim AJAX request untuk mengubah status menjadi 0
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url("bauk/b1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab/updateStatusPraUap"); ?>',
+            data: {
+                id_mahasiswa: id_mahasiswa,
+                status_pra_uap: 0, // Ubah status menjadi 0
+                <?php echo $this->security->get_csrf_token_name(); ?>: '<?php echo $this->security->get_csrf_hash(); ?>'
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'success') {
+                    // Handle success response
+                    alert('Status Pra UAP diubah menjadi tidak aktif');
+                } else {
+                    // Handle error response
+                    alert('Gagal memperbarui status');
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle AJAX error
+                console.error('AJAX Error:', error);
+            }
+        });
+    }
+});
+
+$('.toggle-switch-uap').change(function() {
+    var id_mahasiswa = $(this).data('id-uap');
+    var status_uap = $(this).prop('checked') ? 1 : 0; // Periksa apakah checkbox di-check atau tidak
+    var csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>';
+    var csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
+
+    // Kirim AJAX request
+    $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url("bauk/b1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab/updateStatusUap"); ?>',
+        data: {
+            id_mahasiswa: id_mahasiswa,
+            status_uap: status_uap, // Kirim status baru
+            <?php echo $this->security->get_csrf_token_name(); ?>: '<?php echo $this->security->get_csrf_hash(); ?>'
+        },
+        dataType: 'json',
+        success: function(response) {
+            if (response.status === 'success') {
+                // Handle success response
+                // alert('Status berhasil KRS diperbarui');
+                alert('Status UAP berhasil diperbarui ');
+            } else {
+                // Handle error response
+                alert('Gagal memperbarui status');
+            }
+        },
+        error: function(xhr, status, error) {
+            // Handle AJAX error
+            console.error('AJAX Error:', error);
+        }
+    });
+
+    // Jika checkbox tidak dicentang dan status sebelumnya adalah 1, set status menjadi 0
+    if (!$(this).prop('checked') && status_uap == 1) {
+        $(this).prop('checked', true); // Tandai checkbox untuk mencegah perubahan
+        // Kirim AJAX request untuk mengubah status menjadi 0
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url("bauk/b1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab/updateStatusUap"); ?>',
+            data: {
+                id_mahasiswa: id_mahasiswa,
+                status_uap: 0, // Ubah status menjadi 0
+                <?php echo $this->security->get_csrf_token_name(); ?>: '<?php echo $this->security->get_csrf_hash(); ?>'
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'success') {
+                    // Handle success response
+                    alert('Status UAP diubah menjadi tidak aktif');
                 } else {
                     // Handle error response
                     alert('Gagal memperbarui status');

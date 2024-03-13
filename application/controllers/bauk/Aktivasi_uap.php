@@ -27,10 +27,10 @@ class Aktivasi_uap extends CI_Controller
 		// 	'level'		=> $data->level
 		// );
 		
-		$data['mhs']  = $this->MahasiswaModel->getDataBidan('mahasiswa')->result();
-		$this->load->view('bauk/template/header', $data);
-		$this->load->view('bauk/template/sidebar', $data);
-		$this->load->view('bauk/prodi_bidan');
-		$this->load->view('bauk/template/footer');
+		 $data['mhs']  = $this->MahasiswaModel->getDataBidan('mahasiswa')->result();
+		// $this->load->view('bauk/template/header', $data);
+		// $this->load->view('bauk/template/sidebar', $data);
+		$this->load->view('bauk/prodi_bidan', $data);
+		// $this->load->view('bauk/template/footer');
 	}
 }

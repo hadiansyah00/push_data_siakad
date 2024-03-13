@@ -562,6 +562,8 @@ $config['csrf_exclude_uris'] = array(
 	'bauk/B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab/updateStatusNilaiUts',
 	'bauk/B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab/updateStatusNilaiUas',
 	'bauk/B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab/updateStatusKhs',
+	'bauk/B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab/updateStatusUap',
+	'bauk/B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab/updateStatusPraUap'
 
 );
 

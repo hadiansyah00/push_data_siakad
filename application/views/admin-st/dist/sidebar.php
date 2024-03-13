@@ -123,6 +123,11 @@ $users_sessions = $this->UserModel->getDataUser();
                     class="fas fa-pencil-ruler"></i>
                 <span>Aktivasi Mahasiswa</span></a>
         </li>
+	<li class="<?php echo $this->uri->segment(2) == 'Aktivasi_uap' ? 'active' : ''; ?>">
+            <a class="nav-link" href="<?php echo base_url(); ?>bauk/Aktivasi_uap"><i
+                    class="fas fa-pencil-ruler"></i>
+                <span>Pra UAP/UAP</span></a>
+        </li>
         <?php } else  {  ?>
 
         <?php } ?>

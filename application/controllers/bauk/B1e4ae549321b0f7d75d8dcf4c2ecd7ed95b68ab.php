@@ -207,6 +207,66 @@ class B1e4ae549321b0f7d75d8dcf4c2ecd7ed95b68ab extends CI_Controller
 				echo json_encode(['status' => 'error', 'message' => 'Invalid KHS Request Method']);
 			}
 		}
+
+		public function updateStatusUap()
+		{
+			// Periksa apakah metode yang digunakan adalah POST
+			if ($this->input->server('REQUEST_METHOD') === 'POST') {
+				// Periksa apakah CSRF token valid
+				if (!$this->security->csrf_verify()) {
+					// CSRF token tidak valid
+					echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+					return;
+				}
+
+					
+			// Ambil data dari POST
+			$id_mahasiswa = $this->input->post('id_mahasiswa');
+			$status = $this->input->post('status_uap');
+
+			// Lakukan validasi data jika diperlukan
+
+			// Update status KRS
+			$updateData = ['status_uap' => $status];
+			$this->MahasiswaModel->updateStatus($id_mahasiswa, $updateData);
+			
+				// Kirim respon sukses dengan AJAX
+				echo json_encode(['status' => 'success', 'message' => 'Status KHS berhasil diperbarui']);
+			} else {
+				// Jika metode bukan POST, kirim respon error
+				echo json_encode(['status' => 'error', 'message' => 'Invalid KHS Request Method']);
+			}
+		}
+		public function updateStatusPraUap()
+		{
+			// Periksa apakah metode yang digunakan adalah POST
+			if ($this->input->server('REQUEST_METHOD') === 'POST') {
+				// Periksa apakah CSRF token valid
+				if (!$this->security->csrf_verify()) {
+					// CSRF token tidak valid
+					echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+					return;
+				}
+
+					
+			// Ambil data dari POST
+			$id_mahasiswa = $this->input->post('id_mahasiswa');
+			$status = $this->input->post('status_pra_uap');
+
+			// Lakukan validasi data jika diperlukan
+
+			// Update status KRS
+			$updateData = ['status_pra_uap' => $status];
+			$this->MahasiswaModel->updateStatus($id_mahasiswa, $updateData);
+			
+				// Kirim respon sukses dengan AJAX
+				echo json_encode(['status' => 'success', 'message' => 'Status KHS berhasil diperbarui']);
+			} else {
+				// Jika metode bukan POST, kirim respon error
+				echo json_encode(['status' => 'error', 'message' => 'Invalid KHS Request Method']);
+			}
+		}
+
 	public function setKrs($id)
 	{
 		//Set aktif KRS
