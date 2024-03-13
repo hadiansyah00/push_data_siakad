@@ -56,7 +56,7 @@ public function insert()
 			// Data yang akan disimpan dalam database
 			$data = [
 				'id_ta'         	=> $id_ta,
-				' '      => $this->input->post('nama_pra_uap'),
+				'nama_pra_uap'      => $this->input->post('nama_pra_uap'),
 				'kd_jurusan'    	=> '15401', // Menggunakan kode jurusan dari mata kuliah
 				'jam_pra_uap'       => $this->input->post('jam_pra_uap'),
 				'tanggal_pra_uap'   => $this->input->post('tanggal_pra_uap'),
