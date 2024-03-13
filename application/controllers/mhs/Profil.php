@@ -393,6 +393,89 @@ public function updatePhoto()
 						header('Content-Type: application/json');
 						echo json_encode($response);
 					}
-
+					public function send_verification_email()
+					{
+						// Periksa apakah request merupakan AJAX dan CSRF token valid
+						if (!$this->input->is_ajax_request() || !$this->input->post($this->security->get_csrf_token_name())) {
+							show_404(); // Tampilkan halaman 404 jika bukan request AJAX atau token CSRF tidak valid
+						}
+						
+						// Ambil data nim dan email dari input form
+						$nim = $this->input->post('nim');
+						$email = $this->input->post('email');
+				
+						// Generate unique token
+						$emailVerified = bin2hex(random_bytes(16)); // Generate 16-byte token
+				
+						// Simpan token ke database
+						$data = [
+							'nim' => $nim,
+							'email' => $email,
+							'email_verified' => $emailVerified, // Simpan token di kolom email_verified
+							'created_at' => date('Y-m-d H:i:s')
+						];
+						$this->db->insert('verification_tokens', $data);
+				
+						// Konfigurasi email
+						$config = [
+							'mailtype' => 'html',
+							'charset' => 'utf-8',
+							'protocol' => 'smtp',
+							'smtp_host' => 'smtp.gmail.com', // atau smptp lainnya                
+							'smtp_user' => 'pmb@sbh.ac.id',  // Email gmail admin aplikasi
+							'smtp_pass' => 'oordqaidwyefpwyt',  // Password Gmail atau Sandi Aplikasi Gmail
+							'smtp_crypto' => 'ssl',
+							'smtp_port' => 465,
+							'crlf' => "\r\n",
+							'newline' => "\r\n"
+						];
+				
+						// Inisialisasi library email dengan konfigurasi
+						$this->load->library('email', $config);
+				
+						// Set pengirim email
+						$this->email->from('pmb@sbh.ac.id', 'SIAKAD SBH');
+				
+						// Set penerima email
+						$this->email->to($email);
+				
+						// Set subject email
+						$this->email->subject('Email Verification');
+						
+						// Set isi pesan email
+						
+						$message = 'Klik link disini untuk Verfikasi alamat emailnya: ' . base_url('mhs/profil/verify_email?token=' . $emailVerified);
+						$this->email->message($message);
+				
+						// Kirim email
+						if ($this->email->send()) {
+							// Email berhasil dikirim
+							$response['status'] = 'success';
+							$response['message'] = 'Verification email has been sent successfully.';
+						} else {
+							// Email gagal dikirim
+							$response['status'] = 'error';
+							$response['message'] = 'Failed to send verification email.';
+						}
+				
+						// Kembalikan respons dalam format JSON
+						header('Content-Type: application/json');
+						echo json_encode($response);
+					}
+					public function verify_email() {
+						$token = $this->input->get('token');
+					
+						$result = $this->MahasiswaModel->verify_email($token);
+					
+						if ($result === true) {
+							// Verifikasi email berhasil
+							echo json_encode(['status' => 'success', 'message' => 'Email berhasil diverifikasi']);
+						} else {
+							// Verifikasi gagal, kirim pesan error
+							echo json_encode(['status' => 'error', 'message' => $result]);
+						}
+					}
+					
+					
 
 }

@@ -50,7 +50,7 @@ $this->load->view('admin-st/dist/header');
 									foreach ($jadwal as $row) { ?>
                                         <tr>
                                             <td><?php echo $i++; ?></td>
-                                            <td><?php echo $row->nama; ?></td>
+                                            <td><?php echo $row->nama_pra_uap; ?></td>
                                             <td><?php echo $row->jurusan; ?></td>
                                             <td><?php echo $row->jam_pra_uap; ?></td>
                                             <td><?php echo format_indo($row->tanggal_pra_uap); ?></td>

@@ -14,7 +14,6 @@
 
     <!-- Include SweetAlert library -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
-
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
     /* CSS untuk menentukan ukuran halaman */
@@ -63,7 +62,7 @@
                         <div class="card fat">
                             <div class="card-body">
                                 <div class="card-tittle text-center">
-                                    <h4 class="text-center"> Login Mahasiswa / <strong><i>Student</i></strong></h4>
+                                    <h4 class="text-center"> Login Mahasiswa</h4>
 
                                 </div>
                                 <form method="POST" action="<?php echo base_url(); ?>auth/getLogin"
@@ -80,7 +79,7 @@
                                     <div class="form-group">
                                         <label for="password">Password
                                             <a href="<?php echo base_url('auth/forgotPass') ?>" class="float-right">
-                                                Forgot Password?
+                                                Lupa Kata Sandi?
                                             </a>
                                         </label>
                                         <input id="password" type="password" class="form-control" name="password"
@@ -118,8 +117,6 @@
         </section>
     </body>
 
-
-
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
     </script>
@@ -129,7 +126,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
-
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
     // Inisialisasi Particles.js dengan konfigurasi Anda
@@ -228,7 +224,7 @@
 
         // author badge :)
         var author =
-            '<div style="position: fixed;bottom: 0;right: 20px;background-color: #fff;box-shadow: 0 4px 8px rgba(0,0,0,.05);border-radius: 3px 3px 0 0;font-size: 12px;padding: 5px 10px;">By <a href="https://hadi-portfolio-react-s5n8.vercel.app/">ICT Division</a> &nbsp;&bull;&nbsp; <a href="#">Buy me a Coffee (Luak White Coffee)</a></div>';
+            '<div style="position: fixed;bottom: 0;right: 20px;background-color: #fff;box-shadow: 0 4px 8px rgba(0,0,0,.05);border-radius: 3px 3px 0 0;font-size: 12px;padding: 5px 10px;">By <a href="https://hadi-portfolio-react-s5n8.vercel.app/">ICT Division</a> &nbsp;&bull;&nbsp; <a href="https://wa.me/qr/REIIRH4ZDRG4M1">WhatsApp (Report Error)</a></div>';
         $("body").append(author);
 
         $("input[type='password'][data-eye]").each(function(i) {

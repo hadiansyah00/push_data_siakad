@@ -58,7 +58,7 @@ class Jadwal_uap extends CI_Controller
 				'kd_jurusan'    	=> '15401', // Menggunakan kode jurusan dari mata kuliah
 				'jam_uap'         	=> $this->input->post('jam_uap'),
 				'tanggal_uap'     	=> $this->input->post('tanggal_uap'),
-				'tgl_insert'		=> date('y-m-d'),
+				// 'tgl_insert'		=> date('y-m-d'),
 			];
 
 			// Simpan data ke database

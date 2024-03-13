@@ -260,7 +260,7 @@ $(document).ready(function() {
         // Send AJAX request
         $.ajax({
             type: 'POST',
-            url: '<?php echo base_url('admin/Jadwal_uap/insert'); ?>',
+            url: '<?php echo base_url('admin/jadwal_uap/insert'); ?>',
             data: formData,
             dataType: 'json',
             success: function(response) {

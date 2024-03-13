@@ -35,20 +35,10 @@ $this->load->view('mhs/dist/header');
                     <h5>List Pembaharuan</h5>
                     <ul>
 
-                        <li>Tampilan UI (user Interface)</li>
-                        <li>Input KRS (Centang Matakuliah yang dipilih kemudian disimpan)</li>
-                        <li>Pengisian EDOM Mahasiswa</li>
+                        <li><p>Link Untuk List Perbaikan SIAKAD </p> <a href="<?php echo base_url('mhs/AktivitasMhs') ?>" class="btn btn-primary">Klik Disini</a> </li>
+                 
                     </ul>
-                    <h5>Masih Dalam Proses Pengembangan</h5>
-                    <ul>
-                        <li>Menu Dashboard</li>
-                        <li>Cetak / Lihat KHS</li>
-                        <li>Transkrip Nilai</li>
-
-                    </ul>
-                    <h4>Catatan</h4>
-                    <p><strong><i>Untuk Mengganti Semester yang sedang di tempuh berada di Menu Pengaturan Profile /
-                                Setting kemudian Pilih tab Informasi Akademik</i></strong></p>
+                   
 
                 </div>
             </div>

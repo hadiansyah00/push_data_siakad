@@ -34,6 +34,167 @@ class Auth extends CI_Controller
 
 	}
 
+	public function forgot_password() {
+		 // Periksa apakah request merupakan AJAX dan CSRF token valid
+		 if (!$this->input->is_ajax_request() || !$this->input->post($this->security->get_csrf_token_name())) {
+			show_404(); // Tampilkan halaman 404 jika bukan request AJAX atau token CSRF tidak valid
+		}
+		
+		// Ambil email dari input form
+		$email = $this->input->post('email');
+	
+		// Periksa apakah email ada dalam database mahasiswa
+		$mahasiswa = $this->db->get_where('mahasiswa', ['email' => $email])->row_array();
+		if (!$mahasiswa) {
+			// Email tidak ditemukan dalam database, kirimkan pesan error
+			$response['status'] = 'error';
+			$response['message'] = 'Email not found.';
+			header('Content-Type: application/json');
+			echo json_encode($response);
+			return;
+		}
+	
+		// Buat token unik untuk reset password
+		$token = bin2hex(random_bytes(32)); // Generate 32-byte token
+	
+		// Simpan token ke database
+		$data = [
+			'email' => $email,
+			'token' => $token,
+			'created_at' => date('Y-m-d H:i:s')
+		];
+		$this->db->insert('password_reset_tokens', $data);
+	
+		// Konfigurasi email
+		$config = [
+			'mailtype' => 'html',
+			'charset' => 'utf-8',
+			'protocol' => 'smtp',
+			'smtp_host' => 'smtp.gmail.com', // atau SMTP lainnya                
+			'smtp_user' => 'pmb@sbh.ac.id',  // Email admin aplikasi
+			'smtp_pass' => 'oordqaidwyefpwyt',  // Password Gmail atau Sandi Aplikasi Gmail
+			'smtp_crypto' => 'ssl',
+			'smtp_port' => 465,
+			'crlf' => "\r\n",
+			'newline' => "\r\n"
+		];
+	
+		// Inisialisasi library email dengan konfigurasi
+		$this->load->library('email', $config);
+	
+		// Set pengirim email
+		$this->email->from('pmb@sbh.ac.id', 'Reset Password SIAKAD SBH');
+	
+		// Set penerima email
+		$this->email->to($email);
+	
+		// Set subject email
+		$this->email->subject('Reset Password');
+	
+		// Set isi pesan email
+	$message = '<p>Klik tombol di bawah ini untuk melakukan Reset Password:</p>';
+	$message .= '<p><a href="' . base_url('auth/reset_password?token=' . $token) . '"><button class="btn btn-sm-primary">Reset Password</button></a></p>';
+	$this->email->message($message);
+	
+		// Kirim email
+		if ($this->email->send()) {
+			// Jika email berhasil dikirim
+			$response['status'] = 'success';
+			$response['message'] = 'Reset password instructions sent to your email.';
+		} else {
+			// Jika email gagal dikirim
+			$response['status'] = 'error';
+			$response['message'] = 'Failed to send reset password instructions.';
+		}
+	
+		// Kembalikan respons dalam format JSON
+		header('Content-Type: application/json');
+		echo json_encode($response);
+	}
+	
+	public function reset_password()
+    {
+        $token = $this->input->get('token');
+        if (!$token) {
+            show_404();
+        }
+		$resetData = $this->MahasiswaModel->getResetData($token);
+		$email = $resetData['email'];
+		$data['test'] = $this->db->get_where('password_reset_tokens', ['token' => $token])->row_array();
+		$data['mahasiswa'] = $this->MahasiswaModel->getMahasiswaByEmail($email);
+        $token_data = $this->MahasiswaModel->check_reset_token($token);
+
+        if (!$token_data) {
+            // Token tidak valid, alihkan ke halaman lain atau tampilkan pesan error
+            redirect('auth');
+        }
+
+        // Token valid, tampilkan halaman ganti password
+        $this->load->view('change_password', $data,['token' => $token]);
+    }
+
+	public function update_password()
+	{
+		// Ambil data dari form
+		$token = $this->input->post('token');
+		$new_password = $this->input->post('new_password');
+		$confirm_password = $this->input->post('confirm_password');
+	
+		// Validasi bahwa password baru dan konfirmasi password sesuai
+		if ($new_password !== $confirm_password) {
+			// Jika tidak sesuai, kirim respon JSON dengan status error
+			$response['status'] = 'error';
+			$response['message'] = 'New password and confirm password do not match.';
+			echo json_encode($response);
+			return;
+		}
+	
+		// Cari data reset password berdasarkan token
+		$resetData = $this->MahasiswaModel->getResetData($token);
+	
+		// Periksa apakah data reset password ditemukan
+		if (!$resetData) {
+			$response['status'] = 'error';
+			$response['message'] = 'Token not found.';
+			echo json_encode($response);
+			return;
+		}
+	
+		// Ambil email dari data reset password
+		$email = $resetData['email'];
+		// Cari data mahasiswa berdasarkan email
+		$mahasiswa = $this->db->get_where('mahasiswa', ['email' => $email])->row_array();
+	
+		// Periksa apakah data mahasiswa ditemukan
+		if (!$mahasiswa) {
+			$response['status'] = 'error';
+			$response['message'] = 'Mahasiswa not found.';
+			echo json_encode($response);
+			return;
+		}
+	
+		// Perbarui password mahasiswa
+		$this->db->set('password', password_hash($new_password, PASSWORD_DEFAULT));
+		$this->db->where('id_mahasiswa', $mahasiswa['id_mahasiswa']);
+		$update_result = $this->db->update('mahasiswa');
+	
+		// Hapus token reset password dari database
+		$this->db->delete('password_reset_tokens', ['token' => $token]);
+	
+		if ($update_result) {
+			// Jika berhasil mengupdate password, kirim respon JSON dengan status success
+			$response['status'] = 'success';
+			$response['message'] = 'Password successfully updated.';
+			echo json_encode($response);
+		} else {
+			// Jika gagal mengupdate password, kirim respon JSON dengan status error
+			$response['status'] = 'error';
+			$response['message'] = 'Failed to update password.';
+			echo json_encode($response);
+		}
+	}
+	
+
 
 	public function getLogin()
 {

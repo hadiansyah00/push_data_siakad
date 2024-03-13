@@ -28,8 +28,10 @@ $this->load->view('mhs/dist/header');
                                     <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
                                         aria-controls="contact" aria-selected="false">Informasi Akademik</a>
                                 </li>
-
-
+                                <li class="nav-item">
+                                    <a class="nav-link" id="email-tab" data-toggle="tab" href="#email" role="tab"
+                                        aria-controls="email" aria-selected="false">Verfikasi Email</a>
+                                </li>
                             </ul>
                             <div class="tab-content" id="myTabContent">
                                 <!-- Start Ini Tab untuk Setting Akun -->
@@ -347,6 +349,40 @@ $this->load->view('mhs/dist/header');
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- EndTab informasi Akademik -->
+                                <!-- Tab Identitas Sekolah -->
+                                <div class="tab-pane fade" id="email" role="tabpanel" aria-labelledby="email-tab">
+                                    <div class="card-body">
+                                        <h3 class="card-header"> Verfikasi Email</h3>
+                                        <div class="row">
+                                            <div class="col-12 col-md-12">
+                                                <div class="card">
+                                                    <form class="form-horizontal form" method="post"
+                                                        action="<?php echo base_url('mhs/profil/updateAksiSemester') ?>">
+                                                        <input type="hidden" name="id_mahasiswa"
+                                                            value="<?php echo $mhs['id_mahasiswa']; ?>">
+                                                        <div class="row">
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Email</label>
+                                                            <input type="text" class="form-control"
+                                                                value="<?php echo $mhs['email'] ?>" required="">
+
+                                                        </div>
+
+                                                        <div class="card-footer text-right">
+                                                            <button type="submit" class="btn btn-primary">Verfikasi
+                                                                email</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
 
                         </div>

@@ -472,6 +472,10 @@ $config['csrf_exclude_uris'] = array(
 	'Auth/AuthAdmin',
 	'Auth_ds/getLogin_dosen',
 	'lecture',
+	'Auth/reset_password',
+	'Auth/forgot_password',
+	'Auth/update_password',
+
 	'admin/mahasiswa/insert',
 	'admin/mahasiswa/deleteMahasiswa',
 	'admin/mahasiswa/updateMahasiswa',
@@ -540,6 +544,8 @@ $config['csrf_exclude_uris'] = array(
 	'mhs/profil/updateAksi',
 	'mhs/profil/updatePhoto',
 	'mhs/profil/updateAksiSemester',
+	'mhs/profil/send_verification_email',
+	'mhs/profil/verify_email',
 	'admin/kurikulum/insert',
 	'admin/kurikulum/insert/{kd_jurusan}',
 

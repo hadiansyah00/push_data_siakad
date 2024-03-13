@@ -11,8 +11,73 @@ class MahasiswaModel extends CI_Model
     $this->db->where('nim', $nim);
     $this->db->update('mahasiswa');
 }
- 
+	
+	public function verify_email($token) {
+		// Cari token di database
+		$this->db->where('email_verified', $token);
+		$query = $this->db->get('verification_tokens');
 
+		// Jika token ditemukan, ubah status verifikasi email menjadi 1
+		if ($query->num_rows() > 0) {
+			$row = $query->row();
+			$nim = $row->nim; // Anda perlu tahu nim untuk menemukan mahasiswa
+			$this->db->where('nim', $nim);
+			$this->db->update('mahasiswa', ['verfikasi' => 1]);
+
+			// Hapus token dari tabel verification_tokens
+			$this->db->where('email_verified', $token);
+			// $this->db->delete('verification_tokens');
+
+			return true; // Verifikasi berhasil
+		}
+
+		return false; // Token tidak ditemukan atau sudah kadaluarsa
+	}
+	public function check_reset_token($token)
+    {
+        // Periksa apakah token ada di database
+        $query = $this->db->get_where('password_reset_tokens', ['token' => $token]);
+        return $query->row(); // Mengembalikan baris token jika ditemukan, atau null jika tidak ditemukan
+    }
+
+	public function updatePasswordByToken($token, $newPassword)
+		{
+			// Dapatkan data reset password berdasarkan token
+			$resetData = $this->db->get_where('password_reset_tokens', ['token' => $token])->row_array();
+			
+			if ($resetData) {
+				// Jika data ditemukan, ambil email pengguna
+				$email = $resetData['email'];
+
+				// Dapatkan data pengguna berdasarkan email
+				$mahasiswa = $this->db->get_where('mahasiswa', ['email' => $email])->row_array();
+				
+				if ($mahasiswa) {
+					// Jika data pengguna ditemukan, perbarui passwordnya
+					$newPasswordHashed = password_hash($newPassword, PASSWORD_DEFAULT);
+					$this->db->set('password', $newPasswordHashed);
+					$this->db->where('id_mahasiswa', $mahasiswa['id_mahasiswa']);
+					$this->db->update('mahasiswa');
+
+					// Hapus token reset password dari database
+					$this->db->delete('password_reset_tokens', ['token' => $token]);
+
+					return true; // Berhasil memperbarui password
+				}
+			}
+
+			return false; // Gagal memperbarui password
+		}
+
+
+    public function delete_token($token)
+    {
+        // Hapus token dari database setelah digunakan
+        $this->db->where('token', $token);
+        $this->db->delete('password_reset_tokens');
+        return $this->db->affected_rows() > 0; // Mengembalikan true jika ada baris yang dipengaruhi
+    }
+	
 	public function updatePassword($id_mahasiswa, $data) {
         $this->db->where('id_mahasiswa', $id_mahasiswa);
         $this->db->update('mahasiswa', $data); // Ganti 'nama_tabel_mahasiswa' dengan nama tabel yang sesuai
@@ -639,5 +704,38 @@ public function saveResultsToMahasiswa($totalBobot2, $totalSks) {
         return false;
     }
 }
+	public function getResetData($token)
+	{
+		// Query untuk mencari data reset password berdasarkan token
+		$this->db->where('token', $token);
+		$query = $this->db->get('password_reset_tokens');
 
+		// Mengembalikan hasil query sebagai array satu baris
+		return $query->row_array();
+	}
+
+	public function getMahasiswaByEmail($email)
+	{
+		// Query untuk mencari data mahasiswa berdasarkan email
+		$this->db->where('email', $email);
+		$query = $this->db->get('mahasiswa');
+
+		// Mengembalikan hasil query sebagai array satu baris
+		return $query->row_array();
+	}
+
+	public function updateMahasiswaPassword($id, $newPassword)
+	{
+		// Data yang akan diupdate
+		$data = array(
+			'password' => $newPassword // Ganti 'password' dengan nama kolom password di tabel mahasiswa
+		);
+
+		// Update password mahasiswa berdasarkan ID
+		$this->db->where('id', $id);
+		$this->db->update('mahasiswa', $data);
+
+		// Mengembalikan status keberhasilan operasi update
+		return $this->db->affected_rows() > 0;
+	}
 }

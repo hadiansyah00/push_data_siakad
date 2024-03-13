@@ -10,8 +10,10 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets-login/css/my-login.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
-			
-			<script src="
+    <!-- Include SweetAlert CSS and JS -->
+
+    <!-- Include SweetAlert library -->
+	<script src="
 		https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.all.min.js
 		"></script>
 		<link href="
@@ -62,29 +64,30 @@
                 <div class="card fat">
                     <div class="card-body">
                         <div class="card-tittle text-center mb-4">
-                            <h5 class="text-center"> Lupa Password<strong><i> / Kata Sandi</i></strong></h5>
+				
+                            <h5 class="text-center"> Masukan Password<strong><i> Baru</i></strong></h5>
                         </div>
-                        <form method="POST" id="idlupapassform" class="my-login-validation" novalidate="">
-                            <div class="form-group">
-                                <label for="email">E-Mail Address</label>
-                                <input id="email" type="email" class="form-control" name="email" value="" required
-                                    autofocus>
-                                <div class="invalid-feedback">
-                                    Email is invalid
-                                </div>
-                                <div class="form-text text-muted">
-                                    <i><strong> Email yang tertera di pada SIAKAD adalah email yang aktif</strong></i>
+						<form id="changePasswordForm" method="POST" class="my-login-validation" novalidate>
+							<div class="form-group">
+							<input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
+							<input type="hidden" value="<?php echo $test['token']?>" name="token" >
+								<label for="new_password">New Password</label>
+								<input id="new_password" type="password" class="form-control" name="new_password" required>
+								<div class="invalid-feedback">Please enter a new password.</div>
+							</div>
 
-                                    <hr>
+							<div class="form-group">
+								<label for="confirmPassword">Confirm New Password</label>
+								<input id="confirmPassword" type="password" class="form-control" name="confirm_password" required>
+								<div class="invalid-feedback">Please confirm your new password.</div>
+							</div>
 
-                                </div>
-                            </div>
-                            <div class="form-group m-0">
-                                <button type="submit" class="btn btn-primary btn-block">
-                                    Reset Password
-                                </button>
-                            </div>
-                        </form>
+							<div class="form-group">
+								<button type="submit" class="btn btn-primary btn-block">Change Password</button>
+							</div>
+						</form>
+
+
                     </div>
                 </div>
                 <div class="footer">
@@ -199,10 +202,14 @@
         "retina_detect": true
     });
     </script>
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <script>
     $(function() {
+
+      
         // author badge :)
-		  var author =
+        var author =
             '<div style="position: fixed;bottom: 0;right: 20px;background-color: #fff;box-shadow: 0 4px 8px rgba(0,0,0,.05);border-radius: 3px 3px 0 0;font-size: 12px;padding: 5px 10px;">By <a href="https://hadi-portfolio-react-s5n8.vercel.app/">ICT Division</a> &nbsp;&bull;&nbsp; <a href="https://wa.me/qr/REIIRH4ZDRG4M1">WhatsApp (Report Error)</a></div>';
         $("body").append(author);
 
@@ -271,61 +278,71 @@
         });
     });
     </script>
-	<!-- Pastikan jQuery dimuat sebelum kode JavaScript Anda -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-$(document).ready(function() {
-    // Form submit event
-    $('#idlupapassform').submit(function(e) {
-        e.preventDefault(); // Menghentikan pengiriman form default
+	<script>
+			$(document).ready(function() {
+			$('#changePasswordForm').submit(function(e) {
+				e.preventDefault();
 
-        // Mendapatkan data form
-        var formData = $(this).serialize();
+				var new_password = $('#new_password').val();
+				var confirmPassword = $('#confirmPassword').val();
 
-        // Mendapatkan token CSRF
-        var csrfName = '<?= $this->security->get_csrf_token_name(); ?>';
-        var csrfHash = '<?= $this->security->get_csrf_hash(); ?>';
+				// Validasi kata sandi baru
+				if (new_password !== confirmPassword) {
+					Swal.fire({
+						icon: 'error',
+						title: 'Oops...',
+						text: 'New password and confirm password do not match.'
+					});
+					return;
+				}
 
-        // Menambahkan token CSRF ke data formulir
-        formData += '&' + csrfName + '=' + csrfHash;
+				// Kirim permintaan Ajax
+				
 
-        // Kirim permintaan AJAX
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url('auth/forgot_password'); ?>', // URL endpoint
-            data: formData,
-            dataType: 'json',
-            success: function(response) {
-                if (response.status === 'success') {
-                    // Jika pengiriman berhasil, tampilkan SweetAlert success
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: response.message
-                    });
-                } else {
-                    // Jika ada kesalahan, tampilkan SweetAlert error
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error!',
-                        text: response.message
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                // Jika terjadi error pada permintaan AJAX, tampilkan pesan error
-                console.error(xhr.responseText);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error!',
-                    text: 'Terjadi kesalahan saat mengirim permintaan.'
-                });
-            }
-        });
-    });
-});
-</script>
+				$.ajax({
+					type: 'POST',
+					url: '<?php echo base_url('auth/update_password'); ?>',
+					data: $(this).serialize(),
+					dataType: 'json',
+					headers: {
+						'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+					},
+					success: function(response) {
+						if (response.status === 'success') {
+							console.log(response);
 
+							Swal.fire({
+								icon: 'success',
+								title: 'Success!',
+								text: response.message
+							}).then(function() {
+								window.location.reload(); // Muat ulang halaman setelah pesan ditutup
+							});
+						} else {
+							Swal.fire({
+								icon: 'error',
+								title: 'Oops...',
+								text: response.message
+							});
+						}
+					},
+					
+					error: function(xhr, status, error) {
+						// Cetak pesan kesalahan rinci di konsol
+						console.error(xhr.responseText);
+						
+						// Tampilkan pesan kesalahan umum kepada pengguna
+						Swal.fire({
+							icon: 'error',
+							title: 'Oops...',
+							text: 'An error occurred while processing your request. Please try again later.'
+						});
+}
+
+				});
+			});
+		});
+
+	</script>
 </body>
-
 </html>

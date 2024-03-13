@@ -24,13 +24,16 @@ $this->load->view('mhs/dist/header');
                                     <a class="nav-link" id="profile2-tab4" data-toggle="tab" href="#profile24"
                                         role="tab" aria-controls="profile2" aria-selected="false">Password Mahasiswa</a>
                                 </li>
-
+								<li class="nav-item">
+                                    <a class="nav-link" id="profile5-tab4" data-toggle="tab" href="#profile54"
+                                        role="tab" aria-controls="profile5" aria-selected="false">Verfikasi Email</a>
+                                </li>
 
                                 <li class="nav-item">
                                     <a class="nav-link" id="profile-tab4" data-toggle="tab" href="#profile4" role="tab"
                                         aria-controls="profile" aria-selected="false">Informasi Mahasiswa</a>
                                 </li>
-
+								
                             </ul>
                         </div>
                         <div class="col-12 col-sm-12 col-md-8">
@@ -100,7 +103,7 @@ $this->load->view('mhs/dist/header');
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade show active" id="profile24" role="tabpanel"
+                                <div class="tab-pane fade show" id="profile24" role="tabpanel"
                                     aria-labelledby="profile2-tab4">
                                     <div class="col-12 col-md-12 col-lg-12">
                                         <div class="card">
@@ -135,6 +138,36 @@ $this->load->view('mhs/dist/header');
                                                 </div>
                                             </form>
 
+                                        </div>
+                                    </div>
+                                </div>
+								<div class="tab-pane fade show" id="profile54" role="tabpanel"
+                                    aria-labelledby="profile5-tab4">
+                                    <div class="col-12 col-md-12 col-lg-12">
+                                        <div class="card">
+                                            <h5 class="card-header"> Verfikasi Email Mahasiswa</h5>
+										<form id="verificationForm" method="post" action="<?php echo base_url('mhs/profil/send_verification_email'); ?>">
+											<div class="form-group">
+												
+												<input type="hidden" name="id_mahasiswa"
+                                                                value="<?php echo $mhs['id_mahasiswa']; ?>">
+                                                            <input type="hidden"
+                                                                name="<?= $this->security->get_csrf_token_name(); ?>"
+                                                                value="<?= $this->security->get_csrf_hash(); ?>">
+												<input type="hidden" id="nim" name="nim" value="<?php echo $mhs['nim']?>" class="form-control" readonly>
+											</div>
+											<div class="form-group">
+												<label for="email">Email</label>
+												<input type="email" id="email" readonly name="email" value="<?php echo $mhs['email']?>" class="form-control" required>
+											</div>
+										
+											<?php if ($mhs['verfikasi'] == 1) { ?>
+												<span class="badge badge-success">Verified</span>
+												<?php } else { ?>
+													<button type="submit" class="btn btn-primary">Kirim Verifikasi Email</button> 
+													<?php }?>
+											
+										</form>
                                         </div>
                                     </div>
                                 </div>
@@ -236,13 +269,17 @@ $this->load->view('mhs/dist/header');
                                                             <div class="row">
                                                                 <div class="form-group col-md-7 col-12">
                                                                     <label>Email</label>
-                                                                    <input type="email" name="email"
-                                                                        class="form-control"
-                                                                        value="<?php echo $mhs['email'] ?>" required="">
-                                                                    <div class="invalid-feedback">Please fill in the
-                                                                        email
+                                                                    <div class="input-group">
+                                                                        <input type="email" name="email"
+                                                                            class="form-control"
+                                                                            value="<?php echo $mhs['email'] ?>"
+                                                                            required="">
+                                                                       
                                                                     </div>
+                                                                    <div class="invalid-feedback">Please fill in the
+                                                                        email</div>
                                                                 </div>
+
                                                                 <div class="form-group col-md-5 col-12">
                                                                     <label>No Hp / WA</label>
                                                                     <input name="hp" type="tel" class="form-control"
@@ -496,9 +533,61 @@ $(document).ready(function() {
                     swal("Error!", response.message, "error");
                 }
 
+
             },
             error: function() {
                 swal("Error!", "Terjadi kesalahan saat memproses permintaan!", "error");
+            }
+        });
+    });
+});
+</script>
+<script>$(document).ready(function() {
+    // Submit form event
+    $('#verificationForm').submit(function(e) {
+        e.preventDefault(); // Menghentikan pengiriman form default
+
+        // Mendapatkan data form
+        var formData = $(this).serialize();
+
+        // Mendapatkan token CSRF
+        var csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>';
+        var csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
+
+        // Menambahkan token CSRF ke data formulir
+        formData += '&' + csrfName + '=' + csrfHash;
+
+        // Kirim permintaan AJAX
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'), // Menggunakan URL action form
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'success') {
+                    // Jika pengiriman berhasil, tampilkan SweetAlert success
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: response.message
+                    });
+                } else {
+                    // Jika ada kesalahan, tampilkan SweetAlert error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: response.message
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                // Jika terjadi error pada permintaan AJAX, tampilkan pesan error
+                console.error(xhr.responseText);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Terjadi kesalahan saat mengirim permintaan.'
+                });
             }
         });
     });
