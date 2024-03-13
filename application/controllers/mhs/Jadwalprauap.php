@@ -59,7 +59,7 @@ class Jadwalprauap extends CI_Controller
 		$pdf->SetFont('Helvetica', 'B', 12);
 		$pdf->Image('assets/img/logo_sbh.png',95, 10, 30,20);
 		$pdf->Ln(22);
-		$pdf->Cell(0, 7, 'Kartu Ujian Akhir Program'.' - '.$tahun['ta'], 0, 1, 'C');
+		$pdf->Cell(0, 7, 'Kartu Pra Ujian Akhir Program'.' - '.$tahun['ta'], 0, 1, 'C');
 		$pdf->Ln();
 		$pdf->SetFont('Helvetica', '', 9);
 		$pdf->Cell(25);

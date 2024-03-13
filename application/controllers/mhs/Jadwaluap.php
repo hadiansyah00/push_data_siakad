@@ -90,11 +90,11 @@ class Jadwaluap extends CI_Controller
 
 				
 			$pdf->Cell(10, 7, $no++. '.', 1, 0, 'C');
-			$pdf->Cell(75, 7, $d->nama, 1, 0,'L');
+			$pdf->Cell(80, 7, $d->nama, 1, 0,'L');
 			$pdf->Cell(30, 7, format_indo($d->tanggal_uap ,date('d-m-y')),1, 0,'C');
 			$pdf->Cell(20, 7, $d->jam_uap, 1, 0,'C');
-		    $pdf->Cell(20, 7, '', 1, 0);
-			$pdf->Cell(20, 7, '', 1, 1,0);
+		    $pdf->Cell(30, 7, '', 1, 0);
+			$pdf->Cell(30, 7, '', 1, 1,0);
 	        	}
 	        	
 			$pdf->Ln(5);
