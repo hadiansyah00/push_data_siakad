@@ -56,8 +56,8 @@ $route['translate_uri_dashes'] = FALSE;
 $route['boda'] = 'Auth_admin';
 $route['dosen'] = 'auth_ds';
 // Grup Rute untuk Admin
-$route['admin'] = 'admin/dashboard';
-$route['admin/dashboard'] = 'admin/dashboard';
+// $route['admin'] = 'admin/dashboard';
+// $route['admin/dashboard'] = 'admin/dashboard';
 $route['admin/kurikulum'] = 'admin/kurikulum/index';
 $route['admin/kurikulum/insert/(:any)'] = 'admin/kurikulum/insert/$1';
 

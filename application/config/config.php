@@ -493,7 +493,9 @@ $config['csrf_exclude_uris'] = array(
 	'admin/kurikulum/update',
 
 	'admin/evaluasi/insert',
-	'admin/evaluasi/delete',
+	'admin/evaluasi/update',
+	'admin/evaluasi/deleteeval',
+	
 
 	'admin/settings/setPassword',
 	'admin/settings/set_all_status_zero',

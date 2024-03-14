@@ -57,18 +57,54 @@ class Evaluasi extends CI_Controller
         $this->MahasiswaModel->insertData('evaluasi', $data);
 
         // Kirim respon sukses
-        echo json_encode(['status' => 'success', 'message' => 'Data Mahasiswa berhasil disimpan']);
+        echo json_encode(['status' => 'success', 'message' => 'Data Evaluasi berhasil disimpan']);
     } else {
         // Jika metode bukan POST, kirim respon error
         echo json_encode(['status' => 'error', 'message' => 'Invalid Request Method']);
     }
 }
 	
-    public function delete()
+   
+
+public function update()
 {
-    $id = $this->input->post('id_eval');
- 
-    $result = $this->MahasiswaModel->deleteData('evaluasi', array('id_eval' => $id));
+    if (!$this->input->is_ajax_request()) {
+        show_404();
+    }
+
+    $idEval = $this->input->post('id_eval');
+    $pertanyaan = $this->input->post('pertanyaan');
+	
+
+    // Update data evaluasi
+    $data = array(
+    'pertanyaan' => $pertanyaan, 
+   
+);
+
+    // Validate CSRF token
+    if ($this->input->post($this->security->get_csrf_token_name()) !== $this->security->get_csrf_hash()) {
+        echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+        return;
+    }
+
+    // Update the data in the database
+    $result = $this->MahasiswaModel->updateData('evaluasi', $data, ['id_eval' => $idEval]);
+
+    if ($result) {
+        echo json_encode(['status' => 'success', 'message' => 'Data Evaluasi updated successfully']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Failed to update data Evaluasi']);
+    }
+}
+//Delete data
+	public function deleteeval()
+{
+    $idEval = $this->input->post('id_eval');
+    
+    // Perform the delete operation and check for success
+    // Adjust the following code based on your implementation
+    $result = $this->DosenModel->deleteData('evaluasi', array('id_eval' => $idEval));
     if ($result) {
         echo json_encode(array('status' => 'success'));
     } else {
