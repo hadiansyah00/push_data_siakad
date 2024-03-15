@@ -99,7 +99,14 @@ $this->load->view('mhs/dist/header');
                                                  <td><?php echo $row->kd_mk; ?></td>
                                                  <td><?php echo $row->matakuliah; ?></td>
                                                  <td><?php echo $row->sks; ?></td>
-                                                 <td><?php echo $row->nilai; ?></td>
+                                                 <td>
+                                                     <p><strong>
+                                                             <?php echo $row->status_edom_2 == 1 ? '&nbsp;' . $row->$nilai : '' ?>
+                                                         </strong></p>
+                                                     <?php if ($row->status_edom_2 == 0 || $row->status_edom_2 == null): ?>
+                                                     <p>Null</p>
+                                                     <?php endif; ?>
+                                                 </td>
                                                  <td><?php echo $bobot; ?></td>
                                                  <td><?php echo $bobot2; ?></td>
                                              </tr>

@@ -50,7 +50,7 @@ $this->load->view('admin-st/dist/header');
                                             </td>
 
                                             <td style="width: 110px; text-align: left;">
-                                                <strong><?php echo $info_dosen[0]->jurusan; ?></strong>
+                                                <strong><?php echo $info_edom->jurusan; ?></strong>
                                             </td>
                                         </tr>
                                         <tr>
@@ -59,7 +59,7 @@ $this->load->view('admin-st/dist/header');
                                             </td>
 
                                             <td style="width: 10px; text-align: left;">
-                                                <strong><?php echo $info_dosen[0]->matakuliah; ?></strong>
+                                                <strong><?php echo $info_edom->matakuliah; ?></strong>
                                             </td>
                                         </tr>
                                         <tr>
@@ -255,6 +255,7 @@ $this->load->view('admin-st/dist/header');
                                             <tr>
                                                 <th>No</th>
                                                 <th>Nama Mahasiswa</th>
+                                                <th>Aktivasi Cetak KHS MAHASISWA</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -264,6 +265,16 @@ $this->load->view('admin-st/dist/header');
 										echo "<tr>";
 										echo "<td>$no</td>";
 										echo "<td>$mahasiswa->nama_mhs</td>";
+										 echo '<td>
+												<div class="custom-switches-stacked mt-2">
+													<label class="custom-switch">
+														<input type="checkbox" class="custom-switch-input toggle-switch-uap" data-id-uap="' . $mahasiswa->id_mahasiswa . '" ' . ($mahasiswa->status_edom == 1 ? 'checked' : '') . '>
+														<span class="custom-switch-indicator"></span>
+														<span class="custom-switch-description">Aktifkan</span>
+													</label>
+												</div>
+											</td>';
+										
 										echo "</tr>";
 										$no++;
 									}

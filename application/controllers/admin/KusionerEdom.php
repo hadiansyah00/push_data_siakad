@@ -85,6 +85,7 @@ class KusionerEdom extends CI_Controller
 		$data['info_dosen'] = $this->EdomModel->getRataRataByIdKrsDosen($kd_mk, $id_dosen);
 		$data['dosen_info'] = $this->EdomModel->getDosenInfo($id_dosen);
 		$data['saran'] = $this->EdomModel->getSaran($kd_mk,$id_dosen);
+		$data['info_edom'] = $this->EdomModel->getInfoMk($kd_mk);
 		// Data tambahan
 		$data['kd_mk'] = $kd_mk;
 		$data['id_dosen'] = $id_dosen;

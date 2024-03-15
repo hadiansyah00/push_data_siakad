@@ -2,9 +2,11 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Template</title>
+    <title> Hasil EDOM <?php echo $dosen_info->nama_dosen ?></title>
+
     <style>
     /* Tambahkan gaya CSS sesuai kebutuhan Anda */
     body {
@@ -104,6 +106,24 @@
         margin-left: 20px;
         /* Jarak antara judul dan tanggal */
     }
+
+    .table-transparan {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: transparent;
+    }
+
+    .table-transparan th,
+    .table-transparan td {
+        border: none;
+        padding: 8px;
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .table-transparan th {
+        background-color: transparent;
+    }
     </style>
 </head>
 
@@ -122,23 +142,31 @@
             <td><?php echo $dosen_info->nama_dosen; ?></td>
         </tr>
         <tr>
+            <td><strong>Program Studi</strong></td>
+            <td><?php echo $info_edom->jurusan; ?></td>
+        </tr>
+        <tr>
             <td><strong>Nama Matakuliah</strong></td>
             <td><?php echo $info_edom->matakuliah; ?></td>
         </tr>
         <tr>
             <td><strong>Jumlah Mahasiswa</strong></td>
-            <td><?php echo $jumlahMahasiswa; ?></td>
+            <td><?php echo $listMahasiswa; ?></td>
         </tr>
         <tr>
             <td><strong>Jumlah Responden:</strong></td>
-            <td><?php echo $listMahasiswa; ?></td>
+            <td><?php echo $jumlahMahasiswa; ?></td>
         </tr>
         <tr>
             <td><strong>Tahun Akademik</strong></td>
             <td><?php echo $tahun['ta'] . ' - ' . $tahun['semester']; ?></td>
         </tr>
     </table>
-
+    <h5>
+        Assalamu’alaykum wr wb
+        Berdasarkan kuesioner Evaluasi Dosen Oleh Mahasiswa (EDOM) dalam proses belajar mengajar,
+        berikut Kami sampaikan hasil EDOM :
+    </h5>
     <div class="table-container">
 
         <table>
@@ -187,7 +215,6 @@
                                         ?>
             <tfoot>
                 <tr>
-
                     <td colspan="2"><strong>Total Rata-Rata</strong></td>
                     <td><strong><?php echo number_format($hasil2=$totalNilai / count($rata_rata), 2); ?></strong>
                     </td>
@@ -218,21 +245,88 @@
 
                     </td>
                 </tr>
+                <tr>
+                    <th colspan="4">
+                        <h4><strong>Kriteria Penilaian</strong><br>
+                            Kurang Dari 1,05 = Sangat Kurang<br>
+                            1,05 – 2,04 = Kurang<br>
+                            2,05 – 3,04 = Cukup<br>
+                            3,05 – 4,04 = Baik<br>
+                            4,05 – 5 = Sangat Baik<br>
+                        </h4>
+                        <h5></h5>
+
+                    </th>
+                </tr>
             </tfoot>
             </tbody>
 
         </table>
     </div>
     <div class="saran">
-        <h2>Saran Mahasiswa</h2>
-        <?php foreach ($saran as $row) : ?>
-        <p><?php echo $row->saran; ?></p>
-        <?php endforeach; ?>
+        <h2>Daftar saran dari mahasiswa :</h2>
+        <table>
+            <thead>
+                <tr>
+
+                    <th>Saran</th>
+
+                </tr>
+
+            </thead>
+            <tbody>
+                <?php
+                                        $no = 1;
+                                        foreach ($saran as $row) {
+                                      
+                                           echo "<tr>";
+										  
+                                            echo "<td>$row->saran</td>";
+                                            echo "</tr>";
+                            
+                                            $no++;
+                                        }
+                                        ?>
+
+                </td>
+                </tr>
+                </tfoot>
+            </tbody>
+
+        </table>
+        <h4>
+            Demikian hasil EDOM dalam proses belajar mengajar, diharapkan dari hasil tersebut dapat digunakan
+            sebagai bahan evaluasi untuk proses pembelajaran selanjutnya. Atas perhatian Bapak/Ibu Kami ucapkan
+            terimakasih.
+            Wassalamu’alaykum wr wb.
+        </h4>
+
+    </div>
+    <table class="table-transparan">
+        <thead>
+            <tr>
+                <th align="center">Mengetahui,
+                    Wakil Ketua I Bidang Akademik</th>
+                <th><br></th>
+                <th align="center">Ketua UPMI</th>
+                <th><br></th>
+                <th align="center">Ketua STIKes Bogor Husada</th>
+                <th><br></th>
+            </tr>
+            </tbody>
+        <tbody>
+            <tr>
+                <td><br></br><br>Dendy Widianto, M.Kes</td>
+                <td style="width: 50px;"> </td>
+                <td><br></br><br>apt. Rahmadhani Tyas A, M.Farm.Klin </td>
+                <td style="width: 75px;"></td>
+                <td><br></br><br>Lussy Citra Resmi, M.Pd</td>
+                <td></td>
+            </tr>
+        </tbody>
+        </thead>
+    </table>
     </div>
 </body>
-
-
-
-
 
 </html>

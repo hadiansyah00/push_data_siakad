@@ -63,14 +63,12 @@ $this->load->view('mhs/dist/header');
 
                                             <td>
                                                 <p><strong>
-                                                        <?php echo $row->status_verif == 'Y' ? '&nbsp;' . $row->nilai : '' ?>
-                                                    </strong>
-
-                                                    <?php if ($row->status_verif == 'N' || $row->status_verif === null): ?>
-                                                    <i class="fas fa-times-circle text-danger" data-toggle="tooltip"
-                                                        title="Belum Mengisi EDOM"></i>
-                                                    <?php endif; ?>
-
+                                                        <?php echo $row->status_edom_2 == 1 ? '&nbsp;' . $row->$nilai : '' ?>
+                                                    </strong></p>
+                                                <?php if ($row->status_edom_2 == 0 || $row->status_edom_2 == null): ?>
+                                                <i class="fas fa-times-circle text-danger data-toggle=" tooltip
+                                                    title="Belum Mengisi EDOM"></i>
+                                                <?php endif; ?>
                                             </td>
 
                                             <td>

@@ -59,9 +59,9 @@
     <a href="<?php echo base_url('mhs/Transkrip/printKHS/' . $mhs['id_mahasiswa']); ?>" target="_blank"
         class="btn btn-sm btn-success"><i class="icofont-print"></i> Print KHS</a>
     <p>
-        
+
     </p>
-  
+
     <div class="alert alert-success">
         <?php echo $this->session->flashdata('success'); ?>
     </div>
@@ -83,7 +83,7 @@
                         <th>Edom Dosen 1</th>
                         <th>Nama Dosen 2</th>
                         <th>Edom Dosen 2</th>
-                  
+
                     </tr>
                 </thead>
 
@@ -98,10 +98,10 @@
                     <?php if ($row->smt == $mhs['semester']) { ?>
                     <tr>
                         <td><?php echo $i++; ?></td>
-                      
+
                         <td><?php echo $row->matakuliah; ?></td>
                         <td><?php echo $row->sks; ?></td>
-                  
+
                         <td>
                             <p><strong>
 
@@ -162,69 +162,71 @@
 										?>
                         </td>
 
-                        
 
-                            <?php
+
+                        <?php
 										$pengajar_1 = $this->KurikulumModel->getIdDosenById($row->id_peran);
 										$pengajar_2 = $this->KurikulumModel->getIdDosenById_peran($row->id_perdos);
 										?>
-                            <?php
+                        <?php
 										$link_kuesioner = site_url('mhs/Evaluasi_mhs/mulai/' . $row->id_krs . '/' . $pengajar_2);
 										$link_kuesioner_2 = site_url('mhs/Evaluasi_mhs/mulai_2/' . $row->id_krs . '/' . $pengajar_1);
 										?>
-                                <?php
+                        <?php
 										// Di sini kita dapat menambahkan kode untuk mengambil nama dosen berdasarkan $row->id_perdos
 										$dosen1 = $this->KurikulumModel->getDosenNameById_peran($row->id_perdos);
 								
 										?>
-                                <?php
+                        <?php
 										// Di sini kita dapat menambahkan kode untuk mengambil nama dosen berdasarkan $row->id_peran
 										$dosen2 = $this->KurikulumModel->getDosenNameById($row->id_peran);
 										
 										?>
-								  <?php
+                        <?php
                                     // Misalnya, jika $row->id_perdos == 0, maka link akan dinonaktifkan
                                     $link_kuesioner = ($row->id_perdos == 0) ? 'javascript:void(0);' : $link_kuesioner;
                                     $link_kuesioner_2 = ($row->id_peran == 0) ? 'javascript:void(0);' : $link_kuesioner_2;
-                                ?>		
-                          
-                                <td> 
-                                <p> 
-                                      <strong>
-                                        <?= $row->status_edom_1 == 1 ? '<i class="fas fa-check-circle text-success"> </i>' . '&nbsp;'. $dosen1 : '' .$dosen1 ?>
-                                      </strong>
-                                    </p>
-                                    
-                                </td>
-                                <td>
-                                     <?= ($row->status_edom_2 == 1 && $row->id_perdos != 0 && $row->id_peran != 0) ? '<i class="fas fa-check-circle text-success"></i>' : '' ?>
+                                ?>
+
+                        <td>
+                            <p>
+                                <strong>
+                                    <?= $row->status_edom_1 == 1 ? '<i class="fas fa-check-circle text-success"> </i>' . '&nbsp;'. $dosen1 : '' .$dosen1 ?>
+                                </strong>
+                            </p>
+
+                        </td>
+                        <td>
+                            <?= ($row->status_edom_2 == 1 && $row->id_perdos != 0 && $row->id_peran != 0) ? '<i class="fas fa-check-circle text-success"></i>' : '' ?>
 
 
                             <?php if ($row->status_edom_1 == 0 || $row->status_edom_1 === null): ?>
-                                <a class="btn btn-sm btn-success <?php echo ($row->id_perdos == 0) ? 'disabled' : ''; ?>" href="<?php echo $link_kuesioner; ?>">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
+                            <a class="btn btn-sm btn-success <?php echo ($row->id_perdos == 0) ? 'disabled' : ''; ?>"
+                                href="<?php echo $link_kuesioner; ?>">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
                             <?php endif; ?>
-                                </td>
-                                <td>
-                                    <p>
-                                    <strong>
-                                        <?= $row->status_edom_2 == 1 ? '<i class="fas fa-check-circle text-success"> </i>' . '&nbsp;'. $dosen2 : '' .$dosen2 ?>
-                                    </strong> 
-                                    </p>
-                                 </td>
-        
-                            <td>
-                              <?= ($row->status_edom_2 == 1 && $row->id_perdos != 0 && $row->id_peran != 0) ? '<i class="fas fa-check-circle text-success"></i>' : '' ?>
+                        </td>
+                        <td>
+                            <p>
+                                <strong>
+                                    <?= $row->status_edom_2 == 1 ? '<i class="fas fa-check-circle text-success"> </i>' . '&nbsp;'. $dosen2 : '' .$dosen2 ?>
+                                </strong>
+                            </p>
+                        </td>
 
-                              <?php if ($row->status_edom_1 == 0 || $row->status_edom_1 === null): ?>
-                                <a class="btn btn-sm btn-success <?php echo ($row->id_peran == 0) ? 'disabled' : ''; ?>" href="<?php echo $link_kuesioner_2; ?>">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
-                            <?php endif; ?>   
-                            </td>
+                        <td>
+                            <?= ($row->status_edom_2 == 1 && $row->id_perdos != 0 && $row->id_peran != 0) ? '<i class="fas fa-check-circle text-success"></i>' : '' ?>
 
-                            
+                            <?php if ($row->status_edom_1 == 0 || $row->status_edom_1 === null): ?>
+                            <a class="btn btn-sm btn-success <?php echo ($row->id_peran == 0) ? 'disabled' : ''; ?>"
+                                href="<?php echo $link_kuesioner_2; ?>">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <?php endif; ?>
+                        </td>
+
+
                     </tr>
 
                     <?php
@@ -236,18 +238,18 @@
                     <?php } ?>
                     <?php } ?>
                 </tbody>
-              
-            
+
+
                 <tr>
                     <th colspan="9" align="center">Jumlah SKS</th>
                     <th><strong><?php echo $sks; ?></strong></th>
                 </tr>
-             
-                 <tr>
+
+                <tr>
                     <th colspan="9" align="center">Jumlah SKS x HM </th>
                     <th><strong><?php echo $grand_tot; ?></strong></th>
                 </tr>
-                  <tr>
+                <tr>
                     <th colspan="9" align="center">IPS (Indeks Per Semester) </th>
                     <th><strong> <?php echo number_format($hasil = $grand_tot / $sks, 2); ?></strong></th>
                 </tr>
@@ -272,7 +274,7 @@
             </table>
         </div>
     </div>
- 
+
 </div><!-- End About Section -->
 
 <section>

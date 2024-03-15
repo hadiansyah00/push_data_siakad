@@ -11,7 +11,7 @@ class Evaluasi_mhs extends CI_Controller
 		//url security
 		$this->ModelSecurity->getSecurity();
 		$this->load->model('EdomModel');
-		$this->ModelSecurity->getCsrf();
+		// $this->ModelSecurity->getCsrf();
 	}
 
 	public function index()
@@ -271,7 +271,7 @@ class Evaluasi_mhs extends CI_Controller
         
 		$dataStatus = array(
 			'status_edom_2' => '1', // Atur status_edom ke 1 untuk menandakan sudah melakukan evaluasi
-			'status_verif' => 'Y', // Atur status_edom ke Y untuk menandakan sudah melakukan evaluasi dan KHS sudah bisa dilihat
+			'status_verif' => '1', // Atur status_edom ke Y untuk menandakan sudah melakukan evaluasi dan KHS sudah bisa dilihat
 		);
 
 		$this->db->where('id_krs', $id_krs);
