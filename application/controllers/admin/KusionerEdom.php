@@ -97,7 +97,7 @@ class KusionerEdom extends CI_Controller
         $data['jumlah_mahasiswa'] = $jumlahMahasiswa;
 		// Tampilkan tampilan hasil kuesioner EDOM
 		
-		$data['mahasiswa_evaluasi'] = $this->EdomModel->MahasiswaEvaluasi($id_dosen);
+		$data['mahasiswa_evaluasi'] = $this->EdomModel->MahasiswaEvaluasi($id_dosen, $kd_mk);
 		$data['mahasiswa_krs'] = $this->EdomModel->Mahasiswakrs($kd_mk);	
 
 
@@ -406,4 +406,33 @@ $pdf->Cell(0, 7, 'Kriteria Penilaian:', 0, 1);
     $pdf->Output(); // Menampilkan atau mengunduh PDF
 
 	}
+		public function SetEdomKHS()
+		{
+			// Periksa apakah metode yang digunakan adalah POST
+			if ($this->input->server('REQUEST_METHOD') === 'POST') {
+				// Periksa apakah CSRF token valid
+				if (!$this->security->csrf_verify()) {
+					// CSRF token tidak valid
+					echo json_encode(['status' => 'error', 'message' => 'CSRF Token Mismatch']);
+					return;
+				}
+
+					
+			// Ambil data dari POST
+			$id_mahasiswa = $this->input->post('id_mahasiswa');
+			$status = $this->input->post('status_edom');
+
+			// Lakukan validasi data jika diperlukan
+
+			// Update status KRS
+			$updateData = ['status_edom' => $status];
+			$this->MahasiswaModel->updateStatus($id_mahasiswa, $updateData);
+			
+				// Kirim respon sukses dengan AJAX
+				echo json_encode(['status' => 'success', 'message' => 'Status EDOM berhasil diperbarui']);
+			} else {
+				// Jika metode bukan POST, kirim respon error
+				echo json_encode(['status' => 'error', 'message' => 'Invalid EDOM Request Method']);
+			}
+		}
 }

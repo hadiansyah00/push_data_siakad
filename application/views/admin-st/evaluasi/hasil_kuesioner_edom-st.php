@@ -255,38 +255,42 @@ $this->load->view('admin-st/dist/header');
                                             <tr>
                                                 <th>No</th>
                                                 <th>Nama Mahasiswa</th>
-                                                <th>Aktivasi Cetak KHS MAHASISWA</th>
+                                                <th>Aktivasi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-									$no = 1;
-									foreach ($mahasiswa_evaluasi as $mahasiswa) {
-										echo "<tr>";
-										echo "<td>$no</td>";
-										echo "<td>$mahasiswa->nama_mhs</td>";
-										 echo '<td>
-												<div class="custom-switches-stacked mt-2">
-													<label class="custom-switch">
-														<input type="checkbox" class="custom-switch-input toggle-switch-uap" data-id-uap="' . $mahasiswa->id_mahasiswa . '" ' . ($mahasiswa->status_edom == 1 ? 'checked' : '') . '>
-														<span class="custom-switch-indicator"></span>
-														<span class="custom-switch-description">Aktifkan</span>
-													</label>
-												</div>
-											</td>';
-										
-										echo "</tr>";
-										$no++;
-									}
-									?>
+													$no = 1;
+													foreach ($mahasiswa_evaluasi as $mahasiswa) {
+														?>
                                             <tr>
-                                                <th colspan="2">
-                                                    <p><i>Mahasiswa sudah mengisi EDOM</i>
-                                                    </p>
-                                                </th>
+                                                <td><?php echo $no; ?></td>
+                                                <td><?php echo $mahasiswa->nama_mhs; ?></td>
+                                                <td>
+                                                    <div class="custom-switches-stacked mt-2">
+                                                        <label class="custom-switch">
+                                                            <input type="checkbox"
+                                                                class="custom-switch-input toggle-switch"
+                                                                data-id-mhs="<?php echo $mahasiswa->id_mahasiswa; ?>"
+                                                                <?php echo ($mahasiswa->status_edom == 1 ? 'checked' : ''); ?>>
+                                                            <span class="custom-switch-indicator"></span>
+                                                            <span class="custom-switch-description">Aktifkan</span>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <?php
+														$no++;
+													}
+													?>
+                                            <tr>
+                                                <td colspan="3">
+                                                    <p><i>Mahasiswa sudah mengisi EDOM</i></p>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
+
 
                                 </div>
                             </div>
@@ -298,19 +302,69 @@ $this->load->view('admin-st/dist/header');
 
     </section>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+//Toogle KRS
+$('.toggle-switch').change(function() {
+    var id_mahasiswa = $(this).data('id-mhs');
+    var status_edom = $(this).prop('checked') ? 1 : 0; // Periksa apakah checkbox di-check atau tidak
+    var csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>';
+    var csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
+
+    // Kirim AJAX request
+    $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url("admin/kusioneredom/setedomkhs"); ?>',
+        data: {
+            id_mahasiswa: id_mahasiswa,
+            status_edom: status_edom, // Kirim status baru
+            <?php echo $this->security->get_csrf_token_name(); ?>: '<?php echo $this->security->get_csrf_hash(); ?>'
+        },
+        dataType: 'json',
+        success: function(response) {
+            if (response.status === 'success') {
+                // Handle success response
+                // alert('Status berhasil KRS diperbarui');
+                alert('Status berhasil diperbarui ');
+            } else {
+                // Handle error response
+                alert('Gagal memperbarui status');
+            }
+        },
+        error: function(xhr, status, error) {
+            // Handle AJAX error
+            console.error('AJAX Error:', error);
+        }
+    });
+
+    // Jika checkbox tidak dicentang dan status sebelumnya adalah 1, set status menjadi 0
+    if (!$(this).prop('checked') && status_edom == 1) {
+        $(this).prop('checked', true); // Tandai checkbox untuk mencegah perubahan
+        // Kirim AJAX request untuk mengubah status menjadi 0
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url("admin/kusioneredom/setedomkhs"); ?>',
+            data: {
+                id_mahasiswa: id_mahasiswa,
+                status: 0, // Ubah status menjadi 0
+                <?php echo $this->security->get_csrf_token_name(); ?>: '<?php echo $this->security->get_csrf_hash(); ?>'
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'success') {
+                    // Handle success response
+                    alert('Status EDOM diubah menjadi tidak aktif');
+                } else {
+                    // Handle error response
+                    alert('Gagal memperbarui status');
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle AJAX error
+                console.error('AJAX Error:', error);
+            }
+        });
+    }
+});
+</script>
 <?php $this->load->view('admin-st/dist/footer'); ?>
-<!-- JS Libraies -->
-<script src="<?php echo base_url(); ?>assets-new-look/modules/datatables/datatables.min.js"></script>
-<script
-    src="<?php echo base_url(); ?>assets-new-look/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js">
-</script>
-
-<script src="<?php echo base_url(); ?>assets-new-look/modules/datatables/Select-1.2.4/js/dataTables.select.min.js">
-</script>
-
-<script src="<?php echo base_url(); ?>assets-new-look/modules/jquery-ui/jquery-ui.min.js"></script>
-<script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-datatables.js"></script>
-<script src="<?php echo base_url(); ?>assets-new-look/modules/sweetalert/sweetalert.min.js">
-</script>
-<script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-sweetalert.js">
-</script>

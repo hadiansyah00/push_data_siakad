@@ -15,6 +15,7 @@ $this->load->view('admin-st/dist/header');
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="#">Data Master</a></div>
                 <div class="breadcrumb-item"><a href="#">Data Program Studi</a></div>
+
                 <!-- <div class="breadcrumb-item">Data Kurikulum</div> -->
             </div>
         </div>
@@ -24,7 +25,8 @@ $this->load->view('admin-st/dist/header');
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-
+                            <button type="button" class="btn btn-danger" id="btnResetStatus">Set Cetak KHS
+                                Mahasiswa</button>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -66,6 +68,7 @@ $this->load->view('admin-st/dist/header');
         </div>
     </section>
 </div>
+
 <?php $this->load->view('admin-st/dist/footer'); ?>
 <!-- JS Libraies -->
 <script src="<?php echo base_url(); ?>assets-new-look/modules/datatables/datatables.min.js"></script>
@@ -79,3 +82,61 @@ $this->load->view('admin-st/dist/header');
 
 <script src="<?php echo base_url(); ?>assets-new-look/modules/jquery-ui/jquery-ui.min.js"></script>
 <script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-datatables.js"></script>
+
+<script src="<?php echo base_url(); ?>assets-new-look/modules/sweetalert/sweetalert.min.js">
+</script>
+
+
+<script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-sweetalert.js"></script>
+<script>
+$(document).ready(function() {
+    $('#btnResetStatus').click(function() {
+        // Tampilkan konfirmasi menggunakan SweetAlert
+        Swal.fire({
+            title: 'Apakah Anda yakin akan mereset semua status verifikasi EDOM mahasiswa?',
+            text: 'Tindakan ini tidak dapat dibatalkan!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Reset!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Jika pengguna mengonfirmasi, lakukan panggilan AJAX untuk mengatur semua status menjadi 0
+                $.ajax({
+                    url: '<?php echo base_url('admin/settings/sett_edom_to_zero'); ?>',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            // Jika sukses, tampilkan pesan sukses
+                            Swal.fire(
+                                'Sukses!',
+                                'Semua status berhasil direset. Silahkan Refresh Browser',
+                                'success'
+                            );
+
+                        } else {
+                            // Jika terjadi kesalahan, tampilkan pesan kesalahan secara eksplisit
+                            Swal.fire(
+                                'Gagal!',
+                                'Terjadi kesalahan saat mereset status.',
+                                'error'
+                            );
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Jika terjadi kesalahan AJAX, tampilkan pesan kesalahan secara eksplisit
+                        Swal.fire(
+                            'Error!',
+                            'Terjadi kesalahan saat melakukan permintaan.',
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
+    });
+});
+</script>

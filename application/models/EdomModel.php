@@ -156,11 +156,12 @@ public function getRataRataByIdKrsDosen($kd_mk, $id_dosen) {
     return $query->row()->total_mahasiswa;
 }
 
-	public function MahasiswaEvaluasi($id_dosen) {
-		$this->db->select('nama_mhs, saran');
+	public function MahasiswaEvaluasi($id_dosen , $kd_mk) {
+		$this->db->select('nama_mhs, saran,mahasiswa.id_mahasiswa,mahasiswa.status_edom');
 		$this->db->from('edom_saran');
 		$this->db->join('mahasiswa', 'mahasiswa.id_mahasiswa = edom_saran.id_mahasiswa');
 		$this->db->where('edom_saran.id_dosen', $id_dosen);
+			$this->db->where('edom_saran.kd_mk', $kd_mk);
 		// $this->db->where('evaluasi_jawaban.jawaban IS NOT NULL');
 		$query = $this->db->get();
 		return $query->result();

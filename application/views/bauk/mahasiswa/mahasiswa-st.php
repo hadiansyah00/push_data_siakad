@@ -42,10 +42,7 @@ $this->load->view('admin-st/dist/header');
                                             <th> Jadwal UAS</th>
                                             <th> Nilai UTS</th>
                                             <th> Nilai UAS</th>
-                                            <th> KHS </th> 
-											<th> Pra UAP</th>
-                                            <th> UAP </th>
-
+                                            <th> KHS </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -139,30 +136,7 @@ $this->load->view('admin-st/dist/header');
                                                 </div>
                                             </td>
                                             <!--Tes Switch -->
-											<td>
-                                                <div class="custom-switches-stacked mt-2">
-                                                    <label class="custom-switch">
-                                                        <input type="checkbox"
-                                                            class="custom-switch-input toggle-switch-pra-uap"
-                                                            data-id-pra-uap="<?php echo $row->id_mahasiswa; ?>"
-                                                            <?php echo $row->status_pra_uap == 1 ? 'checked' : ''; ?>>
-                                                        <span class="custom-switch-indicator"></span>
-                                                        <span class="custom-switch-description">Aktifkan</span>
-                                                    </label>
-                                                </div>
-                                            </td>
-											<td>
-                                                <div class="custom-switches-stacked mt-2">
-                                                    <label class="custom-switch">
-                                                        <input type="checkbox"
-                                                            class="custom-switch-input toggle-switch-uap"
-                                                            data-id-uap="<?php echo $row->id_mahasiswa; ?>"
-                                                            <?php echo $row->status_uap == 1 ? 'checked' : ''; ?>>
-                                                        <span class="custom-switch-indicator"></span>
-                                                        <span class="custom-switch-description">Aktifkan</span>
-                                                    </label>
-                                                </div>
-                                            </td>
+
 
                                         </tr>
                                         <?php endforeach; ?>

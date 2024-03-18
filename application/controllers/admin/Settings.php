@@ -376,5 +376,17 @@ public function updateStatus()
             echo "Gagal mengatur password untuk mahasiswa dengan NIM: $nim";
         }
     }
+	public function sett_edom_to_zero()
+		{
+		
+			$this->MahasiswaModel->sett_edom_to_zero();
+			$this->session->set_flashdata('pesan', 'Semua status berhasil direset.');
+				
+				// Output untuk AJAX
+				$response['success'] = true;
+				$response['message'] = 'Semua EDOM status berhasil direset.';
+				echo json_encode($response);
+		}
+			
 				
 }

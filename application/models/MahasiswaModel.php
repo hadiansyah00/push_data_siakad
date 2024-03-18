@@ -649,8 +649,14 @@ class MahasiswaModel extends CI_Model
 			return 0;
 		}
 	}
+	public function sett_edom_to_zero(){
+ 
+		$this->db->set('status_edom', 0);
+        $this->db->update('mahasiswa');
+        return true;
+	}
 	public function set_all_status_zero() {
-        // Lakukan pengubahan status di sini
+        // Lakukan pengubahan status di sini	
         // Contoh: Mengubah semua status menjadi 0 pada tabel mahasiswa
 
         // Update status menjadi 0

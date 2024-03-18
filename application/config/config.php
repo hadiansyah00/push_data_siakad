@@ -499,6 +499,7 @@ $config['csrf_exclude_uris'] = array(
 
 	'admin/settings/setPassword',
 	'admin/settings/set_all_status_zero',
+	'admin/settings/sett_edom_to_zero',
 	'admin/settings/updateStatus',
 	'admin/settings/insert',
 	'admin/settings/AddUsers',
@@ -550,6 +551,7 @@ $config['csrf_exclude_uris'] = array(
 	'mhs/profil/verify_email',
 	'admin/kurikulum/insert',
 	'admin/kurikulum/insert/{kd_jurusan}',
+	'admin/KusionerEdom/SetEdomKHS',
 
 	//Dosen
 	'dosen/profil/updateAksiProfilDosen',
