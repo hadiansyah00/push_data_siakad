@@ -23,30 +23,38 @@ $this->load->view('mhs/dist/header');
                         <a href="<?php echo base_url(); ?>mhs/profil"
                             class="btn btn-outline-white btn-lg btn-icon icon-left"><i class="far fa-user"></i>
                             Pengaturan Profile</a>
-                        <div class="card-title text-center">
-                            <h1>Kalender Akademik</h1>
+                        <div class="mt-3">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="sortable-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center text-white">Kalaender Akademik</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+									foreach ($getKaldik as $row) {	?>
+                                        <tr>
+
+                                            <td>
+                                                <embed
+                                                    src="<?php echo base_url('./assets/images/uploads/' . $row->nama_berkas); ?>"
+                                                    width="850" height="600" type="application/pdf">
+
+                                            </td>
+                                        </tr>
+                                        <?php } ?>
+                                    </tbody>
+
+                                </table>
+
+                            </div>
                         </div>
-                        <tbody>
-                            <?php
-							$i = 1;
-								foreach ($getKaldik as $row) { ?>
-                            <tr>
-                                <td>
-                                    <embed src="<?php echo base_url('./assets/images/uploads/' . $row->nama_berkas); ?>"
-                                        width="900" height="800" type="application/pdf">
-                                </td>
-                            </tr>
-                            <?php } ?>
-                        </tbody>
+
                     </div>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="card-header">
 
-
-                </div>
-            </div>
             <div class="card-body">
                 <div class="card-header">
                     <h2 class="text-center">Informasi <i>SIAKAD SBH</i> </h2>
@@ -76,5 +84,6 @@ $this->load->view('mhs/dist/header');
 <?php $this->load->view('mhs/dist/footer'); ?>
 
 <!-- Page Specific JS File -->
+
 
 <script src="http://localhost/stisla-codeigniter-master/assets/js/page/bootstrap-modal.js"></script>
