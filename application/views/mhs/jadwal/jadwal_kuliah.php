@@ -80,7 +80,7 @@ $this->load->view('mhs/dist/header');
 								?>
 
                                     </tbody>
-                                    </tbody>
+
                                 </table>
                             </div>
                         </div>

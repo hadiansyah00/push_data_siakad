@@ -26,10 +26,10 @@ $this->load->view('mhs/dist/header');
 
                             <div class="card-header-form">
 
-                                <!-- <a href="<?php echo base_url('mhs/Transkrip/printKHS/' . $mhs['id_mahasiswa']); ?>"
+                                <a href="<?php echo base_url('mhs/Transkrip/printKHS/' . $mhs['id_mahasiswa']); ?>"
                                     target="_blank" class="btn btn-sm btn-primary"><i class="fa fa-print"></i>
                                     Cetak
-                                    KHS</a> -->
+                                    KHS</a>
                             </div>
                         </div>
                         <div class="card-body p-0">

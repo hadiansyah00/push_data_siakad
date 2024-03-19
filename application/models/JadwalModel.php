@@ -29,7 +29,18 @@ class JadwalModel extends CI_Model
 	// 	return $this->db->query($data);
 	// }
 
-	
+	public function getDataKaldik()
+	{
+
+		$this->db->select('*');
+		$this->db->from('kaldik');
+		$this->db->join('ta', 'ta.id_ta = kaldik.id_ta', 'left');
+		$this->db->join('jurusan', 'jurusan.kd_jurusan = kaldik.kd_jurusan', 'left');
+		$this->db->where('ta.status', 1);
+		$query = $this->db->get()->result();
+		return $query;
+	}
+
 	public function getPdf()
 	
 	{
@@ -121,7 +132,11 @@ class JadwalModel extends CI_Model
         // Simpan data ke dalam tabel 'rps'
         $this->db->insert('jadwal_pdf', $data);
     }
-    
+     public function simpan_data_kaldik($data)
+    {
+        // Simpan data ke dalam tabel 'rps'
+        $this->db->insert('kaldik', $data);
+    }
     public function upload_file($file_field_name, $upload_path)
     {
         $config['upload_path'] = $upload_path;
@@ -264,6 +279,16 @@ class JadwalModel extends CI_Model
 		$this->db->join('ta', 'ta.id_ta = jadwal_pdf.id_ta', 'left');
 		$this->db->join('jurusan', 'jurusan.kd_jurusan = jadwal_pdf.kd_jurusan', 'left');
 		$this->db->where('jadwal_pdf.kd_jurusan', $kd_jurusan);
+		$query = $this->db->get()->result();
+		return $query;
+	}
+	public function getKaldik($kd_jurusan)
+	{
+		$this->db->select('*');
+	    $this->db->from('kaldik');
+		$this->db->join('ta', 'ta.id_ta = kaldik.id_ta', 'left');
+		$this->db->join('jurusan', 'jurusan.kd_jurusan = kaldik.kd_jurusan', 'left');
+		$this->db->where('kaldik.kd_jurusan', $kd_jurusan);
 		$query = $this->db->get()->result();
 		return $query;
 	}

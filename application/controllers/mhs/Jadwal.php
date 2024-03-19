@@ -25,6 +25,7 @@ class Jadwal extends CI_Controller
 		$data['setting_krs'] = $this->db->get('set_krs')->row_array();
 		$data['setting'] = $this->db->get('set_krs')->row_array();
 		$data['getJd'] = $this->JadwalModel->getJadwalPDF($mhs['kd_jurusan'], $ta['id_ta']);
+		
 
 		$data['tahun'] = $this->TaModel->getAktif()->row_array();
 		//get data from session

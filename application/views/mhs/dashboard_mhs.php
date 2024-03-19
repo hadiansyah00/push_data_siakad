@@ -17,29 +17,47 @@ $this->load->view('mhs/dist/header');
                     <h1>Selamat Datang, <?php echo $mhs['nama_mhs']?></h1>
                     <h4> Tahun Akademik <?php echo $tahun['ta'] ?>
                         <?php echo$tahun['semester']?></h4>
-
                     <p class="lead"><strong>SISTEM INFORMASI AKADEMIK | STIKES BOGOR HUSADA</strong></p></br>
-
                     <div class="mt-4">
 
                         <a href="<?php echo base_url(); ?>mhs/profil"
                             class="btn btn-outline-white btn-lg btn-icon icon-left"><i class="far fa-user"></i>
                             Pengaturan Profile</a>
+                        <div class="card-title text-center">
+                            <h1>Kalender Akademik</h1>
+                        </div>
+                        <tbody>
+                            <?php
+							$i = 1;
+								foreach ($getKaldik as $row) { ?>
+                            <tr>
+                                <td>
+                                    <embed src="<?php echo base_url('./assets/images/uploads/' . $row->nama_berkas); ?>"
+                                        width="900" height="800" type="application/pdf">
+                                </td>
+                            </tr>
+                            <?php } ?>
+                        </tbody>
                     </div>
                 </div>
             </div>
+            <div class="card-body">
+                <div class="card-header">
 
+
+                </div>
+            </div>
             <div class="card-body">
                 <div class="card-header">
                     <h2 class="text-center">Informasi <i>SIAKAD SBH</i> </h2>
                     <h5>List Pembaharuan</h5>
                     <ul>
-
-                        <li><p>Link Untuk List Perbaikan SIAKAD </p> <a href="<?php echo base_url('mhs/AktivitasMhs') ?>" class="btn btn-primary">Klik Disini</a> </li>
-                 
+                        <li>
+                            <p>Link Untuk List Perbaikan SIAKAD </p> <a
+                                href="<?php echo base_url('mhs/AktivitasMhs') ?>" class="btn btn-primary">Klik
+                                Disini</a>
+                        </li>
                     </ul>
-                   
-
                 </div>
             </div>
         </div>

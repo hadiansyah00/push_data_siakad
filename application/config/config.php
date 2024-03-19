@@ -511,6 +511,9 @@ $config['csrf_exclude_uris'] = array(
 
 	'admin/jadwal/do_upload',
 	'admin/jadwal/simpan_ke_database',
+	'admin/kaldik/do_upload',
+	'admin/kaldik/simpan_ke_database',
+
 
 	'admin/jadwaluts/insert',
 	'admin/jadwaluts/update',

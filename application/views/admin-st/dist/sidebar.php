@@ -53,6 +53,9 @@ $users_sessions = $this->UserModel->getDataUser();
                     <li class="<?php echo $this->uri->segment(2) == 'kurikulum' ? 'active' : ''; ?>"><a class="nav-link"
                             href="<?php echo base_url(); ?>admin/kurikulum">Data Matakuliah</a>
                     </li>
+                    <li class="<?php echo $this->uri->segment(2) == 'kaldik' ? 'active' : ''; ?>"><a class="nav-link"
+                            href="<?php echo base_url(); ?>admin/kaldik">Data Kaldik</a>
+                    </li>
             </li>
         </ul>
         </li>
@@ -123,9 +126,8 @@ $users_sessions = $this->UserModel->getDataUser();
                     class="fas fa-pencil-ruler"></i>
                 <span>Aktivasi Mahasiswa</span></a>
         </li>
-	<li class="<?php echo $this->uri->segment(2) == 'Aktivasi_uap' ? 'active' : ''; ?>">
-            <a class="nav-link" href="<?php echo base_url(); ?>bauk/Aktivasi_uap"><i
-                    class="fas fa-pencil-ruler"></i>
+        <li class="<?php echo $this->uri->segment(2) == 'Aktivasi_uap' ? 'active' : ''; ?>">
+            <a class="nav-link" href="<?php echo base_url(); ?>bauk/Aktivasi_uap"><i class="fas fa-pencil-ruler"></i>
                 <span>Pra UAP/UAP</span></a>
         </li>
         <?php } else  {  ?>
