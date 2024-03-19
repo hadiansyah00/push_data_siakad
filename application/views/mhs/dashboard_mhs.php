@@ -4,7 +4,42 @@ ini_set('display_errors', 1);
 defined('BASEPATH') OR exit('No direct script access allowed');
 $this->load->view('mhs/dist/header');
 ?>
+
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets-new-look/modules/datatables/datatables.min.css">
+<link rel="stylesheet"
+    href="<?php echo base_url(); ?>assets-new-look/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet"
+    href="<?php echo base_url(); ?>assets-new-look/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css">
 <!-- Main Content -->
+<style>
+.pdf-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    /* Rasio lebar-tinggi untuk ukuran responsif (misalnya 16:9) */
+    overflow: hidden;
+    max-width: 800px;
+    /* Lebar maksimum kontainer */
+    margin: 0 auto;
+    /* Pusatkan kontainer */
+}
+
+.pdf-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Atur ukuran kontainer untuk perangkat seluler */
+@media screen and (max-width: 600px) {
+    .pdf-container {
+        padding-top: 75%;
+        /* Rasio lebar-tinggi untuk perangkat seluler */
+    }
+}
+</style>
 <div class="main-content">
     <section class="section">
         <div class="section-header">
@@ -25,23 +60,37 @@ $this->load->view('mhs/dist/header');
                             Pengaturan Profile</a>
                         <div class="mt-3">
                             <div class="table-responsive">
-                                <table class="table table-striped" id="sortable-table">
+                                <table class="table table-striped" id="table-1">
                                     <thead>
                                         <tr>
-                                            <th class="text-center text-white">Kalaender Akademik</th>
+
+                                            <th class="text-white">
+                                                <i class="far fa-calendar-alt"></i>
+                                                <h2>Kalender Akademik</h2>
+                                            </th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
+									
 									foreach ($getKaldik as $row) {	?>
                                         <tr>
 
                                             <td>
-                                                <embed
-                                                    src="<?php echo base_url('./assets/images/uploads/' . $row->nama_berkas); ?>"
-                                                    width="850" height="600" type="application/pdf">
+                                                <a class="btn btn-outline-white btn-lg btn-icon icon-left"
+                                                    href="<?php echo base_url('admin/kaldik/download_file/' . $row->id_kaldik); ?>"><i
+                                                        class="far fa-file"></i>Download
+                                                    KALDIK</a>
+                                                <hr>
+                                                <div class="pdf-container">
+                                                    <embed
+                                                        src="<?php echo base_url('./assets/images/uploads/' . $row->nama_berkas); ?>"
+                                                        type="application/pdf" width="100%" height="600px" />
+                                                </div>
 
                                             </td>
+
                                         </tr>
                                         <?php } ?>
                                     </tbody>
@@ -85,5 +134,13 @@ $this->load->view('mhs/dist/header');
 
 <!-- Page Specific JS File -->
 
+<script src="<?php echo base_url(); ?>assets-new-look/modules/datatables/datatables.min.js"></script>
+<script
+    src="<?php echo base_url(); ?>assets-new-look/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js">
+</script>
 
-<script src="http://localhost/stisla-codeigniter-master/assets/js/page/bootstrap-modal.js"></script>
+<script src="<?php echo base_url(); ?>assets-new-look/modules/datatables/Select-1.2.4/js/dataTables.select.min.js">
+</script>
+
+<sc src="<?php echo base_url(); ?>assets-new-look/modules/jquery-ui/jquery-ui.min.js"></sc rip t>
+<script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-datatables.js"></script>
