@@ -177,6 +177,7 @@ class JadwaluasModel extends CI_Model
 		$this->db->join('matakuliah', 'matakuliah.kd_mk = jadwal_uas.kd_mk', 'left');
 		$this->db->join('jurusan', 'jurusan.kd_jurusan = jadwal_uas.kd_jurusan', 'left');
 		$this->db->where('jadwal_uas.kelas', 1);
+		$this->db->where('ta.status', '1');
 		$this->db->where('jadwal_uas.kd_jurusan', $kd_jurusan);
 		$this->db->order_by('smt', 'ASC');
 		$this->db->order_by('tgl_uas', 'ASC');

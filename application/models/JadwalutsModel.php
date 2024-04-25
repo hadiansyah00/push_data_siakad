@@ -223,6 +223,7 @@ public function Hide_uts(){
 		$this->db->join('matakuliah', 'matakuliah.kd_mk = jadwal_uts.kd_mk', 'left');
 		$this->db->join('jurusan', 'jurusan.kd_jurusan = jadwal_uts.kd_jurusan', 'left');
 		$this->db->where('jadwal_uts.kelas', '1');
+		$this->db->where('ta.status', '1');
 		$this->db->where('jadwal_uts.kd_jurusan', $kd_jurusan);
 		$this->db->order_by('smt', 'ASC');
 		$this->db->order_by('tgl_uts', 'ASC');
