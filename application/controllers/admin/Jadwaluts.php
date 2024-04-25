@@ -44,8 +44,6 @@ class Jadwaluts extends CI_Controller
 		$data['dosenList'] = $dosenList;
 		$data['selectedDosen'] = $selectedDosen;
 
-
-		
 		$statusList = array(
 			'aktif' => 'Aktif',
 			'tidak' => 'Non Aktif',
@@ -57,26 +55,28 @@ class Jadwaluts extends CI_Controller
 		$selectedStatus = $mahasiswa->status_mhs; // Adjus
 
 
-		$this->load->view('admin-st/jadwal_uts/jadwal_uts-st', $data);
+		$this->load->view('admin-st/jadwal_uts/index_jadwal_uts', $data);
 			}
 
-    // public function index_jadwal($id)
-	// {
-	// 	$data['title'] = 'Jadwal UTS SBH';
-	// 	$data['judul'] = 'Akademik';
-	// 	$data['subJudul'] = 'Jadwal UTS';
+    public function index_jadwal($id)
+	{
+		$data['title'] = 'Jadwal UTS SBH';
+		$data['judul'] = 'Akademik';
+		$data['subJudul'] = 'Jadwal UTS';
 
-	// 	$where = array('kd_jurusan' => $id);
-	// 	//$where = 'kd_jurusan';
-	// 	$data['tahun'] = $this->TaModel->getAktif()->row_array();
-	// 	$data['detil'] = $this->JurusanModel->detilData('jurusan', $where)->result();
-	// 	$data['matkul'] = $this->JadwalutsModel->getMatkul($id)->result();
-	// 	$data['jadwal'] = $this->JadwalutsModel->getAll($id)->result();
-	// 	// $this->load->view('admin/template/header', $data);
-	// 	// $this->load->view('admin/template/sidebar', $data);
-	// 	$this->load->view('admin-st/jadwal_uts/master_jadwal_uts-st', $data);
-	// 	// $this->load->view('admin/template/footer');
-	// }
+		$where = array('kd_jurusan' => $id);
+		//$where = 'kd_jurusan';
+		$data['tahun'] = $this->TaModel->getAktif()->row_array();
+		$data['detil'] = $this->JurusanModel->detilData('jurusan', $where)->result();
+		$data['matkul'] = $this->JadwalutsModel->getMatkul($id)->result();
+		$data['jadwal'] = $this->JadwalutsModel->getAll($id)->result();
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/jadwal_uts/jadwal_uts-st', $data);
+		// $this->load->view('admin/template/footer');
+	}
+
+
 public function insert()
 {
     // Periksa apakah metode yang digunakan adalah POST

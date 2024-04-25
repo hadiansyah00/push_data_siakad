@@ -3,15 +3,39 @@
 class JadwaluasModel extends CI_Model
 {
 
-
-	public function getMatkul()
+		public function getAll($id)
 	{
 		$this->db->select('*');
-		$this->db->from('matakuliah');
+		$this->db->from('jadwal_uas');
+		$this->db->join('ta', 'ta.id_ta = jadwal_uas.id_ta', 'left');
+		$this->db->join('jurusan', 'jurusan.kd_jurusan = jadwal_uas.kd_jurusan', 'left');
+// 		$this->db->join('dosen', 'dosen.id_dosen = jadwal_uas.id_dosen', 'left');
+		$this->db->join('matakuliah', 'matakuliah.kd_mk = jadwal_uas.kd_mk', 'left');
+		$this->db->where('jadwal_uas.kd_jurusan', $id);
+		$this->db->where('ta.status','1');
 		$this->db->order_by('smt', 'ASC');
 		$query = $this->db->get();
 		return $query;
 	}
+
+	public function getMatkul($id)
+	{
+		$this->db->select('*');
+		$this->db->from('matakuliah');
+		$this->db->where('matakuliah.kd_jurusan', $id);
+		$this->db->order_by('smt', 'ASC');
+		$query = $this->db->get();
+		return $query;
+	}
+
+	// public function getMatkul()
+	// {
+	// 	$this->db->select('*');
+	// 	$this->db->from('matakuliah');
+	// 	$this->db->order_by('smt', 'ASC');
+	// 	$query = $this->db->get();
+	// 	return $query;
+	// }
 	public function getJadwalUASByTaAktif() {
 
     $this->db->select('*');

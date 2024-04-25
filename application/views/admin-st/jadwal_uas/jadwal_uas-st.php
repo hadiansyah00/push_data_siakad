@@ -25,16 +25,16 @@ $this->load->view('admin-st/dist/header');
                     <div class="card">
                         <div class="card-header">
                             <a href="#" target="_blank" class="btn btn-sm btn-primary" data-toggle="modal"
-                                data-target="#tambahUtskb"><i class="fa fa-plus"></i>Tambah Kebidanan
+                                data-target="#tambahUtskb"><i class="fa fa-plus"></i>Tambah Jadwal
                             </a>
-                            &nbsp;
+                            <!-- &nbsp;
                             <a href="#" target="_blank" class="btn btn-sm btn-primary" data-toggle="modal"
                                 data-target="#tambahUtsgz"><i class="fa fa-plus"></i>Tambah Gizi
                             </a>
                             &nbsp;
                             <a href="#" target="_blank" class="btn btn-sm btn-primary" data-toggle="modal"
                                 data-target="#tambahUtsfr"><i class="fa fa-plus"></i>Tambah Farmasi
-                            </a>
+                            </a> -->
 
                         </div>
                         <div class="card-body">
@@ -49,14 +49,14 @@ $this->load->view('admin-st/dist/header');
                                             <th>Matkul</th>
                                             <th>SKS</th>
                                             <th>SMT</th>
-                                            <th>Tanggal UTS</th>
-                                            <th>Ruang UTS</th>
+                                            <th>Tanggal UAS</th>
+                                            <th>Ruang UAS</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $i = 1;
-									foreach ($jadwaluas as $row) { ?>
+									foreach ($jadwal as $row) { ?>
                                         <tr>
                                             <td><?php echo $i++; ?></td>
                                             <td><?php echo $row->kd_mk; ?></td>
@@ -77,7 +77,7 @@ $this->load->view('admin-st/dist/header');
                                             <td><?php echo $row->smt; ?></td>
                                             <td><?php echo $row->sks; ?></td>
                                             <td>
-                                                <?php echo format_indo($row->tgl_uts); ?>
+                                                <?php echo format_indo($row->tgl_uas); ?>
                                                 <?php echo $row->jam_uas; ?>
                                                 <hr>
                                             </td>
@@ -238,17 +238,17 @@ $this->load->view('admin-st/dist/header');
                                 value="<?= $this->security->get_csrf_hash(); ?>">
                             <div class="form-group col-lg-12">
                                 <label>Matakuliah</label>
-                                <select name="matkul" id="matkul" class="form-control">
+                                <?php $kd_jurusan = $this->uri->segment(4); ?>
+                                <input type="text" name="kd_jurusan" value="<?php echo $kd_jurusan; ?>">
+                                <select name="matkul" class="form-control">
                                     <option> --Pilih Matakuliah-- </option>
-                                    <?php
-										foreach ($matkulfarm as $row) { 	
-												?>
+                                    <?php foreach ($matkul as $row) { ?>
+                                    <?php if ($row->semester == $tahun['semester']) { ?>
                                     <option value="<?php echo $row->kd_mk; ?>">SMT <?php echo $row->smt; ?> -
-                                        <?php echo $row->kd_mk; ?> - <?php echo $row->matakuliah ?> - SKS
+                                        <?php echo $row->kd_mk; ?> - <?php echo $row->matakuliah; ?> - SKS
                                         <?php echo $row->sks; ?></option>
                                     <?php } ?>
-
-
+                                    <?php } ?>
                                 </select>
                             </div>
 
@@ -315,7 +315,7 @@ $this->load->view('admin-st/dist/header');
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah Data Jadwal UAS Kebidanan </h5>
+                <h5 class="modal-title">Tambah Data Jadwal UAS </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -328,17 +328,17 @@ $this->load->view('admin-st/dist/header');
                                 value="<?= $this->security->get_csrf_hash(); ?>">
                             <div class="form-group col-lg-12">
                                 <label>Matakuliah</label>
-                                <select name="matkul" id="matkul" class="form-control">
+                                <?php $kd_jurusan = $this->uri->segment(4); ?>
+                                <input type="text" name="kd_jurusan" value="<?php echo $kd_jurusan; ?>">
+                                <select name="matkul" class="form-control">
                                     <option> --Pilih Matakuliah-- </option>
-                                    <?php
-										foreach ($matkulkb as $row) { 	
-												?>
+                                    <?php foreach ($matkul as $row) { ?>
+                                    <?php if ($row->semester == $tahun['semester']) { ?>
                                     <option value="<?php echo $row->kd_mk; ?>">SMT <?php echo $row->smt; ?> -
-                                        <?php echo $row->kd_mk; ?> - <?php echo $row->matakuliah ?> - SKS
+                                        <?php echo $row->kd_mk; ?> - <?php echo $row->matakuliah; ?> - SKS
                                         <?php echo $row->sks; ?></option>
                                     <?php } ?>
-
-
+                                    <?php } ?>
                                 </select>
                             </div>
 

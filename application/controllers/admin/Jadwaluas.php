@@ -16,21 +16,32 @@ class Jadwaluas extends CI_Controller
 		$data['title'] = 'Jadwal Uas SBH';
 		$data['judul'] = 'Akademik';
 		$data['subJudul'] = 'Jadwal Uas';
-		$data['matkul'] = $this->JadwaluasModel->getMatkul()->result();
+		
 		$data['tahun'] = $this->TaModel->getAktif()->result();
 		$data['jurusan'] = $this->JurusanModel->getData('jurusan')->result();
-	
 		
-		$data['matkulgz'] = $this->JadwalutsModel->getMatkulgz()->result();
-		$data['matkulfarm'] = $this->JadwalutsModel->getMatkulfarm()->result();
-		$data['matkulkb'] = $this->JadwalutsModel->getMatkulkb()->result();
-
-		$data['jadwaluas'] = $this->JadwaluasModel->getJadwalUASByTaAktif()->result();
-		$this->load->view('admin-st/jadwal_uas/jadwal_uas-st', $data);
+		$this->load->view('admin-st/jadwal_uas/index_jadwal_uas', $data);
 		
 		}
 
-   
+   public function index_jadwal($id)
+	{
+		$data['title'] = 'Jadwal UAS SBH';
+		$data['judul'] = 'Akademik';
+		$data['subJudul'] = 'Jadwal UTS';
+
+		$where = array('kd_jurusan' => $id);
+		//$where = 'kd_jurusan';
+		$data['tahun'] = $this->TaModel->getAktif()->row_array();
+		$data['detil'] = $this->JurusanModel->detilData('jurusan', $where)->result();
+		$data['matkul'] = $this->JadwaluasModel->getMatkul($id)->result();
+		$data['jadwal'] = $this->JadwaluasModel->getAll($id)->result();
+		// $this->load->view('admin/template/header', $data);
+		// $this->load->view('admin/template/sidebar', $data);
+		$this->load->view('admin-st/jadwal_uas/jadwal_uas-st', $data);
+		// $this->load->view('admin/template/footer');
+	}
+
 public function insert()
 {
     // Periksa apakah metode yang digunakan adalah POST
