@@ -56,7 +56,15 @@ public function getDataUser()
     $this->db->update('mahasiswa', $data);
 }
 
+	public function getUserByLogin($login)
+    {
+        // Menggunakan 'username' atau 'email' untuk mencari pengguna
+       
+        $this->db->where('email_ds', $login);
+        $query = $this->db->get('dosen'); // Nama tabel menyesuaikan dengan tabel user Anda
 
+        return $query->row(); // Mengembalikan satu baris hasil query
+    }
 	//Cek username dan password admin
 	public function loginUser($username, $pass)
 	{
@@ -94,7 +102,7 @@ public function getDataUser()
 }
 	public function getUserByUsername($username) {
     // Lakukan query ke database untuk mengambil data pengguna berdasarkan username
-    $this->db->where('kd_dosen', $username);
+    $this->db->where('email_ds', $username);
     $query = $this->db->get('dosen');
 
     // Jika data pengguna ditemukan, kembalikan data dalam bentuk objek

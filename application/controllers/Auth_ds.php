@@ -25,23 +25,23 @@ class Auth_ds extends CI_Controller
     }
 
     // Set rules validasi form
-    $this->form_validation->set_rules('username', 'Username', 'required', ['required' => 'Kode DOSEN wajib diisi']);
-    $this->form_validation->set_rules('password', 'Password', 'required', ['required' => 'Password wajib diisi']);
+    $this->form_validation->set_rules('login', 'Username or Email', 'required', ['required' => 'Username or Email is required']);
+    $this->form_validation->set_rules('password', 'Password', 'required', ['required' => 'Password is required']);
 
     if ($this->form_validation->run() == FALSE) {
         // Validasi form gagal, tampilkan kembali halaman login dengan pesan error
         $this->load->view('auth_login_dosen-st');
     } else {
         // Validasi form berhasil
-        $username = $this->input->post('username', TRUE);
+        $login = $this->input->post('login', TRUE); // Bisa berupa username atau email
         $password = $this->input->post('password', TRUE);
 
         $response = [];
 
         // Cek login ke database
-        $user = $this->UserModel->getUserByUsername($username);
+        $user = $this->UserModel->getUserByLogin($login);
 
-        if ($user && password_verify($password, $user->password)) {
+        if ($user && password_verify($password, $user->password_ds)) {
             // Jika login berhasil, set session
             $this->session->set_userdata('username', $user->kd_dosen);
             $this->session->set_userdata('sess_nama', $user->nama_dosen);
@@ -50,13 +50,14 @@ class Auth_ds extends CI_Controller
             $response = ['status' => 'success', 'redirect' => 'dosen/home', 'csrf_token' => $this->security->get_csrf_hash()];
         } else {
             // Jika login gagal, kirim pesan error
-            $response = ['status' => 'error', 'message' => 'Invalid username or password.'];
+            $response = ['status' => 'error', 'message' => 'Invalid username, email or password.'];
         }
 
         // Kirim respons dalam format JSON
         echo json_encode($response);
     }
 }
+
 
 	public function admin()
 	{

@@ -100,7 +100,7 @@ class Dosen extends CI_Controller
 			'status_ds'			=> $this->input->post('status_ds'),
 			'kd_jurusan'		=>$this->input->post('jurusan'),
 			'email_ds'			=> $this->input->post('email_ds'),		
-			'password' 		=> password_hash('Stikes123', PASSWORD_DEFAULT), 
+			'password_ds' 		=> password_hash('Stikes123', PASSWORD_DEFAULT), 
 			'tgl_insert'		=> date('y-m-d')
 		);
 
@@ -134,7 +134,7 @@ public function updateDataDosen()
 	$kdjs = $this->input->post('jurusan');
 	$emds = $this->input->post('email_ds');
     $aldos = $this->input->post('alamat_dosen');
-    $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+    $password = password_hash($this->input->post('password_ds'), PASSWORD_DEFAULT);
 
     // Validation if needed
 
@@ -154,7 +154,7 @@ public function updateDataDosen()
     'kd_jurusan' => $kdjs,
     'email_ds' => $emds,
     'alamat_dosen' => $aldos,
-    'password' => $password,
+    'password_ds' => $password,
 );
 
     // Validate CSRF token

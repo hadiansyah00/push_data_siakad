@@ -468,7 +468,7 @@ $config['csrf_exclude_uris'] = array(
 	
 	
 	'Auth/getLogin',
-	'Auth/AuthDosen',
+	'Auth_ds/AuthDosen',
 	'Auth/AuthAdmin',
 	'Auth_ds/getLogin_dosen',
 	'lecture',

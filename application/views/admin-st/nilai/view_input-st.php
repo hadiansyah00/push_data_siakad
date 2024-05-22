@@ -94,15 +94,15 @@ $this->load->view('admin-st/dist/header');
                                                  </td>
                                                  <td>
                                                      <input class="form-control text-center" style="width: 70px;"
-                                                         type="number" name="nilai_uts[]" onkeydown="upperCaseF(this)"
-                                                         maxlength="2" value="<?php echo $row->nilai_uts; ?>">
+                                                         type="text" name="nilai_uts[]" onkeydown="upperCaseF(this)"
+                                                         maxlength="4" value="<?php echo $row->nilai_uts; ?>">
                                                  </td>
 
                                                  <td>
                                                      <!-- Input untuk nilai UAS -->
                                                      <input class="form-control text-center" style="width: 70px;"
-                                                         type="number" name="nilai_uas[]" onkeydown="upperCaseF(this)"
-                                                         maxlength="2" value="<?php echo $row->nilai_uas; ?>">
+                                                         type="text	" name="nilai_uas[]" onkeydown="upperCaseF(this)"
+                                                         maxlength="4" value="<?php echo $row->nilai_uas; ?>">
                                                  </td>
 
 

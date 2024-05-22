@@ -147,10 +147,10 @@ $this->load->view('admin-st/dist/header');
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="hp_ds">No Telp</label>
-                                <input type="number" class="form-control" placeholder="Nomor Telp" name="hd_ds"
+                                <input type="number" class="form-control" name="hd_ds" placeholder="Nomor Telp"
                                     required>
                                 <div class="invalid-feedback">
-                                    Please provide a valid No help.
+                                    Please provide a valid No Telp.
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
@@ -314,7 +314,7 @@ $this->load->view('admin-st/dist/header');
                         </div>
                         <div class="form-group col-md-6">
                             <label for="editPassword">Password</label>
-                            <input type="password" class="form-control" name="password">
+                            <input type="password" class="form-control" name="password_ds">
                         </div>
                     </div>
 
