@@ -62,10 +62,10 @@ $this->load->view('mhs/dist/header');
                                         <?php
 									$i = 1;
 									$sksk = 0;
-									foreach ($getUts as $row) { ?>
+									foreach ($getUts_karyawan as $row) { ?>
                                         <?php if ($row->semester == $tahun['semester']) { ?>
 
-                                        <?php if ($row->status == $mhs['status']) { ?>
+                                        <?php if ($row->smt == $mhs['semester']) { ?>
                                         <?php $sksk = $sksk + $row->sks; ?>
                                         <tr>
                                             <td><?php echo $i++; ?></td>
