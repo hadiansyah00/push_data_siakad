@@ -11,7 +11,7 @@ $this->load->view('mhs/dist/header');
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Evaluasi Dosen Mahasiswa Teori Dosen 2</h1>
+            <h1>Evaluasi Dosen Mahasiswa Praktik Dosen 1</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
                 <div class="breadcrumb-item"><a href="#">Edom Praktik</a></div>
@@ -42,10 +42,9 @@ $this->load->view('mhs/dist/header');
                     <div id="notification" style="display:none;">Form submitted successfully!</div>
                     <div id="error-container" style="display:none;"></div>
                 </div>
-                <form id="evaluasiForm" method="post"
-                    action="<?php echo site_url('mhs/Evaluasi_mhs/simpan_dosen_2'); ?>">
+                <form id="evaluasiForm" method="post" action="<?php echo site_url('mhs/Evaluasi_prak/simpan'); ?>">
                     <input type="hidden" name="id_dosen" value="<?php echo $dosen->id_dosen; ?>">
-                    <input type="hidden" name="id_krs" value="<?php echo $krs->id_krs; ?>">
+                    <input type="hidden" name="id_krs_prak" value="<?php echo $krs->id_krs_prak; ?>">
                     <input type="hidden" name="kd_mk" value="<?php echo $kd_mk; ?>">
                     <input type="hidden" name="id_mahasiswa" value="<?php echo $mhs['id_mahasiswa']; ?>">
                     <input type="hidden" name="id_ta" value="<?php echo $tahun['id_ta']; ?>">
@@ -213,14 +212,14 @@ $(document).ready(function() {
                         // Tampilkan SweetAlert sukses
                         Swal.fire({
                             title: 'Success!',
-                            text: 'Edom Teori telah berhasil disubmit!',
+                            text: 'Form submitted successfully!',
                             icon: 'success',
                             showConfirmButton: false,
                             timer: 2000
                         }).then(function() {
                             // Alihkan pengguna ke halaman baru setelah beberapa detik
                             window.location.href =
-                                '<?php echo site_url('mhs/edom/teori'); ?>';
+                                '<?php echo site_url('mhs/khs'); ?>';
                         });
                     },
                     error: function(xhr, status, error) {

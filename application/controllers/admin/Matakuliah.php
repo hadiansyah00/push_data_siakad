@@ -42,8 +42,13 @@ class Matakuliah extends CI_Controller
 			'0' => 'Tidak',
 			'1' => 'Ya'
 		);
+		$mkclist = array(
+			'0' => 'Tidak',
+			'1' => 'Ya',
+		);
 		
 		$selekaja = $matkul->mk_pilihan; 
+		$selectPk = $matkul->mk_kategori; 
 
 		$semester = array(
 			'1' => '1',
@@ -111,6 +116,7 @@ class Matakuliah extends CI_Controller
 			'smt' 				=> $smt,
             'sks' => $this->input->post('sks'),
             'mk_pilihan' => $this->input->post('mk_pilihan'),
+			'mk_kategori' => $this->input->post('mk_kategori'),
             'tgl_insert' => date('y-m-d')
         ];
 
@@ -152,6 +158,7 @@ class Matakuliah extends CI_Controller
     $smt = $smts;
     $sks = $this->input->post('sks');
     $mk_pilihan = $this->input->post('mk_pilihan');
+	$mk_kategori = $this->input->post('mk_kategori');
 
     // Validasi form
     $this->form_validation->set_rules('kd_mk', 'Kode Mata Kuliah', 'required');
@@ -172,7 +179,8 @@ class Matakuliah extends CI_Controller
             'smt' 				=> $smt,
 			'semester'			=> $semester,
             'sks' => $sks,
-            'mk_pilihan' => $mk_pilihan
+            'mk_pilihan' => $mk_pilihan,
+			'mk_kategori' => $mk_kategori
         );
 
         // Lakukan pembaruan di database

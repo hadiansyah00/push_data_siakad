@@ -38,6 +38,7 @@ $this->load->view('admin-st/dist/header');
                                             <th>Matakuliah</th>
                                             <th>SKS</th>
                                             <th>Semester</th>
+                                            <th>MK Praktikum</th>
                                             <th>MK Pilihan</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -53,6 +54,21 @@ $this->load->view('admin-st/dist/header');
                                             <td><?php echo $row->smt; ?> (<?php echo $row->semester; ?>)</td>
                                             <td>
                                                 <a class="link" href="#">
+                                                    <?php if ($row->mk_kategori == 0) {
+													echo "<span class='badge badge-pill badge-danger mb-1 float-right'>
+                                                            
+                                                            Tidak
+                                                     </span>";
+												}elseif ($row->mk_kategori == 1){
+													echo "<span class='badge badge-pill badge-success mb-1 float-right'>
+                                                       
+                                                                            Ya 
+                                                     </span>";
+												} ?>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a class="link" href="#">
                                                     <?php if ($row->mk_pilihan == 0) {
 													echo "<span class='badge badge-pill badge-danger mb-1 float-right'>
                                                             
@@ -66,6 +82,7 @@ $this->load->view('admin-st/dist/header');
 												} ?>
                                                 </a>
                                             </td>
+
                                             <td>
                                                 <!-- Tambahkan data-nilai pada tombol Edit -->
                                                 <button type="button" class="btn btn-primary btn-sm btn-edit"
@@ -73,6 +90,7 @@ $this->load->view('admin-st/dist/header');
                                                     data-matakuliah="<?php echo $row->matakuliah; ?>"
                                                     data-sks="<?php echo $row->sks; ?>"
                                                     data-smt="<?php echo $row->smt; ?>"
+                                                    data-mkprak="<?php echo $row->mk_kategori;?>"
                                                     data-mkpilihan="<?php echo $row->mk_pilihan; ?>" data-toggle="modal"
                                                     data-target="#editMatakuliahModal">
                                                     Edit
@@ -153,26 +171,24 @@ $this->load->view('admin-st/dist/header');
             </div>
             <form id="formTambahMatakuliah" class="needs-validation" novalidate>
                 <div class="modal-body">
-                    <div class="modal-body">
-                        <div class="form-row">
-                            <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
-                                value="<?= $this->security->get_csrf_hash(); ?>">
-                            <input type="hidden" name="kd_jurusan" value="<?php echo $kd_jurusan; ?>">
+                    <div class="form-row">
+                        <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
+                            value="<?= $this->security->get_csrf_hash(); ?>">
+                        <input type="hidden" name="kd_jurusan" value="<?php echo $kd_jurusan; ?>">
 
-                            <div class="form-group col-md-6">
-                                <label>Kode Matakuliah</label>
-                                <input type="text" class="form-control" placeholder="Kode Matakuliah" name="kd_mk">
-                                <div class="invalid-feedback">
-                                    Please provide a valid Kode Matakuliah.
-                                </div>
+                        <div class="form-group col-md-6">
+                            <label>Kode Matakuliah</label>
+                            <input type="text" class="form-control" placeholder="Kode Matakuliah" name="kd_mk">
+                            <div class="invalid-feedback">
+                                Please provide a valid Kode Matakuliah.
                             </div>
-                            <div class="form-group col-md-6">
-                                <label>Nama Matakuliah</label>
-                                <input type="text" class="form-control" placeholder="Input Nama Matakuliah"
-                                    name="matakuliah" required>
-                                <div class="invalid-feedback">
-                                    Please provide a valid Program Studi.
-                                </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Nama Matakuliah</label>
+                            <input type="text" class="form-control" placeholder="Input Nama Matakuliah"
+                                name="matakuliah" required>
+                            <div class="invalid-feedback">
+                                Please provide a valid Program Studi.
                             </div>
                         </div>
                     </div>
@@ -208,7 +224,13 @@ $this->load->view('admin-st/dist/header');
                             <option value="1">Ya</option>
                         </select>
                     </div>
-
+                    <div class="form-group">
+                        <label for="mk_kategori">Praktikum</label>
+                        <select id="mk_kategori" name="mk_kategori" class="form-control" required>
+                            <option value="0">Tidak</option>
+                            <option value="1">Ya</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="modal-footer bg-whitesmoke br">
@@ -284,6 +306,13 @@ $this->load->view('admin-st/dist/header');
 
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="editPrak">Matakuliah Praktikum</label>
+                        <select id="editPrak" name="mk_kategori" class="form-control" required>
+                            <option value="0" <?php echo ($mkclist == '0') ? 'selected' : ''; ?>>Tidak</option>
+                            <option value="1" <?php echo ($mkclist == '1') ? 'selected' : ''; ?>>Ya</option>
+                        </select>
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>
@@ -294,10 +323,6 @@ $this->load->view('admin-st/dist/header');
 </div>
 
 
-<!-- Pastikan Anda sudah menyertakan SweetAlert library -->
-<script src="<?php echo base_url(); ?>assets-new-look/modules/sweetalert/sweetalert.min.js"></script>
-
-<script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-sweetalert.js"></script>
 <script>
 $(document).ready(function() {
     $('#formTambahMatakuliah').submit(function(e) {
@@ -357,9 +382,6 @@ $(document).ready(function() {
         });
     });
 });
-</script>
-
-<script>
 $(document).ready(function() {
     // Fungsi untuk menampilkan nilai pada form modal saat tombol Edit diklik
     $(document).on('click', '.btn-edit', function() {
@@ -368,6 +390,7 @@ $(document).ready(function() {
         var sks = $(this).data('sks');
         var smt = $(this).data('smt');
         var mkPil = $(this).data('mkpilihan');
+        var prak = $(this).data('mkprak');
 
         // Isikan nilai ke dalam form modal
         $('#editkdmk').val(kdMk);
@@ -375,6 +398,7 @@ $(document).ready(function() {
         $('#editSks').val(sks);
         $('#editSmt').val(smt);
         $('#editMkpil').val(mkPil);
+        $('#editPrak').val(prak);
 
         // $('#editPassword').val(password);
     });
@@ -420,9 +444,6 @@ $(document).ready(function() {
         });
     });
 });
-</script>
-</script>
-<script>
 // Fungsi untuk menampilkan nilai pada form modal saat tombol Delete diklik
 $(document).on('click', '.btn-delete', function() {
     var kd_mk = $(this).data('id');
@@ -480,3 +501,8 @@ $(document).on('click', '.btn-delete', function() {
     });
 });
 </script>
+
+<!-- Pastikan Anda sudah menyertakan SweetAlert library -->
+<script src="<?php echo base_url(); ?>assets-new-look/modules/sweetalert/sweetalert.min.js"></script>
+
+<script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-sweetalert.js"></script>

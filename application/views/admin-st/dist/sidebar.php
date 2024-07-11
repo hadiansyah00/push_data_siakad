@@ -71,15 +71,14 @@ $users_sessions = $this->UserModel->getDataUser();
             <a href="#" class="nav-link has-dropdown"><i class="far fa-file-alt"></i> <span>Data Evaluasi
                     Dosen</span></a>
             <ul class="dropdown-menu">
-
                 <li class="<?php echo $this->uri->segment(2) == 'KusionerEdom' ? 'active' : ''; ?>"><a class="nav-link "
                         href="<?php echo base_url(); ?>admin/KusionerEdom"> Evaluasi Dosen</a></li>
-
-
                 <li class="<?php echo $this->uri->segment(2) == 'evaluasi' ? 'active' : ''; ?>"><a class="nav-link"
                         href="<?php echo base_url(); ?>admin/evaluasi">Pertanyaan Edom</a>
                 </li>
-
+                <li class="<?php echo $this->uri->segment(2) == 'evaluasi' ? 'active' : ''; ?>"><a class="nav-link"
+                        href="<?php echo base_url(); ?>admin/Praktikum">Praktik EDOM</a>
+                </li>
             </ul>
         </li>
         <?php } else  {  ?>

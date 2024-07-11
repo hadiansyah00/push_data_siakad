@@ -57,64 +57,52 @@ $this->load->view('admin-st/dist/header');
                                  <table class="table table-striped" id="table-1">
                                      <thead>
                                          <tr>
-                                             <th data-field="no">No</th>
-                                             <th data-field="tahun akademik">Tahun Akademik</th>
-                                             <th data-field="kd_mk">Kode MK</th>
-                                             <th data-field="matakuliah">Matakuliah</th>
-                                             <th data-field="semester">Semester</th>
-                                             <th data-field="sks">SKS</th>
-                                             <th data-field="">Dosen Pengampuh</th>
-
-                                             <?php $btn = $this->db->get('set_krs')->row_array();
-										if ($btn['hide_btn_del'] == 0) {
-										} else { ?>
-                                             <th>Aksi</th>
-                                             <?php } ?>
+                                             <th>#</th>
+                                             <th>Tahun Akademik</th>
+                                             <th>Id krs</th>
+                                             <th>Kode MK</th>
+                                             <th>Matakuliah</th>
+                                             <th>Semester</th>
+                                             <th>SKS</th>
+                                             <th>Kelas</th>
+                                             <th>Dosen</th>
+                                             <th>Actions</th>
                                          </tr>
                                      </thead>
                                      <tbody>
                                          <?php $i = 1;
-									foreach ($kurikulum as $row) { ?>
-                                         <?php if ($row->semester == $tahun['semester']) { ?>
-                                         <?php if ($row->status == $tahun['status']) { ?>
+   										 foreach ($kurikulum as $row) { ?>
+                                         <?php if ($row->semester == $tahun['semester'] && $row->status == $tahun['status']) { ?>
                                          <tr>
-                                             <td><?php echo $i++; ?></td>
-                                             <td><?php echo $row->ta; ?></td>
-                                             <td><?php echo $row->kd_mk; ?></td>
-                                             <td><?php echo $row->matakuliah; ?></td>
-                                             <td><?php echo $row->smt; ?></td>
-                                             <td><?php echo $row->sks; ?></td>
+                                             <td><?= $i++; ?></td>
+                                             <td><?= $row->id_kurikulum?></td>
+                                             <td><?= $row->ta; ?></td>
+                                             <td><?= $row->kd_mk; ?></td>
+                                             <td><?= $row->matakuliah; ?></td>
+                                             <td><?= $row->smt; ?></td>
+                                             <td><?= $row->sks; ?></td>
                                              <td>
-                                                 <?php
-                     								   // Di sini kita dapat menambahkan kode untuk mengambil nama dosen berdasarkan $row->id_dosen
-														$dosen = $this->KurikulumModel->getDosenNameById_peran($row->id_perdos);
-														echo $dosen;
-														?>
-                                                 <br>
+                                                 <span
+                                                     class="badge badge-pill badge-<?= $row->kelas == 0 ? 'primary' : 'info'; ?> mb-1 float-right">
+                                                     <?= $row->kelas == 0 ? 'Pagi' : 'Karyawan'; ?>
+                                                 </span>
+                                             </td>
+                                             <td>
+                                                 <?= $this->KurikulumModel->getDosenNameById_peran($row->id_perdos); ?><br>
                                                  <hr>
-                                                 <?php
-                     								   // Di sini kita dapat menambahkan kode untuk mengambil nama dosen berdasarkan $row->id_dosen
-														$dosen = $this->KurikulumModel->getDosenNameById($row->id_peran);
-														echo $dosen;
-														?>
-
+                                                 <?= $this->KurikulumModel->getDosenNameById($row->id_peran); ?>
                                              </td>
-
-                                             <?php $btn = $this->db->get('set_krs')->row_array();
-												if ($btn['hide_btn_del'] == 0) {
-												} else { ?>
                                              <td>
+                                                 <!-- <button type="button" class="btn btn-success btn-sm btn-edit"
+                                                     data-id="<?= $row->id_kurikulum; ?>" data-toggle="modal"
+                                                     data-target="#editModal">Edit</button> -->
+
                                                  <button type="button" class="btn btn-danger btn-sm btn-delete"
-                                                     data-id="<?php echo $row->id_kurikulum; ?>">
-                                                     Delete
-                                                 </button>
+                                                     data-id="<?= $row->id_kurikulum; ?>">Delete</button>
+
                                              </td>
-                                             <?php } ?>
                                          </tr>
                                          <?php } ?>
-                                         <?php } ?>
-
-
                                          <?php } ?>
                                      </tbody>
                                  </table>
@@ -127,8 +115,8 @@ $this->load->view('admin-st/dist/header');
          </div>
      </section>
  </div>
- <?php $this->load->view('admin-st/dist/footer'); ?>
 
+ <?php $this->load->view('admin-st/dist/footer'); ?>
  <div class="modal fade" tabindex="-1" role="dialog" id="tambahKurikulum">
      <div class="modal-dialog" role="document">
          <div class="modal-content">
@@ -181,7 +169,13 @@ $this->load->view('admin-st/dist/header');
                                      <?php endforeach; ?>
                                  </select>
                              </div>
-
+                         </div>
+                         <div class="form-group">
+                             <label for="kelas">Kelas Mahasiswa</label>
+                             <select id="kelas" name="kelas" class="form-control" required>
+                                 <option value="0">Pagi</option>
+                                 <option value="1">Karyawan</option>
+                             </select>
                          </div>
                      </div>
                      <div class="modal-footer bg-whitesmoke br">
@@ -191,6 +185,118 @@ $this->load->view('admin-st/dist/header');
          </div>
      </div>
  </div>
+ <!-- Edit Modal -->
+ <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+         <div class="modal-content">
+             <form id="formEditKurikulum">
+                 <div class="modal-header">
+                     <h5 class="modal-title" id="editModalLabel">Edit Kurikulum</h5>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                         <span aria-hidden="true">&times;</span>
+                     </button>
+                 </div>
+                 <div class="modal-body">
+                     <input type="hidden" name="kurikulum_id" id="edit-kurikulum-id">
+                     <div class="form-group">
+                         <label>Kurikulum</label>
+                         <input type="text" name="kd_jurusan" id="edit-kd-jurusan" class="form-control" readonly>
+                     </div>
+                     <div class="form-group">
+                         <label>Mata Kuliah</label>
+                         <select name="matkul" id="edit-matkul" class="form-control">
+                             <!-- Options will be populated dynamically using JavaScript -->
+                         </select>
+                     </div>
+                     <div class="form-group">
+                         <label>Nama Dosen Pengajar 1</label>
+                         <select name="peran" id="edit-dosen-1" class="form-control">
+                             <!-- Options will be populated dynamically using JavaScript -->
+                         </select>
+                     </div>
+                     <div class="form-group">
+                         <label>Nama Dosen Pengajar 2</label>
+                         <select name="perdos" id="edit-dosen-2" class="form-control">
+                             <!-- Options will be populated dynamically using JavaScript -->
+                         </select>
+                     </div>
+                     <div class="form-group">
+                         <label for="kelas">Kelas Mahasiswa</label>
+                         <select id="edit-kelas" name="kelas" class="form-control" required>
+                             <option value="0">Pagi</option>
+                             <option value="1">Karyawan</option>
+                         </select>
+                     </div>
+                 </div>
+                 <div class="modal-footer bg-whitesmoke br">
+                     <button type="submit" class="btn btn-primary">Update</button>
+                 </div>
+             </form>
+         </div>
+     </div>
+ </div>
+
+ <!-- jQuery and Bootstrap JavaScript for handling modal -->
+ <script>
+$(document).ready(function() {
+    $('.btn-edit').on('click', function() {
+        var id = $(this).data('id');
+        // AJAX request to get the details
+        $.ajax({
+            url: '<?= base_url("admin/kurikulum/getKurikulumById/"); ?>' + id,
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                if (response.status !== 'error') {
+                    // Populate the form fields with the data returned
+                    $('#edit-kurikulum-id').val(response.id_kurikulum);
+                    $('#edit-kd-jurusan').val(response.kd_jurusan);
+                    $('#edit-matkul').val(response.kd_mk);
+                    $('#edit-dosen-1').val(response.id_perdos);
+                    $('#edit-dosen-2').val(response.id_peran);
+                    $('#edit-kelas').val(response.kelas);
+                    // Populate other select options as necessary
+                } else {
+                    Swal.fire('Error', response.message, 'error');
+                }
+            },
+            error: function() {
+                Swal.fire('Error', 'Failed to fetch data', 'error');
+            }
+        });
+    });
+
+    $('#formEditKurikulum').on('submit', function(e) {
+        e.preventDefault();
+        // AJAX request to update the data
+        $.ajax({
+            url: '<?= base_url("admin/kurikulum/update"); ?>',
+            method: 'POST',
+            data: $(this).serialize(),
+            success: function(response) {
+                var result = JSON.parse(response);
+                if (result.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: result.message
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $('#editModal').modal('hide');
+                            location.reload();
+                        }
+                    });
+                } else {
+                    Swal.fire('Error', result.message, 'error');
+                }
+            },
+            error: function() {
+                Swal.fire('Error', 'Failed to update kurikulum', 'error');
+            }
+        });
+    });
+});
+ </script>
 
  <script>
 $(document).ready(function() {
@@ -322,6 +428,7 @@ $(document).on('click', '.btn-delete', function() {
 
  <script src="<?php echo base_url(); ?>assets-new-look/modules/datatables/Select-1.2.4/js/dataTables.select.min.js">
  </script>
+
 
  <script src="<?php echo base_url(); ?>assets-new-look/modules/jquery-ui/jquery-ui.min.js"></script>
  <script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-datatables.js"></script>

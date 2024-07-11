@@ -492,6 +492,10 @@ $config['csrf_exclude_uris'] = array(
 	'admin/kurikulum/delete',
 	'admin/kurikulum/update',
 
+	'admin/praktikum/insert',
+	'admin/praktikum/delete',
+	'admin/praktikum/update',
+
 	'admin/evaluasi/insert',
 	'admin/evaluasi/update',
 	'admin/evaluasi/deleteeval',
@@ -538,8 +542,15 @@ $config['csrf_exclude_uris'] = array(
 	'admin/nilai/input',
 	// 'mhs/Home',
 	'mhs/krs/simpan_krs',
+	'mhs/krs/simpan_praktikum',
+
+
 	'mhs/Evaluasi_mhs/simpan',
 	'mhs/Evaluasi_mhs/simpan_dosen_2',
+
+	'mhs/Evaluasi_prak/simpan',
+	'mhs/Evaluasi_prak/simpan_dosen_2',
+
 	'auth/login',
 	'auth/bauk_login',
 	'auth/baak',

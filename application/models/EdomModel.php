@@ -217,5 +217,45 @@ public function getRataRataByIdKrsDosen($kd_mk, $id_dosen) {
        
         return $this->db->get('krs')->row_array();
     }
-    
+
+	  public function get_tahun_ajaran()
+    {
+        $this->db->select('*');
+        $query = $this->db->get('ta');
+        return $query->result();
+    }
+
+    public function get_jurusan()
+    {
+        $this->db->select('kd_jurusan, jurusan');
+        $query = $this->db->get('jurusan');
+        return $query->result();
+    }
+
+    public function get_matakuliah()
+    {
+        $this->db->select('kd_mk, matakuliah');
+        $query = $this->db->get('matakuliah');
+        return $query->result();
+    }
+
+    public function get_dosen()
+    {
+        $this->db->select('id_dosen, nama_dosen');
+        $query = $this->db->get('dosen');
+        return $query->result();
+    }
+
+    public function get_data($tahun_ajaran, $jurusan, $matakuliah, $dosen)
+    {
+        $this->db->select('evaluasi_jawaban_prak.*, evaluasi.pertanyaan');
+        $this->db->from('evaluasi_jawaban_prak');
+        $this->db->join('evaluasi', 'evaluasi_jawaban_prak.id_eval = evaluasi.id_eval');
+        $this->db->where('evaluasi_jawaban_prak.id_ta', $tahun_ajaran);
+        $this->db->where('evaluasi_jawaban_prak.kd_mk', $matakuliah);
+        $this->db->where('evaluasi_jawaban_prak.id_dosen', $dosen);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
 }

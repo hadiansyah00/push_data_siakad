@@ -44,6 +44,8 @@ public function delete_data_uap($id_jadwal) {
         // Mengembalikan status penghapusan
         return $delete;
     }
+	
+	
     public function getDataUap()
 	{
 		$this->db->select('*');

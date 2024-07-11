@@ -47,6 +47,11 @@ public function getTAaktik () {
 		$data = "SELECT *FROM matakuliah WHERE mk_pilihan = 0";
 		return $this->db->query($data);
 	}
+	public function getMkPrak()
+	{
+		$data = "SELECT *FROM matakuliah WHERE mk_kategori = 1";
+		return $this->db->query($data);
+	}
 
 	//ambil seluruh matakuliah
 	public function getTa()

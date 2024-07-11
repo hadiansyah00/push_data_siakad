@@ -81,7 +81,7 @@ $this->load->view('admin-st/dist/header');
                                                 <?php echo $row->jam_uas; ?>
                                                 <hr>
                                             </td>
-                                            <td><?php echo $row->ruang_uas; ?> </td>
+                                            <td><?php echo $row->id; ?> </td>
 
                                             <td>
                                                 <!-- Tambahkan data-nilai pada tombol Edit -->
@@ -92,7 +92,7 @@ $this->load->view('admin-st/dist/header');
                                                     data-kelas="<?php echo $row->kelas; ?>"
                                                     data-tgluts="<?php echo $row->tgl_uts; ?>"
                                                     data-jam="<?php echo $row->jam; ?>"
-                                                    data-ruang="<?php echo $row->ruang_uts; ?>" data-toggle="modal"
+                                                    data-ruang="<?php echo $row->ruang_uas; ?>" data-toggle="modal"
                                                     data-target="#editUtsModal">
                                                     Edit
                                                 </button> -->
@@ -746,7 +746,7 @@ $(document).on('click', '.btn-delete', function() {
 
     // Gunakan SweetAlert untuk konfirmasi
     Swal.fire({
-        title: 'Apakah Anda yakin untuk menghapus data?',
+        title: 'Apakah Anda yakin untuk menghapus data Jadwal Uas?',
         text: 'Data yang dihapus tidak dapat dikembalikan!',
         icon: 'warning',
         showCancelButton: true,
@@ -758,7 +758,7 @@ $(document).on('click', '.btn-delete', function() {
             // Pengguna mengonfirmasi, kirim permintaan AJAX untuk menghapus
             $.ajax({
                 type: 'POST',
-                url: '<?php echo base_url('admin/jadwal_uap/delete'); ?>',
+                url: '<?php echo base_url('admin/jadwaluas/deleteJadwal'); ?>',
                 data: formData,
                 dataType: 'json',
                 success: function(response) {

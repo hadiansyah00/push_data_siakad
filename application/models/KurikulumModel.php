@@ -70,6 +70,23 @@ public function getKdJurusanByKdMk($kd_mk)
 		$query = $this->db->get();
 		return $query;
 	}
+	public function getAll_praktik($id)
+	{
+		$this->db->select('*');
+		$this->db->from('praktik');
+		$this->db->join('ta', 'ta.id_ta = praktik.id_ta', 'left');
+		$this->db->join('jurusan', 'jurusan.kd_jurusan = praktik.kd_jurusan', 'left');
+		// $this->db->join('peran_dosen', 'peran_dosen.id_peran = kurikulum.id_peran');
+		// $this->db->join('perdos', 'perdos.id_perdos = kurikulum.id_perdos');
+		// $this->db->join('dosen', 'dosen.id_dosen = kurikulum.id_dosen', 'left');
+		$this->db->join('matakuliah', 'matakuliah.kd_mk = praktik.kd_mk', 'left');
+		$this->db->where('praktik.kd_jurusan', $id);
+		$this->db->order_by('smt', 'ASC');
+		$this->db->order_by('id_praktik', 'DESC');
+		
+		$query = $this->db->get();
+		return $query;
+	}
 	
 
 	public function getAll_krs($id)
@@ -105,6 +122,7 @@ public function getKdJurusanByKdMk($kd_mk)
     $this->db->join('matakuliah', 'matakuliah.kd_mk = kurikulum.kd_mk', 'left');
     $this->db->where('kurikulum.kd_jurusan', $id);
 	$this->db->where('ta.status', 1); // Kondisi ta = 1
+	$this->db->order_by('id_krs');
     $this->db->group_by('matakuliah.kd_mk');
 
     $this->db->order_by('matakuliah.kd_mk', 'ASC');
@@ -203,7 +221,16 @@ public function getKRSByMatakuliahNilai($id) {
 		$query = $this->db->get();
 		return $query;
 	}
-
+	public function getMatkulPraktikum($id)
+	{
+		$this->db->select('*');
+		$this->db->from('matakuliah');
+		$this->db->where('mk_kategori = 1');
+		$this->db->where('matakuliah.kd_jurusan', $id);
+		$this->db->order_by('smt', 'ASC');
+		$query = $this->db->get();
+		return $query;
+	}
 
 	public function getJurusan()
 	{
@@ -319,6 +346,14 @@ public function getKRSByMatakuliahNilai($id) {
         $this->db->select('*');
         $this->db->from('kurikulum'); 
         $this->db->where('id_kurikulum', $id_kurikulum);
+        $query = $this->db->get();
+
+        return $query->row_array();
+    }
+	public function getKurikulumPraktikById($id_praktik) {
+        $this->db->select('*');
+        $this->db->from('praktik'); 
+        $this->db->where('id_praktik', $id_praktik);
         $query = $this->db->get();
 
         return $query->row_array();

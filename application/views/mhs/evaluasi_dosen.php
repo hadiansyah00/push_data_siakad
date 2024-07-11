@@ -1,199 +1,239 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <title>Formulir Evaluasi Dosen</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <style>
-    body {
-        font-size: 16px;
-    }
-
-    .container-center {
-        margin: auto;
-    }
-
-    table {
-        font-size: 14px;
-        width: 100%;
-        border-collapse: collapse;
-        border: 0;
-        /* Tambahkan ini untuk menghilangkan garis di sekitar tabel */
-    }
-
-    th,
-    td {
-        border: 0;
-        /* Tambahkan ini untuk menghilangkan garis di sekitar sel header dan sel data */
-        padding: 10px;
-    }
-
-    thead {
-        background-color: #333;
-        color: #fff;
-    }
-
-    th {
-        background-color: #555;
-    }
-
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-
-    tr:hover {
-        background-color: #ddd;
-    }
-
-    .transparan {
-        background-color: rgba(255, 255, 255, 0.7);
-        /* Warna putih dengan tingkat kejernihan 0.7 */
-    }
-
-    .text-center {
-        text-align: center;
-    }
-
-    .table-row {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    /* Tambahkan ini untuk menghilangkan efek hover pada th dan td */
-    th:hover,
-    td:hover {
-        background-color: initial;
-    }
-    </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.all.min.js"></script>
-</head>
-
-<body>
-    <div class="container-fluid mt-6">
-        <div class="container container-center">
-            <div class="card">
-                <div class="card-body">
-                    <figure class="text-center">
-                        <blockquote class="blockquote">
-                            <p>Formulir Evaluasi Dosen Mahasiswa</p>
-                        </blockquote>
-
-                        <figcaption class="blockquote-footer">
-                            DOSEN PENGAJAR 1<cite title="Source Title"></cite>
-                        </figcaption>
-                    </figure>
-                    <div class="box-body col-md-5">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <th>Nama Dosen</th>
-                                    <td> : </td>
-                                    <td><?php echo $dosen->nama_dosen; ?></td>
-                                </tr>
-                                <tr>
-                                    <th>Kode MK</th>
-                                    <td> : </td>
-                                    <td><?php echo $kd_mk; ?></td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <form method="post" action="<?php echo site_url('mhs/Evaluasi_mhs/simpan'); ?>"
-                        onsubmit="return validateForm()">
-                        <input type="hidden" name="id_dosen" value="<?php echo $dosen->id_dosen; ?>">
-                        <input type="hidden" name="id_krs" value="<?php echo $krs->id_krs; ?>">
-                        <input type="hidden" name="kd_mk" value="<?php echo $kd_mk; ?>">
-                        <input type="hidden" name="id_mahasiswa" value="<?php echo $mhs['id_mahasiswa']; ?>">
-                        <input type="hidden" name="id_ta" value="<?php echo $tahun['id_ta']; ?>">
-                        <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
-                            value="<?= $this->security->get_csrf_hash(); ?>">
-
-                        <div class="table-responsive transparan">
-                            <table class="table table-striped mx-auto">
-                                <!-- Tambahkan mx-auto untuk center tabel -->
-                                <tbody>
-                                    <?php
-                                    $i = 1;
-                                    if (!empty($pertanyaan)) {
-                                        foreach ($pertanyaan as $row) {
-                                            echo '<tr>';
-                                            echo '<td>' . $i . '</td>';
-                                            echo '<td class="d-flex flex-column">' . $row->pertanyaan . '</td>';
-                                            echo '<td class="d-flex flex-column">';
-                                            echo '<label><input type="radio" name="jawaban[' . $row->id_eval . ']" value="5" required> Sangat Baik</label>';
-                                            echo '<label><input type="radio" name="jawaban[' . $row->id_eval . ']" value="4" required> Baik</label>';
-                                            echo '<label><input type="radio" name="jawaban[' . $row->id_eval . ']" value="3" required> Cukup</label>';
-                                            echo '<label><input type="radio" name="jawaban[' . $row->id_eval . ']" value="2" required> Kurang Baik</label>';
-                                            echo '<label><input type="radio" name="jawaban[' . $row->id_eval . ']" value="1" required> Sangat Kurang Baik</label>';
-                                            echo '</td>';
-                                            echo '</tr>';
-                                            $i++;
-                                        }
-                                    } else {
-                                        echo '<tr><td colspan="3">Tidak ada pertanyaan yang tersedia saat ini.</td></tr>';
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="form-floating">
-                            <textarea class="form-control" name="saran" id="floatingTextarea2" required></textarea>
-                            <label for="floatingTextarea2">Kritik dan Saran</label>
-                        </div>
-
-
-
-                        <!-- Menambahkan elemen untuk menampilkan pesan kesalahan -->
-                        <div id="error-container"></div>
-                        <br>
-                        <div style="display: flex; justify-content: center;">
-                            <input class="btn btn-success btn-sm" type="submit" value="Kirim Evaluasi Dosen"
-                                onclick="return confirm('Pastikan keputusan Anda, tindakan ini tidak dapat dibatalkan.')">
-
-                        </div>
-                    </form>
-                </div>
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$this->load->view('mhs/dist/header');
+?>
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets-new-look/modules/datatables/datatables.min.css">
+<link rel="stylesheet"
+    href="<?php echo base_url(); ?>assets-new-look/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet"
+    href="<?php echo base_url(); ?>assets-new-look/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css">
+<!-- Main Content -->
+<div class="main-content">
+    <section class="section">
+        <div class="section-header">
+            <h1>Evaluasi Dosen Mahasiswa Teori Dosen 1</h1>
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
+                <div class="breadcrumb-item"><a href="#">Edom Praktik</a></div>
+                <div class="breadcrumb-item">Mengisi EDOM</div>
             </div>
         </div>
-    </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-    <script>
-    function validateForm() {
-        var radios = document.querySelectorAll('input[type="radio"]');
-        var isAnyRadioChecked = false;
+        <div class="section-body">
+            <h2 class="section-title">Pengisian Evaluasi Dosen Mahasiswa</h2>
+            <p class="section-lead">Tahun Akademik <?php echo $tahun['ta'] ?> / <?php echo $tahun['semester'] ?></p>
+            <div class="row">
+                <div class="box-body col-md-8">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>Nama Dosen</th>
+                                <td>:</td>
+                                <td><?php echo $dosen->nama_dosen; ?></td>
+                            </tr>
+                            <tr>
+                                <th>Matakuliah</th>
+                                <td>:</td>
+                                <td><?php echo $kd_mk; ?> / <?php echo $nama_matakuliah; ?></td>
+                            </tr>
 
-        radios.forEach(function(radio) {
-            if (radio.checked) {
-                isAnyRadioChecked = true;
-            }
-        });
+                        </tbody>
+                    </table>
+                    <div id="notification" style="display:none;">Form submitted successfully!</div>
+                    <div id="error-container" style="display:none;"></div>
+                </div>
+                <form id="evaluasiForm" method="post" action="<?php echo site_url('mhs/Evaluasi_mhs/simpan'); ?>">
+                    <input type="hidden" name="id_dosen" value="<?php echo $dosen->id_dosen; ?>">
+                    <input type="hidden" name="id_krs" value="<?php echo $krs->id_krs; ?>">
+                    <input type="hidden" name="kd_mk" value="<?php echo $kd_mk; ?>">
+                    <input type="hidden" name="id_mahasiswa" value="<?php echo $mhs['id_mahasiswa']; ?>">
+                    <input type="hidden" name="id_ta" value="<?php echo $tahun['id_ta']; ?>">
+                    <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
+                        value="<?= $this->security->get_csrf_hash(); ?>">
 
-        if (!isAnyRadioChecked) {
-            // Menggunakan SweetAlert untuk menampilkan pesan kesalahan
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Harap isi semua pertanyaan sebelum mengirimkan evaluasi.'
-            });
-            return false;
+                    <div class="table-responsive transparan">
+                        <div class="pertanyaan-jawaban">
+                            <?php
+                    $i = 1;
+                    if (!empty($pertanyaan)) {
+                        foreach ($pertanyaan as $row) {
+                            echo '<div class="pertanyaan-row">';
+                            echo '<div class="pertanyaan-number">' . $i . '</div>';
+                            echo '<div class="pertanyaan-text">' . $row->pertanyaan . '</div>';
+                            echo '<div class="jawaban-options">';
+                            echo '<label><input type="radio" name="jawaban[' . $row->id_eval . ']" value="5" required> Sangat Baik</label>';
+                            echo '<label><input type="radio" name="jawaban[' . $row->id_eval . ']" value="4" required> Baik</label>';
+                            echo '<label><input type="radio" name="jawaban[' . $row->id_eval . ']" value="3" required> Cukup</label>';
+                            echo '<label><input type="radio" name="jawaban[' . $row->id_eval . ']" value="2" required> Kurang Baik</label>';
+                            echo '<label><input type="radio" name="jawaban[' . $row->id_eval . ']" value="1" required> Sangat Kurang Baik</label>';
+                            echo '</div>';
+                            echo '</div>';
+                            $i++;
+                        }
+                    } else {
+                        echo '<div class="no-pertanyaan">Tidak ada pertanyaan yang tersedia saat ini.</div>';
+                    }
+                    ?>
+                        </div>
+                    </div>
+
+                    <div class="form-floating mt-4">
+                        <label for="floatingTextarea2">Kritik dan Saran</label>
+                        <textarea class="form-control" name="saran" id="floatingTextarea2" required></textarea>
+
+                    </div>
+
+                    <div id="error-container"></div>
+                    <br>
+                    <div style="display: flex; justify-content: center;">
+                        <input class="btn btn-success btn-sm" type="submit" value="Kirim Evaluasi Dosen">
+                    </div>
+                </form>
+
+                <!-- Elemen untuk menampilkan notifikasi -->
+                <!-- <div id="notification" style="display:none; color: green; text-align: center;">Terimakasih telah
+                    menggisi EDOM</div> -->
+            </div>
+        </div>
+
+        <style>
+        .pertanyaan-jawaban {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
-        // Menggunakan SweetAlert untuk menampilkan pesan sukses setelah mengirim formulir
+        .pertanyaan-row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .pertanyaan-number {
+            font-weight: bold;
+        }
+
+        .pertanyaan-text {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .jawaban-options {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .jawaban-options label {
+            margin: 0;
+        }
+        </style>
+
+
+</div>
+
+</div>
+</section>
+</div>
+<?php $this->load->view('mhs/dist/footer'); ?>
+<script src="<?php echo base_url(); ?>assets-new-look/modules/datatables/datatables.min.js"></script>
+<script
+    src="<?php echo base_url(); ?>assets-new-look/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js">
+</script>
+
+<script src="<?php echo base_url(); ?>assets-new-look/modules/datatables/Select-1.2.4/js/dataTables.select.min.js">
+</script>
+
+
+<script src="<?php echo base_url(); ?>assets-new-look/modules/jquery-ui/jquery-ui.min.js"></script>
+<script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-datatables.js"></script>
+
+<script src="<?php echo base_url(); ?>assets-new-look/modules/sweetalert/sweetalert.min.js">
+</script>
+
+
+<script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-sweetalert.js"></script>
+<script>
+function validateForm() {
+    var radios = document.querySelectorAll('input[type="radio"]');
+    var isAnyRadioChecked = false;
+
+    radios.forEach(function(radio) {
+        if (radio.checked) {
+            isAnyRadioChecked = true;
+        }
+    });
+
+    if (!isAnyRadioChecked) {
+        // Menggunakan SweetAlert untuk menampilkan pesan kesalahan
         Swal.fire({
-            icon: 'success',
-            title: 'Sukses!',
-            text: 'Data berhasil dikirim.'
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Harap isi semua pertanyaan sebelum mengirimkan evaluasi.'
         });
-
-        return true;
+        return false;
     }
-    </script>
-</body>
 
-</html>
+    // Menggunakan SweetAlert untuk menampilkan pesan sukses setelah mengirim formulir
+    Swal.fire({
+        icon: 'success',
+        title: 'Sukses!',
+        text: 'Data berhasil dikirim.'
+    });
+
+    return true;
+}
+$(document).ready(function() {
+    $('#evaluasiForm').on('submit', function(event) {
+        event.preventDefault(); // Mencegah form dikirim secara normal
+
+        // Tampilkan SweetAlert konfirmasi
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Anda tidak bisa mengubah data setelah disubmit.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Submit!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Jika pengguna mengkonfirmasi, kirim form melalui AJAX
+                $.ajax({
+                    url: $('#evaluasiForm').attr('action'),
+                    method: 'POST',
+                    data: $('#evaluasiForm').serialize(),
+                    success: function(response) {
+                        // Tampilkan SweetAlert sukses
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Edom Teori telah berhasil disubmit!',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 2000
+                        }).then(function() {
+                            // Alihkan pengguna ke halaman baru setelah beberapa detik
+                            window.location.href =
+                                '<?php echo site_url('mhs/edom/teori'); ?>';
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        // Tampilkan pesan kesalahan jika ada
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Terjadi kesalahan. Silakan coba lagi.',
+                            icon: 'error',
+                            showConfirmButton: true
+                        });
+                    }
+                });
+            }
+        });
+    });
+});
+</script>

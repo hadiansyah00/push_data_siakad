@@ -142,22 +142,22 @@ public function insert()
 			echo json_encode(['status' => 'error', 'message' => 'Failed to update data Mahasiswa']);
 		}
 	}
-	public function delete() {
+	public function deleteJadwal() {
         // Pastikan ini adalah permintaan AJAX
         if (!$this->input->is_ajax_request()) {
             exit('No direct script access allowed');
         }
 
         // Tangkap ID jadwal yang akan dihapus dari permintaan POST
-        $id_jadwal = $this->input->post('id_jadwal');
+        $id_jadwal = $this->input->post('id');
 
         // Hapus data dengan menggunakan model
-        $delete = $this->JadwaluasModel->delete_data($id_jadwal);
+        $delete = $this->JadwaluasModel->delete_data_jadwal($id_jadwal);
 
         if ($delete) {
             // Berhasil dihapus
             $response['status'] = 'success';
-            $response['message'] = 'Data Jadwal berhasil dihapus.';
+            $response['message'] = 'Data Jadwal UAS berhasil dihapus.';
         } else {
             // Gagal menghapus
             $response['status'] = 'error';

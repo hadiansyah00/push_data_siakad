@@ -102,6 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <li class="<?php echo $this->uri->segment(2) == 'Krs' ? 'active' : ''; ?>"><a class="nav-link"
                 href="<?php echo base_url(); ?>mhs/Krs">Input KRS</a>
         </li>
+
         <?php } ?>
 
         <?php if ($mhs['status'] == 0 ) { ?>
@@ -141,21 +142,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </li>
         <?php if ($mhs['status_nilai_khs'] == 0 ) { ?>
         <li class="<?php echo $this->uri->segment(2) == 'Khs' ? 'active' : ''; ?>"> <a href="#" class="nav-link"
-                data-toggle="modal" data-target="#ModalVerfikasiBauk">Lihat KHS</a>
+                data-toggle="modal" data-target="#ModalVerfikasiBauk">Kartu Hasil Studi </a>
+        </li>
+
         </li>
         <?php } else { ?>
         <li class="<?php echo $this->uri->segment(2) == 'Khs' ? 'active' : ''; ?>"><a class="nav-link"
-                href="<?php echo base_url(); ?>mhs/Khs"> Lihat KHS</a></li>
+                href="<?php echo base_url(); ?>mhs/Khs"> Kartu Hasil Studi</a></li>
 
         <?php } ?>
+        <li class="<?php echo $this->uri->segment(2) == 'transkrip' ? 'active' : ''; ?>"><a class="nav-link"
+                href="<?php echo base_url(); ?>mhs/transkrip"> Transkrip Nilai</a> </li>
 
         </ul>
         </li>
+        <li class="menu-header">Evaluasi Dosen Mahasiswa</li>
 
+        <li
+            class="dropdown <?php echo $this->uri->segment(2) == 'edom/teori' || $this->uri->segment(2) == 'edom/praktik'  ? 'active' : ''; ?>">
+            <a href="#" class="nav-link has-dropdown"><i class="far fa-file-alt"></i> <span>EDOM</span></a>
+            <ul class="dropdown-menu">
 
-        <li class="<?php echo $this->uri->segment(2) == 'transkrip' ? 'active' : ''; ?>"><a class="nav-link"
-                href="<?php echo base_url(); ?>mhs/transkrip"><i class="far fa-file-alt"></i>
-                <span>Transkrip Nilai</span></a></li>
+                <li class="<?php echo $this->uri->segment(2) == 'edom/teori' ? 'active' : ''; ?>"><a class="nav-link"
+                        href="<?php echo base_url(); ?>mhs/edom/teori"> EDOM Teori</a></li>
+                <li class="<?php echo $this->uri->segment(2) == 'edom/praktik' ? 'active' : ''; ?>"><a class="nav-link"
+                        href="<?php echo base_url(); ?>mhs/edom/praktik"> EDOM Praktek</a> </li>
+            </ul>
+        </li>
+
         <li class="menu-header">Administrasi</li>
 
         <li class="<?php echo $this->uri->segment(2) == 'administrasi' ? 'active' : ''; ?>"><a class="nav-link"

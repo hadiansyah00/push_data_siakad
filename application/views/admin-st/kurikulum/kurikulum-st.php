@@ -15,18 +15,13 @@ $this->load->view('admin-st/dist/header');
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="#">Data Master</a></div>
                 <div class="breadcrumb-item"><a href="#">Data Program Studi</a></div>
-                <!-- <div class="breadcrumb-item">Data Kurikulum</div> -->
             </div>
         </div>
-
         <div class="section-body">
-
-
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -68,6 +63,7 @@ $this->load->view('admin-st/dist/header');
         </div>
     </section>
 </div>
+
 <?php $this->load->view('admin-st/dist/footer'); ?>
 <!-- JS Libraies -->
 <script src="<?php echo base_url(); ?>assets-new-look/modules/datatables/datatables.min.js"></script>
@@ -77,7 +73,5 @@ $this->load->view('admin-st/dist/header');
 
 <script src="<?php echo base_url(); ?>assets-new-look/modules/datatables/Select-1.2.4/js/dataTables.select.min.js">
 </script>
-
-
 <script src="<?php echo base_url(); ?>assets-new-look/modules/jquery-ui/jquery-ui.min.js"></script>
 <script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-datatables.js"></script>

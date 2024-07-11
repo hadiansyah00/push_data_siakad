@@ -206,9 +206,9 @@ class JadwaluasModel extends CI_Model
 	{
 		return $this->db->get_where($table, $where);
 	}
-	 public function delete_data($id_jadwal) {
+	 public function delete_data_jadwal($id_jadwal) {
         // Lakukan penghapusan data dari database
-        $this->db->where('id_jadwal', $id_jadwal);
+        $this->db->where('id', $id_jadwal);
         $delete = $this->db->delete('jadwal_uas');
 
         // Mengembalikan status penghapusan

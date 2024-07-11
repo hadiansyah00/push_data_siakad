@@ -28,10 +28,12 @@ class Krs extends CI_Controller
 		$data['tahun'] = $this->TaModel->getAktifKrs()->row_array();
 		$data['mk'] = $this->TaModel->getMk()->row_array();
 		$data['mk_2'] = $this->TaModel->getMk_2()->row_array();
+		$data['mk_3'] = $this->TaModel->getMkPrak()->row_array();
 		//get data from session
 		$data['mhs'] = $this->KrsModel->getDataMhs();
 		//form get KRS for mhs
 		$data['getKrs'] = $this->KrsModel->getMatkul_KRS($mhs['kd_jurusan'], $ta['id_ta']);
+		$data['getPrak'] = $this->KrsModel->getMatkul_PRAK($mhs['kd_jurusan'], $ta['id_ta']);
 		
 		//form get KRS filter berdasarkan tahun akademik aktif
 // 		$data['getKrs'] = $this->KrsModel->getMatkul_KRS($ta['id_ta'], $mhs['kd_jurusan'],);
@@ -118,7 +120,7 @@ class Krs extends CI_Controller
         return false;
     }
     public function simpan_krs()
-{
+	{
     if ($this->input->is_ajax_request()) {
         $selectedKrs = $this->input->post('krs');
 
@@ -163,6 +165,52 @@ class Krs extends CI_Controller
     }
 }
 
+ public function simpan_praktikum()
+	{
+    if ($this->input->is_ajax_request()) {
+        $selectedPraktik= $this->input->post('krsprak');
+
+        // Validasi jika tidak ada mata kuliah yang dipilih
+        if (empty($selectedPraktik)) {
+            $response = array('status' => 'error', 'message' => 'Pilih setidaknya satu mata kuliah Praktikum.');
+        } else {
+            // Dapatkan data mata kuliah berdasarkan ID dan data mahasiswa
+            $mhs = $this->KrsModel->getDataMhs();
+            $ta = $this->TaModel->getAktif()->row_array();
+
+            foreach ($selectedPraktik as $p) {
+                $s = $this->KurikulumModel->getKurikulumPraktikById($p);
+                $id_perdos = $s['id_perdos'];
+                $id_peran = $s['id_peran'];
+
+                // Buat array data untuk penyimpanan KRS
+                $data = array(
+					
+                    'id_praktik' => $p,
+                    'id_ta' => $ta['id_ta'],
+                    'id_mahasiswa' => $mhs['id_mahasiswa'],
+                    'id_peran' => $id_peran,
+                    'id_perdos' => $id_perdos,
+                    'tgl_insert' => date('Y-m-d'),
+                  
+                );
+
+                // Contoh implementasi penyimpanan KRS di dalam model dengan validasi
+                $result = $this->KrsModel->simpanDataPraktik($data);
+
+                // Memberikan respons ke client (JavaScript)
+                $response = array(
+                    'status' => $result['status'],
+                    'message' => $result['message']
+                );
+            }
+        }
+
+        echo json_encode($response);
+    } else {
+        show_404();
+    }
+}
 
 
 
@@ -191,5 +239,31 @@ class Krs extends CI_Controller
 			</div>'
 		);
 		redirect('mhs/KrsView');
+	}
+	public function deletePrak($krsId)
+	{
+		$where = array('id_krs_prak' => $krsId);
+
+		$this->db->delete('krs_praktik', $where);
+		$this->session->set_flashdata(
+			'pesan',
+			'<div class="alert alert-block alert-danger">
+				<button type="button" class="close" data-dismiss="alert">
+					<i class="icofont-times"></i>
+				</button>
+
+				<i class="icofont-check red"></i>
+
+				Data  
+				<strong class="red">
+					KRS
+				</strong> berhasil 
+				<strong class="red">
+					dihapus!
+				</strong>
+				
+			</div>'
+		);
+		redirect('mhs/krs');
 	}
 }

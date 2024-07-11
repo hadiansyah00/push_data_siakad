@@ -88,6 +88,21 @@ class KrsModel extends CI_Model
 			$query = $this->db->get()->result();
 			return $query;
 		}
+			public function getMatkul_PRAK($kd_jurusan)
+		{
+			$this->db->select('*');
+			$this->db->from('praktik');
+			$this->db->join('ta', 'ta.id_ta = praktik.id_ta', 'left');
+			$this->db->join('peran_dosen', 'peran_dosen.id_peran = praktik.id_peran', 'left');
+			$this->db->join('perdos', 'perdos.id_perdos = praktik.id_perdos', 'left');
+			$this->db->join('matakuliah', 'matakuliah.kd_mk = praktik.kd_mk', 'left');
+			$this->db->join('jurusan', 'jurusan.kd_jurusan = praktik.kd_jurusan', 'left');
+			$this->db->where('praktik.kd_jurusan', $kd_jurusan);
+			$this->db->order_by('id_praktik', 'DESC');
+			$this->db->order_by('smt', 'ASC');
+			$query = $this->db->get()->result();
+			return $query;
+		}
 		
 		 public function getMatkul_KRS_mk_pilihan($kd_jurusan)
 			{
@@ -149,6 +164,20 @@ class KrsModel extends CI_Model
         }
     }
 
+	public function simpanDataPraktik($data)
+    {
+       try {
+            
+            $this->db->insert('krs_praktik', $data);
+
+         
+            return array('status' => 'success', 'message' => 'Praktik berhasil disimpan');
+        } catch (Exception $e) {
+           
+            return array('status' => 'error', 'message' => 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
 public function addKrs($data)
 {
     $this->db->trans_start();
@@ -194,6 +223,21 @@ public function addKrs($data)
 		$query = $this->db->get()->result();
 		return $query;
 	}
+	public function viewPraktik($id_mahasiswa, $id_ta)
+		{
+			$this->db->select('*');
+			$this->db->from('krs_praktik');
+			$this->db->join('praktik', 'praktik.id_praktik = krs_praktik.id_praktik', 'left');
+			$this->db->join('matakuliah', 'matakuliah.kd_mk = praktik.kd_mk', 'left');
+			$this->db->join('ta', 'ta.id_ta = krs_praktik.id_ta', 'left');
+			
+			$this->db->where('id_mahasiswa', $id_mahasiswa);
+			$this->db->where('krs_praktik.id_ta', $id_ta);
+			$this->db->order_by('sks', 'DESC');
+			$query = $this->db->get()->result();
+			return $query;
+		}
+
 		public function viewEdom($id_mahasiswa, $id_ta)
 	{
 		$this->db->select('*');
@@ -304,6 +348,17 @@ public function viewAllDosen($id_mahasiswa)
 		$query = $this->db->get('krs');
 		return $query->row(); // Mengembalikan satu baris data KRS
 	}
+
+	public function getByIdKrsprak($id_krs_prak)
+	{
+		  $this->db->select('*');
+		// Implementasikan logika untuk mengambil data KRS berdasarkan $id_krs di sini
+		$this->db->where('id_krs_prak', $id_krs_prak);
+		// Kemudian ambil data dari tabel KRS
+
+		$query = $this->db->get('krs_praktik');
+		return $query->row(); // Mengembalikan satu baris data KRS
+	}
 	public function getByIdDsn($id_dosen)
 	{
 		// Implementasikan logika untuk mengambil data KRS berdasarkan $id_krs di sini
@@ -328,17 +383,34 @@ public function viewAllDosen($id_mahasiswa)
             return false;
 
     }
-    
-   public function getInfoMk() {
-        $this->db->select('*');
-        $this->db->from('matakuliah');
-        $this->db->where('kd_mk');
-        return $this->db->get()->row();
-    
+	public function getKdPrakById($id_praktik) {
+            $this->db->select('praktik.kd_mk, matakuliah.matakuliah');
+            $this->db->join('matakuliah', 'matakuliah.kd_mk = praktik.kd_mk');
+            $this->db->from('praktik');
+            $this->db->where('praktik.id_praktik', $id_praktik);
+            $query = $this->db->get();
+            
+            if ($query->num_rows() > 0) {
+                $result = $query->row();
+                return $result->kd_mk;
+            }
+            
+            return false;
+
     }
     
-    
-
+   public function getNamaMataKuliah($kd_mk)
+{
+    $this->db->select('matakuliah');
+    $this->db->from('matakuliah');
+    $this->db->where('kd_mk', $kd_mk);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+        return $query->row()->matakuliah;
+    } else {
+        return false;
+    }
+}
 	
 
 }
