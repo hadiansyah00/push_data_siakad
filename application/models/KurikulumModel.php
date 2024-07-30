@@ -70,6 +70,7 @@ public function getKdJurusanByKdMk($kd_mk)
 		$query = $this->db->get();
 		return $query;
 	}
+	
 	public function getAll_praktik($id)
 	{
 		$this->db->select('*');
@@ -123,6 +124,25 @@ public function getKdJurusanByKdMk($kd_mk)
     $this->db->where('kurikulum.kd_jurusan', $id);
 	$this->db->where('ta.status', 1); // Kondisi ta = 1
 	$this->db->order_by('id_krs');
+    $this->db->group_by('matakuliah.kd_mk');
+
+    $this->db->order_by('matakuliah.kd_mk', 'ASC');
+
+    return $this->db->get()->result();
+}
+public function getKRSByMatakuliahPraktik($id) {
+    $this->db->distinct();
+    $this->db->select('matakuliah.kd_mk, MAX(krs_praktik.id_krs_prak) AS max_id_krs_prak, MAX(perdos.id_perdos) AS max_perdos, MAX(peran_dosen.id_peran) AS max_peran, MAX(ta.status) AS max_status, MAX(jurusan.jurusan) AS max_jurusan, MAX(matakuliah.matakuliah) AS max_matakuliah, MAX(matakuliah.smt) AS max_smt, MAX(matakuliah.sks) AS max_sks, MAX(matakuliah.semester) AS max_semester, MAX(ta.ta) AS max_ta');
+    $this->db->from('krs_praktik');
+    $this->db->join('praktik', 'praktik.id_praktik = krs_praktik.id_praktik', 'left');
+    $this->db->join('ta', 'ta.id_ta = krs_praktik.id_ta', 'left');
+    $this->db->join('jurusan', 'jurusan.kd_jurusan = praktik.kd_jurusan', 'left');
+    $this->db->join('peran_dosen', 'peran_dosen.id_peran = praktik.id_peran', 'left');
+    $this->db->join('perdos', 'perdos.id_perdos = praktik.id_perdos', 'left');
+    $this->db->join('matakuliah', 'matakuliah.kd_mk = praktik.kd_mk', 'left');
+    $this->db->where('praktik.kd_jurusan', $id);
+	$this->db->where('ta.status', 1); // Kondisi ta = 1
+	$this->db->order_by('id_krs_prak');
     $this->db->group_by('matakuliah.kd_mk');
 
     $this->db->order_by('matakuliah.kd_mk', 'ASC');
@@ -221,6 +241,7 @@ public function getKRSByMatakuliahNilai($id) {
 		$query = $this->db->get();
 		return $query;
 	}
+	
 	public function getMatkulPraktikum($id)
 	{
 		$this->db->select('*');

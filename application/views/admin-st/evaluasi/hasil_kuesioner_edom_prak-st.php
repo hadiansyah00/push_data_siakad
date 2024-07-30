@@ -267,6 +267,17 @@ $this->load->view('admin-st/dist/header');
                                                 <td><?php echo $no; ?></td>
                                                 <td><?php echo $mahasiswa->nama_mhs; ?></td>
 
+                                                <!-- <div class="custom-switches-stacked mt-2">
+                                                        <label class="custom-switch">
+                                                            <input type="checkbox"
+                                                                class="custom-switch-input toggle-switch"
+                                                                data-id-mhs="<?php echo $mahasiswa->id_mahasiswa; ?>"
+                                                                <?php echo ($mahasiswa->status_edom == 1 ? 'checked' : ''); ?>>
+                                                            <span class="custom-switch-indicator"></span>
+                                                            <span class="custom-switch-description">Aktifkan</span>
+                                                        </label>
+                                                    </div> -->
+
                                             </tr>
                                             <?php
 														$no++;

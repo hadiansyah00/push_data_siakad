@@ -53,6 +53,9 @@ $users_sessions = $this->UserModel->getDataUser();
                     <li class="<?php echo $this->uri->segment(2) == 'kurikulum' ? 'active' : ''; ?>"><a class="nav-link"
                             href="<?php echo base_url(); ?>admin/kurikulum">Data Matakuliah</a>
                     </li>
+                    <li class="<?php echo $this->uri->segment(2) == 'kurikulum' ? 'active' : ''; ?>"><a class="nav-link"
+                            href="<?php echo base_url(); ?>admin/praktik">Data Matakuliah Praktik</a>
+                    </li>
                     <li class="<?php echo $this->uri->segment(2) == 'kaldik' ? 'active' : ''; ?>"><a class="nav-link"
                             href="<?php echo base_url(); ?>admin/kaldik">Data Kaldik</a>
                     </li>
@@ -67,17 +70,21 @@ $users_sessions = $this->UserModel->getDataUser();
         <li class="menu-header">Informasi Akademik</li>
         <?php if ($users_sessions['role'] == 'admin' || $users_sessions['role'] == 'upmi') { ?>
         <li
-            class="dropdown <?php echo $this->uri->segment(2) == 'KusionerEdom' || $this->uri->segment(2) == 'evaluasi' || $this->uri->segment(3) == 'getEdom'  ? 'active' : ''; ?>">
+            class="dropdown <?php echo $this->uri->segment(2) == 'KusionerEdom' || $this->uri->segment(2) == 'evaluasi' || $this->uri->segment(2) == 'getPraktikum' || $this->uri->segment(2) == 'praktikum'  ? 'active' : ''; ?>">
             <a href="#" class="nav-link has-dropdown"><i class="far fa-file-alt"></i> <span>Data Evaluasi
                     Dosen</span></a>
             <ul class="dropdown-menu">
-                <li class="<?php echo $this->uri->segment(2) == 'KusionerEdom' ? 'active' : ''; ?>"><a class="nav-link "
-                        href="<?php echo base_url(); ?>admin/KusionerEdom"> Evaluasi Dosen</a></li>
                 <li class="<?php echo $this->uri->segment(2) == 'evaluasi' ? 'active' : ''; ?>"><a class="nav-link"
                         href="<?php echo base_url(); ?>admin/evaluasi">Pertanyaan Edom</a>
                 </li>
-                <li class="<?php echo $this->uri->segment(2) == 'evaluasi' ? 'active' : ''; ?>"><a class="nav-link"
-                        href="<?php echo base_url(); ?>admin/Praktikum">Praktik EDOM</a>
+                <li class="<?php echo $this->uri->segment(2) == 'KusionerEdom' ? 'active' : ''; ?>"><a class="nav-link "
+                        href="<?php echo base_url(); ?>admin/KusionerEdom">Teori EDOM</a></li>
+
+                <li class="<?php echo $this->uri->segment(2) == 'praktikum' ? 'active' : ''; ?>"><a class="nav-link"
+                        href="<?php echo base_url(); ?>admin/praktikum">Praktik EDOM</a>
+                </li>
+                <li class="<?php echo $this->uri->segment(2) == 'getPraktikum' ? 'active' : ''; ?>"><a class="nav-link"
+                        href="<?php echo base_url(); ?>admin/getPraktikum"> EDOM BETA</a>
                 </li>
             </ul>
         </li>

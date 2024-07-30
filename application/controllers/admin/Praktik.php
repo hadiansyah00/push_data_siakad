@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Kurikulum extends CI_Controller
+class Praktik extends CI_Controller
 {
 
 	public function __construct()
@@ -15,31 +15,32 @@ class Kurikulum extends CI_Controller
 
 	  public function index()
     {
-        $data['title'] = 'Modul Matakuliah SBH';
+        $data['title'] = 'Modul Matakuliah Praktik SBH';
         $data['judul'] = 'Akademik';
-        $data['subJudul'] = 'Matakuliah ';
+        $data['subJudul'] = 'Matakuliah Praktik';
         $data['tahun'] = $this->TaModel->getAktif()->result();
         $data['jurusan'] = $this->JurusanModel->getData('jurusan')->result();
-      $this->load->view('admin-st/kurikulum/kurikulum-st', $data);
+		$this->load->view('admin-st/kurikulum/kurikulum_praktik-st', $data);
+      
     }
 	  
 	
-    public function index_kurikulum($id)
+    public function index_kurikulum_praktik($id)
     {
-        $data['title'] = 'Modul Matakuliah SBH';
+        $data['title'] = 'Modul Matakuliah Praktik SBH';
         $data['judul'] = 'Akademik';
-        $data['subJudul'] = 'Matakuliah';
+        $data['subJudul'] = 'Matakuliah Praktik';
         $where = array('kd_jurusan' => $id);
         $data['tahun'] = $this->TaModel->getAktif()->row_array();
         $data['detil'] = $this->JurusanModel->detilData('jurusan', $where)->result();
-        $data['matkul'] = $this->KurikulumModel->getMatkul($id)->result();
-        $data['kurikulum'] = $this->KurikulumModel->getAll($id)->result();
+        $data['matkul'] = $this->KurikulumModel->getMatkulPraktikum($id)->result();
+        $data['kurikulum'] = $this->KurikulumModel->getAll_praktik($id)->result();
         $data['perdos'] = $this->DosenModel->getDataPerdos('peran_dosen')->result();
         $data['dosen_1'] = $this->DosenModel->getPerdos1('peran_dosen')->result();
         $data['dosen_2'] = $this->DosenModel->getPerdos2('perdos')->result();
 
 		
-        $this->load->view('admin-st/kurikulum/master_kurikulum-st', $data);
+        $this->load->view('admin-st/kurikulum/master_kurikulum_praktik-st', $data);
     }
 	   public function getKurikulumById2($id) {
         if ($this->input->is_ajax_request()) {
@@ -78,7 +79,7 @@ class Kurikulum extends CI_Controller
                 'tgl_insert' => date('Y-m-d')
             ];
 
-            $this->KurikulumModel->insertData('kurikulum', $data);
+            $this->KurikulumModel->insertData('praktik', $data);
             echo json_encode(['status' => 'success', 'message' => 'Data Matakuliah berhasil disimpan']);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid Request Method']);
@@ -126,9 +127,9 @@ class Kurikulum extends CI_Controller
 
 	public function delete()
 {
-    $id = $this->input->post('id_kurikulum');
+    $id = $this->input->post('id_praktik');
  
-    $result = $this->MahasiswaModel->deleteData('kurikulum', array('id_kurikulum' => $id));
+    $result = $this->MahasiswaModel->deleteData('praktik', array('id_praktik' => $id));
     if ($result) {
         echo json_encode(array('status' => 'success'));
     } else {

@@ -128,9 +128,39 @@ public function getRataRataByIdKrsDosen($kd_mk, $id_dosen) {
 
     return $query->result();
 }
+public function getRataRataByIdKrsDosenPraktik($kd_mk, $id_dosen) {
+    $this->db->select('evaluasi.id_eval, evaluasi.pertanyaan, AVG(ejp.jawaban) as rata_rata, matakuliah.matakuliah, jurusan.jurusan, dosen.nama_dosen, dosen.nidn, ta.semester as semes, ta.ta as tahun_ajaran');
+    $this->db->from('evaluasi_jawaban_prak ejp');
+    $this->db->join('evaluasi', 'evaluasi.id_eval = ejp.id_eval', 'left');
+    $this->db->join('dosen', 'dosen.id_dosen = ejp.id_dosen', 'left');
+    $this->db->join('krs_praktik kp', 'kp.id_krs_prak = ejp.id_krs_prak', 'left');
+    $this->db->join('ta', 'ta.id_ta = ejp.id_ta', 'left');
+    $this->db->join('praktik pr', 'pr.id_praktik = kp.id_praktik', 'left');
+    $this->db->join('matakuliah', 'matakuliah.kd_mk = pr.kd_mk', 'left');
+    $this->db->join('jurusan', 'jurusan.kd_jurusan = pr.kd_jurusan', 'left');
+    $this->db->where('ejp.kd_mk', $kd_mk);
+    $this->db->where('dosen.id_dosen', $id_dosen);
+    $this->db->group_by('evaluasi.id_eval');
+    $query = $this->db->get();
+
+    return $query->result();
+}
 
 
-    public function getSaran($kd_mk, $id_dosen) {
+    public function getSaranprak($kd_mk, $id_dosen) {
+    
+    $this->db->select('*');
+    $this->db->from('edom_saran_prak');
+	$this->db->join('matakuliah', 'matakuliah.kd_mk = edom_saran_prak.kd_mk', 'left');
+    $this->db->join('dosen', 'dosen.id_dosen = edom_saran_prak.id_dosen','left');
+    $this->db->where('edom_saran_prak.kd_mk', $kd_mk);
+    $this->db->where('edom_saran_prak.id_dosen', $id_dosen);
+
+    $query = $this->db->get();
+
+    return $query->result();
+}
+ public function getSaran($kd_mk, $id_dosen) {
     
     $this->db->select('*');
     $this->db->from('edom_saran');
@@ -155,24 +185,43 @@ public function getRataRataByIdKrsDosen($kd_mk, $id_dosen) {
     $query = $this->db->get();
     return $query->row()->total_mahasiswa;
 }
+public function countMahasiswaEvaluasiPraktik($id_dosen) {
+    $this->db->select('COUNT(DISTINCT id_mahasiswa) as total_mahasiswa');
+    $this->db->from('evaluasi_jawaban_prak');
+    $this->db->where('id_dosen', $id_dosen); // Tambahkan kondisi berdasarkan id_dosen
+    $this->db->where('jawaban IS NOT NULL');
+ 
+    $query = $this->db->get();
+    return $query->row()->total_mahasiswa;
+}
 
 	public function MahasiswaEvaluasi($id_dosen , $kd_mk) {
 		$this->db->select('nama_mhs, saran,mahasiswa.id_mahasiswa,mahasiswa.status_edom');
 		$this->db->from('edom_saran');
 		$this->db->join('mahasiswa', 'mahasiswa.id_mahasiswa = edom_saran.id_mahasiswa');
 		$this->db->where('edom_saran.id_dosen', $id_dosen);
-			$this->db->where('edom_saran.kd_mk', $kd_mk);
-		// $this->db->where('evaluasi_jawaban.jawaban IS NOT NULL');
+		$this->db->where('edom_saran.kd_mk', $kd_mk);
 		$query = $this->db->get();
 		return $query->result();
 	}
-	public function Mahasiswakrs($kd_mk) {
-		$this->db->select('mahasiswa.nama_mhs,kurikulum.kd_mk'); // Mengambil nama mahasiswa
-		$this->db->from('krs');
-		$this->db->join('mahasiswa', 'mahasiswa.id_mahasiswa = krs.id_mahasiswa');
-		$this->db->join('ta', 'ta.id_ta = krs.id_ta', 'left');
-		$this->db->join('kurikulum', 'kurikulum.id_kurikulum = krs.id_kurikulum', 'left');
-		$this->db->where('kurikulum.kd_mk', $kd_mk);
+
+	public function MahasiswaEvaluasiPrak($id_dosen , $kd_mk) {
+		$this->db->select('nama_mhs, saran,mahasiswa.id_mahasiswa,mahasiswa.status_edom');
+		$this->db->from('edom_saran_prak');
+		$this->db->join('mahasiswa', 'mahasiswa.id_mahasiswa = edom_saran_prak.id_mahasiswa');
+		$this->db->where('edom_saran_prak.id_dosen', $id_dosen);
+		$this->db->where('edom_saran_prak.kd_mk', $kd_mk);
+		$query = $this->db->get();
+		return $query->result();
+	}
+	
+	public function MahasiswakrsPrak($kd_mk) {
+		$this->db->select('mahasiswa.nama_mhs,praktik.kd_mk'); // Mengambil nama mahasiswa
+		$this->db->from('krs_praktik');
+		$this->db->join('mahasiswa', 'mahasiswa.id_mahasiswa = krs_praktik.id_mahasiswa');
+		$this->db->join('ta', 'ta.id_ta = krs_praktik.id_ta', 'left');
+		$this->db->join('praktik', 'praktik.id_praktik = krs_praktik.id_praktik', 'left');
+		$this->db->where('praktik.kd_mk', $kd_mk);
 		$this->db->where('ta.status', 1);
 		$query = $this->db->get();
 		return $query->result();
@@ -187,6 +236,16 @@ public function getRataRataByIdKrsDosen($kd_mk, $id_dosen) {
     $this->db->where('ta.status', 1);
     
     $query = $this->db->get('krs'); // Spesifikasikan tabel krs pada get()
+    return $query->row()->total_mahasiswa;
+}
+public function countMahasiswaEvaluasi_listPrak($kd_mk) {
+    $this->db->select('COUNT(DISTINCT krs_praktik.id_mahasiswa) as total_mahasiswa');
+    $this->db->join('ta', 'ta.id_ta = krs_praktik.id_ta', 'left');
+    $this->db->join('praktik', 'praktik.id_praktik = krs_praktik.id_praktik', 'left'); // Tambahkan join dengan tabel kurikulum
+    $this->db->where('praktik.kd_mk', $kd_mk); // Tambahkan kondisi kd_mk
+    $this->db->where('ta.status', 1);
+    
+    $query = $this->db->get('krs_praktik'); // Spesifikasikan tabel krs pada get()
     return $query->row()->total_mahasiswa;
 }
 

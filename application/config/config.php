@@ -492,6 +492,10 @@ $config['csrf_exclude_uris'] = array(
 	'admin/kurikulum/delete',
 	'admin/kurikulum/update',
 
+	'admin/praktik/insert',
+	'admin/praktik/delete',
+	'admin/praktik/update',
+
 	'admin/praktikum/insert',
 	'admin/praktikum/delete',
 	'admin/praktikum/update',

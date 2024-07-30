@@ -21,7 +21,7 @@ $this->load->view('mhs/dist/header');
                     <div class="card">
                         <div class="card-header">
                             <h4><?php if ($mhs['kelas_mhs'] == 1) { ?>
-                                <a href="<?php echo base_url('mhs/Jadwaluas/print_kelas_karyawan/' . $mhs['id_mahasiswa']); ?>"
+                                <a href="<?php echo base_url('mhs/Jadwaluas/print_uas_kelas_karyawan/' . $mhs['id_mahasiswa']); ?>"
                                     target="_blank" class="btn btn-sm btn-primary "><i class="icofont-print"></i> Cetak
                                     Kartu
                                     UAS</a>

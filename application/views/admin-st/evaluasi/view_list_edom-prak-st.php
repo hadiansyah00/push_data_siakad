@@ -42,13 +42,13 @@ $this->load->view('admin-st/dist/header');
                                              <th>Matakuliah</th>
                                              <th>Semester</th>
                                              <th>SKS</th>
-                                             <th>Nama Pengajar Teori</th>
+                                             <th>Nama Pengajar Praktik</th>
 
                                          </tr>
                                      </thead>
                                      <tbody>
                                          <?php $i = 1;
-									foreach ($krs_get as $row) : ?>
+									foreach ($krs_get_prak as $row) : ?>
                                          <?php if ($row->semester == $tahun['semester']) { ?>
                                          <?php if ($row->status == $tahun['status']) { ?>
                                          <tr>
@@ -63,10 +63,10 @@ $this->load->view('admin-st/dist/header');
 
 											
                                         
-												$link_kuesioner = site_url('admin/KusionerEdom/lihat/' . $row->kd_mk . '/' . $pengajar_2);
-												$link_kuesioner_2 = site_url('admin/KusionerEdom/lihat/' . $row->kd_mk . '/' . $pengajar_1);
-												$link_cetak_1 =site_url('admin/kusioneredom/generateCetak/' . $row->kd_mk . '/' . $pengajar_2);
-												$link_cetak_2 =site_url('admin/kusioneredom/generateCetak/' . $row->kd_mk . '/' . $pengajar_1);
+												$link_kuesioner = site_url('admin/praktikum/lihat/' . $row->kd_mk . '/' . $pengajar_2);
+												$link_kuesioner_2 = site_url('admin/praktikum/lihat/' . $row->kd_mk . '/' . $pengajar_1);
+												$link_cetak_1 =site_url('admin/praktikum/generateCetak/' . $row->kd_mk . '/' . $pengajar_2);
+												$link_cetak_2 =site_url('admin/praktikum/generateCetak/' . $row->kd_mk . '/' . $pengajar_1);
 												
                                         ?>
                                              <td>

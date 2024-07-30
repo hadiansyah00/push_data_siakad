@@ -149,7 +149,7 @@ public function insert()
         }
 
         // Tangkap ID jadwal yang akan dihapus dari permintaan POST
-        $id_jadwal = $this->input->post('id');
+        $id_jadwal = $this->input->post('id_jadwal');
 
         // Hapus data dengan menggunakan model
         $delete = $this->JadwaluasModel->delete_data_jadwal($id_jadwal);

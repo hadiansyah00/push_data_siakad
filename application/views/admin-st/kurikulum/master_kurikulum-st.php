@@ -136,7 +136,7 @@ $this->load->view('admin-st/dist/header');
                                  <div class="form-group col-md-12">
                                      <label>Kurikulum</label>
                                      <?php $kd_jurusan = $this->uri->segment(4); ?>
-                                     <input type="text" name="kd_jurusan" value="<?php echo $kd_jurusan; ?>">
+                                     <input type="hidden" name="kd_jurusan" value="<?php echo $kd_jurusan; ?>">
                                      <select name="matkul" class="form-control">
                                          <option> --Pilih Matakuliah-- </option>
                                          <?php foreach ($matkul as $row) { ?>

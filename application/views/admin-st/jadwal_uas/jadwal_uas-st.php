@@ -47,8 +47,8 @@ $this->load->view('admin-st/dist/header');
                                             <th>Kelas</th>
                                             <th>Prog Studi</th>
                                             <th>Matkul</th>
+                                            <th>Semester</th>
                                             <th>SKS</th>
-                                            <th>SMT</th>
                                             <th>Tanggal UAS</th>
                                             <th>Ruang UAS</th>
                                             <th>Aksi</th>
@@ -99,7 +99,7 @@ $this->load->view('admin-st/dist/header');
 
 
                                                 <button type="button" class="btn btn-danger btn-sm btn-delete"
-                                                    data-id="<?php echo $row->id; ?>">
+                                                    data-id="<?php echo $row->id_jadwal; ?>">
                                                     Delete
                                                 </button>
                                             </td>
@@ -131,186 +131,7 @@ $this->load->view('admin-st/dist/header');
 <script src="<?php echo base_url(); ?>assets-new-look/modules/jquery-ui/jquery-ui.min.js"></script>
 <script src="<?php echo base_url(); ?>assets-new-look/js/page/modules-datatables.js"></script>
 <?php $kd_jurusan = $this->uri->segment(4); ?>
-<div class="modal fade" tabindex="-1" role="dialog" id="tambahUtsgz">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Tambah Data Jadwal UAS Gizi </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form id="formTambahUas" class="needs-validation" novalidate>
-                <div class="modal-body">
-                    <div class="modal-body">
-                        <div class="form-row">
-                            <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
-                                value="<?= $this->security->get_csrf_hash(); ?>">
-                            <div class="form-group col-lg-12">
-                                <label>Matakuliah</label>
-                                <select name="matkul" id="matkul" class="form-control">
-                                    <option> --Pilih Matakuliah-- </option>
-                                    <?php
-										foreach ($matkulgz as $row) { 	
-												?>
-                                    <option value="<?php echo $row->kd_mk; ?>">SMT <?php echo $row->smt; ?> -
-                                        <?php echo $row->kd_mk; ?> - <?php echo $row->matakuliah ?> - SKS
-                                        <?php echo $row->sks; ?></option>
-                                    <?php } ?>
 
-
-                                </select>
-                            </div>
-
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label>Ruangan</label>
-                                <select name="ruang_uas" class="form-control">
-                                    <option> --Ruangan-- </option>
-                                    <option value="1.1">1.1</option>
-                                    <option value="1.2">1.2</option>
-                                    <option value="1.3">1.3</option>
-                                    <option value="1.4 ">1.4</option>
-                                    <option value="2.6">2.6</option>
-                                    <option value="1.1 & 1.2">1.1 & 1.2</option>
-                                    <option value="1.1 & 1.4">1.1 & 1.4</option>
-                                    <option value="2.2"> 2.2</option>
-                                    <option value="A"> A </option>
-                                    <option value="B"> B </option>
-                                    <option value="C"> C </option>
-                                    <option value="D"> D</option>
-                                    <option value="E"> E </option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Kelas</label>
-                                <select name="kelas" class="form-control">
-                                    <option> --Ruangan-- </option>
-                                    <option value="1">Pagi</option>
-                                    <option value="2">Karyawan</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label>Jam UAS</label>
-                                <input type="text" name="jam_uas" class="form-control" placeholder="Masukan Jam"
-                                    required="">
-                                <div class="invalid-feedback">
-                                    Please provide a valid name File
-                                </div>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label>Tanggal UAS</label>
-                                <input type="date" name="tgl_uas" class="form-control" required="">
-                                <div class="invalid-feedback">
-                                    Please provide a valid name File
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-                <div class="modal-footer bg-whitesmoke br">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<div class="modal fade" tabindex="-1" role="dialog" id="tambahUtsfr">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Tambah Data Jadwal UAS Farmasi </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form id="formTambahUas" class="needs-validation" novalidate>
-                <div class="modal-body">
-                    <div class="modal-body">
-                        <div class="form-row">
-                            <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
-                                value="<?= $this->security->get_csrf_hash(); ?>">
-                            <div class="form-group col-lg-12">
-                                <label>Matakuliah</label>
-                                <?php $kd_jurusan = $this->uri->segment(4); ?>
-                                <input type="text" name="kd_jurusan" value="<?php echo $kd_jurusan; ?>">
-                                <select name="matkul" class="form-control">
-                                    <option> --Pilih Matakuliah-- </option>
-                                    <?php foreach ($matkul as $row) { ?>
-                                    <?php if ($row->semester == $tahun['semester']) { ?>
-                                    <option value="<?php echo $row->kd_mk; ?>">SMT <?php echo $row->smt; ?> -
-                                        <?php echo $row->kd_mk; ?> - <?php echo $row->matakuliah; ?> - SKS
-                                        <?php echo $row->sks; ?></option>
-                                    <?php } ?>
-                                    <?php } ?>
-                                </select>
-                            </div>
-
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label>Ruangan</label>
-                                <select name="ruang_uas" class="form-control">
-                                    <option> --Ruangan-- </option>
-                                    <option value="1.1">1.1</option>
-                                    <option value="1.2">1.2</option>
-                                    <option value="1.3">1.3</option>
-                                    <option value="1.4 ">1.4</option>
-                                    <option value="2.6">2.6</option>
-                                    <option value="1.1 & 1.2">1.1 & 1.2</option>
-                                    <option value="1.1 & 1.4">1.1 & 1.4</option>
-                                    <option value="2.2"> 2.2</option>
-                                    <option value="A"> A </option>
-                                    <option value="B"> B </option>
-                                    <option value="C"> C </option>
-                                    <option value="D"> D</option>
-                                    <option value="E"> E </option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Kelas</label>
-                                <select name="kelas" class="form-control">
-                                    <option> --Ruangan-- </option>
-                                    <option value="1">Pagi</option>
-                                    <option value="2">Karyawan</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label>Jam UAS</label>
-                                <input type="text" name="jam_uas" class="form-control" placeholder="Masukan Jam"
-                                    required="">
-                                <div class="invalid-feedback">
-                                    Please provide a valid name File
-                                </div>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label>Tanggal UAS</label>
-                                <input type="date" name="tgl_uas" class="form-control" required="">
-                                <div class="invalid-feedback">
-                                    Please provide a valid name File
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-                <div class="modal-footer bg-whitesmoke br">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 <div class="modal fade" tabindex="-1" role="dialog" id="tambahUtskb">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -329,7 +150,7 @@ $this->load->view('admin-st/dist/header');
                             <div class="form-group col-lg-12">
                                 <label>Matakuliah</label>
                                 <?php $kd_jurusan = $this->uri->segment(4); ?>
-                                <input type="text" name="kd_jurusan" value="<?php echo $kd_jurusan; ?>">
+                                <input type="hidden" name="kd_jurusan" value="<?php echo $kd_jurusan; ?>">
                                 <select name="matkul" class="form-control">
                                     <option> --Pilih Matakuliah-- </option>
                                     <?php foreach ($matkul as $row) { ?>
@@ -361,6 +182,7 @@ $this->load->view('admin-st/dist/header');
                                     <option value="C"> C </option>
                                     <option value="D"> D</option>
                                     <option value="E"> E </option>
+                                    <option value="E"> F </option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
@@ -740,7 +562,7 @@ $(document).on('click', '.btn-delete', function() {
 
     // Include CSRF token dalam data
     var formData = {
-        id: id,
+        id_jadwal: id,
         '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
     };
 

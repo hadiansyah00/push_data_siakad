@@ -104,20 +104,32 @@ class KusionerEdom extends CI_Controller
 		$this->load->view('admin-st/evaluasi/hasil_kuesioner_edom-st', $data);
 	
 	}
-public function generatePdfTes()
+	public function generateCetak($kd_mk, $id_dosen)
 {
+    // Mendapatkan data yang dibutuhkan
+    $tahun = $this->TaModel->getAktif()->row_array();
+    $rata_rata = $this->EdomModel->getRataRataByIdKrsDosen($kd_mk, $id_dosen);
+    $info_edom = $this->EdomModel->getInfoMk($kd_mk);
+    $dosen_info = $this->EdomModel->getDosenInfo($id_dosen);
+    $saran = $this->EdomModel->getSaranprak($kd_mk, $id_dosen);
+    $jumlahMahasiswa = $this->EdomModel->countMahasiswaEvaluasi($id_dosen);
+    $listMahasiswa = $this->EdomModel->countMahasiswaEvaluasi_list($kd_mk);
 
-    // Load HTML content
-    $html = '<h1>Hello, World!</h1>';
+    // Path gambar logo
+    $image_path = base_url('assets/images/Logo_Stikes_Sosmed.png');
 
-    // Load HTML to Dompdf
-    $this->dompdf->loadHtml($html);
+    // Load HTML content with logo path and additional JavaScript
+    $html = $this->load->view('admin-st/evaluasi/pdf_hasil_edom_cetak', compact('tahun', 'rata_rata', 'info_edom', 'dosen_info', 'saran', 'jumlahMahasiswa', 'listMahasiswa', 'image_path'), true);
 
-    // Render PDF (optional)
-    $this->dompdf->render();
+    // Add JavaScript for auto print
+    $html .= "<script type='text/javascript'>
+                window.onload = function() {
+                    window.print();
+                }
+              </script>";
 
-    // Output PDF to browser
-    $this->dompdf->stream("example_pdf.pdf", array("Attachment" => false));
+    // Display the HTML content in the browser
+    echo $html;
 }
 
 public function generatePdf($kd_mk, $id_dosen)
